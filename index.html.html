@@ -541,6 +541,59 @@
     margin-top: 0.1rem;
   }
 
+  /* ——— INTOLLERANZE & MESSAGGIO ——— */
+  .message-page {
+    background: var(--crema-chiaro);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .message-content {
+    padding: 3.5rem 2rem;
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(25px);
+    transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    z-index: 2;
+  }
+  .message-content.visible { opacity: 1; transform: translateY(0); }
+
+  .input-wrapper {
+    position: relative;
+  }
+
+  .elegant-textarea {
+    width: 100%;
+    padding: 1.2rem 1.4rem;
+    background: rgba(240,229,211,0.5);
+    border: 1px solid var(--sabbia-chiaro);
+    border-radius: 2px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: var(--verde-scuro);
+    line-height: 1.6;
+    resize: none;
+    transition: all 0.3s ease;
+    -webkit-appearance: none;
+  }
+
+  .elegant-textarea:focus {
+    outline: none;
+    border-color: var(--verde-chiaro);
+    background: rgba(240,229,211,0.7);
+    box-shadow: 0 0 0 3px rgba(122,139,114,0.1);
+  }
+
+  .elegant-textarea::placeholder {
+    color: var(--sabbia-scuro);
+    font-style: italic;
+    font-weight: 300;
+  }
+
   /* ——— COUNTDOWN (sabbia) ——— */
   .countdown-section {
     background: var(--sabbia);
@@ -1044,6 +1097,47 @@
   </div>
 </div>
 
+<!-- ——— INTOLLERANZE & MESSAGGIO ——— -->
+<div class="message-page paper-grain paper-speckle paper-edge" style="position:relative; overflow:hidden; background: var(--crema-chiaro);">
+  <div class="message-content" data-reveal>
+    
+    <!-- Intolleranze -->
+    <div class="section-script">Intolleranze</div>
+    <div class="section-label">Allergie Alimentari</div>
+    <p class="section-text" style="margin-bottom: 1.5rem;">
+      Indicateci eventuali intolleranze o allergie<br>per permetterci di accogliervi al meglio
+    </p>
+    
+    <div class="input-wrapper">
+      <textarea 
+        id="intolleranzeField" 
+        class="elegant-textarea" 
+        placeholder="Es. Mario: celiaco, Anna: intollerante al lattosio..."
+        rows="3"
+      ></textarea>
+    </div>
+
+    <div style="margin-top: 3rem;"></div>
+
+    <!-- Messaggio -->
+    <div class="section-script">Un Pensiero</div>
+    <div class="section-label">Per gli Sposi</div>
+    <p class="section-text" style="margin-bottom: 1.5rem;">
+      Se desiderate, lasciateci un messaggio.<br>Sarà un ricordo prezioso per noi.
+    </p>
+    
+    <div class="input-wrapper">
+      <textarea 
+        id="messaggioField" 
+        class="elegant-textarea" 
+        placeholder="Il vostro messaggio per Giulia e Marco..."
+        rows="4"
+      ></textarea>
+    </div>
+
+  </div>
+</div>
+
 <!-- ——— COUNTDOWN ——— -->
 <div class="countdown-section paper-grain paper-edge" style="position:relative;">
   <div class="countdown-content" data-reveal>
@@ -1105,6 +1199,24 @@ async function loadData() {
   }
 
   family = fam;
+
+  // Carica intolleranze esistenti
+  if (family.intolleranze) {
+    document.getElementById('intolleranzeField').value = family.intolleranze;
+  }
+
+  // Carica messaggio esistente (se già inviato)
+  const { data: existingMsg } = await supabaseClient
+    .from("messages")
+    .select("messaggio")
+    .eq("family_id", family.id)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .single();
+
+  if (existingMsg && existingMsg.messaggio) {
+    document.getElementById('messaggioField').value = existingMsg.messaggio;
+  }
 
   // Carico invitati collegati alla famiglia
   const { data: gs, error: guestsError } = await supabaseClient
@@ -1207,7 +1319,11 @@ async function confirmRSVP() {
   btn.disabled = true;
   btn.textContent = 'Invio in corso...';
 
+  const intolleranze = document.getElementById('intolleranzeField').value.trim();
+  const messaggio = document.getElementById('messaggioField').value.trim();
+
   try {
+    // Salva presenze per ogni ospite
     for (const g of guests) {
       await supabaseClient
         .from('guests')
@@ -1218,10 +1334,29 @@ async function confirmRSVP() {
         .eq('id', g.id);
     }
 
+    // Salva intolleranze nella famiglia
+    if (intolleranze) {
+      await supabaseClient
+        .from('families')
+        .update({ intolleranze: intolleranze })
+        .eq('id', family.id);
+    }
+
+    // Salva messaggio (se presente)
+    if (messaggio) {
+      await supabaseClient
+        .from('messages')
+        .insert({
+          family_id: family.id,
+          messaggio: messaggio
+        });
+    }
+
     btn.classList.add('sent');
     btn.textContent = 'Confermato ✓';
-    showToast('Risposte salvate con successo!');
+    showToast('Grazie! Risposte salvate con successo');
   } catch (error) {
+    console.error('Errore:', error);
     btn.disabled = false;
     btn.textContent = 'Conferma Presenza';
     showToast('Errore nel salvataggio');
