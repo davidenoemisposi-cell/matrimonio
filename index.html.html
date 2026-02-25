@@ -1384,25 +1384,24 @@ function showToast(m) {
 }
 
 // Apri mappe nativa
-const VENUE_LAT = 40.786950;
-const VENUE_LNG = 17.377533;
-const VENUE_NAME = "Masseria San Michele";
+const VENUE_NAME = "Masseria San Michele, Martina Franca";
 
 function openMaps(e) {
   e.preventDefault();
   
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
   const isAndroid = /Android/.test(navigator.userAgent);
+  const encodedName = encodeURIComponent(VENUE_NAME);
   
   if (isIOS) {
-    // Apple Maps con indicazioni
-    window.location.href = `maps://maps.apple.com/?daddr=${VENUE_LAT},${VENUE_LNG}&dirflg=d&t=m`;
+    // Apple Maps con ricerca luogo
+    window.location.href = `maps://maps.apple.com/?q=${encodedName}`;
   } else if (isAndroid) {
-    // Google Maps app con indicazioni
-    window.location.href = `google.navigation:q=${VENUE_LAT},${VENUE_LNG}`;
+    // Google Maps app con ricerca luogo
+    window.location.href = `geo:0,0?q=${encodedName}`;
   } else {
     // Desktop: apri Google Maps nel browser
-    window.open(`https://www.google.com/maps/dir/?api=1&destination=${VENUE_LAT},${VENUE_LNG}`, '_blank');
+    window.open(`https://www.google.com/maps/search/?api=1&query=${encodedName}`, '_blank');
   }
 }
 
