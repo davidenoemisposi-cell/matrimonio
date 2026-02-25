@@ -289,13 +289,70 @@
 
   .scroll-hint {
     position: absolute;
-    bottom: 1.5rem;
+    bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    opacity: 0;
+    animation: fadeIn 1s ease 2.2s forwards;
+  }
+
+  .scroll-text {
     font-size: 0.6rem;
     letter-spacing: 0.25em;
     text-transform: uppercase;
     color: var(--sabbia);
-    opacity: 0;
-    animation: fadeIn 1s ease 2.2s forwards;
+  }
+
+  .scroll-arrow {
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  .scroll-arrow svg {
+    stroke: var(--sabbia);
+  }
+
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+      opacity: 0.6;
+    }
+    40% {
+      transform: translateY(6px);
+      opacity: 1;
+    }
+    60% {
+      transform: translateY(3px);
+      opacity: 0.8;
+    }
+  }
+
+  .maps-btn-hero {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.2rem;
+    padding: 0.7rem 1.4rem;
+    background: transparent;
+    color: var(--verde);
+    text-decoration: none;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border: 1px solid var(--sabbia);
+    transition: all 0.3s ease;
+  }
+
+  .maps-btn-hero:active {
+    transform: scale(0.97);
+    background: rgba(122,139,114,0.08);
+  }
+
+  .maps-btn-hero svg {
+    stroke: var(--verde-chiaro);
   }
 
   /* ——— SECTIONS ——— */
@@ -966,9 +1023,20 @@
   <div class="hero-venue-block">
     <div class="hero-venue-name">Villa dei Cipressi</div>
     <div class="hero-venue-address">Loc. Poggio Alto, Fiesole</div>
+    <a class="maps-btn-hero" href="#" onclick="openMaps(event)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+      Indicazioni
+    </a>
   </div>
 
-  <div class="scroll-hint">▼</div>
+  <div class="scroll-hint">
+    <span class="scroll-text">Scorri</span>
+    <div class="scroll-arrow">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7 10l5 5 5-5"/>
+      </svg>
+    </div>
+  </div>
 </section>
 
 <!-- ——— SCHEDULE ——— -->
@@ -1038,10 +1106,7 @@
       </div>
     </div>
 
-    <a class="maps-btn maps-btn-light" href="#" onclick="openMaps(event)">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-      Apri in Mappe
-    </a>
+    </div>
   </div>
 </div>
 
