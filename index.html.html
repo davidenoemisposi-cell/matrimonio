@@ -990,58 +990,152 @@
 <div class="toast" id="toast"></div>
 
 <script>
-  const guests = [
-    { name: 'Antonio Rossi', relation: 'Famiglia dello sposo' },
-    { name: 'Maria Rossi', relation: 'Famiglia dello sposo' },
-    { name: 'Francesca Rossi', relation: 'Famiglia dello sposo' },
-    { name: 'Luca Rossi', relation: 'Famiglia dello sposo' },
-  ];
-  const sel = new Set();
+const sel = new Set();
+let guests = [];
+let family = null;
 
-  function renderGuests() {
-    const l = document.getElementById('guestList');
-    l.innerHTML = '';
-    guests.forEach((g, i) => {
-      const el = document.createElement('div');
-      el.className = 'guest-item';
-      el.innerHTML = `<div class="guest-check"><svg viewBox="0 0 16 16"><polyline points="3.5 8.5 6.5 11.5 12.5 5.5"/></svg></div><div class="guest-info"><div class="guest-name">${g.name}</div><div class="guest-relation">${g.relation}</div></div>`;
-      el.addEventListener('click', () => { sel.has(i) ? (sel.delete(i), el.classList.remove('selected')) : (sel.add(i), el.classList.add('selected')); updateC(); });
-      l.appendChild(el);
-    });
-    updateC();
+const params = new URLSearchParams(window.location.search);
+const token = params.get("token");
+
+if (!token) {
+  document.getElementById("guestList").innerHTML = "Token non valido";
+}
+
+async function loadData() {
+
+  // 1️⃣ Carico famiglia usando HEADER (RLS)
+  const { data: fam, error: famError } = await supabase
+    .from("families")
+    .select("*")
+    .single()
+    .headers({ token: token });
+
+  if (famError || !fam) {
+    document.getElementById("guestList").innerHTML = "Famiglia non trovata";
+    return;
   }
 
-  function updateC() {
-    document.getElementById('guestCounter').innerHTML = `<span>${sel.size}</span> di ${guests.length} partecipanti`;
-    document.getElementById('confirmBtn').disabled = sel.size === 0;
+  family = fam;
+
+  // 2️⃣ Carico invitati della famiglia
+  const { data: gs, error: guestsError } = await supabase
+    .from("guests")
+    .select("*")
+    .eq("family_id", family.id)
+    .headers({ token: token });
+
+  if (guestsError) {
+    document.getElementById("guestList").innerHTML = "Errore caricamento invitati";
+    return;
   }
 
-  function confirmRSVP() {
-    const b = document.getElementById('confirmBtn');
-    b.classList.add('sent'); b.textContent = 'Confermato ✓';
-    showToast(`${sel.size} conferma${sel.size > 1 ? 'ti' : 'to'} — Grazie!`);
-  }
-
-  function showToast(m) {
-    const t = document.getElementById('toast');
-    t.textContent = m; t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 3000);
-  }
-
-  const wd = new Date('2026-09-12T15:00:00');
-  function tick() {
-    const d = wd - new Date();
-    if (d <= 0) { ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id => document.getElementById(id).textContent = '0'); return; }
-    document.getElementById('cd-days').textContent = Math.floor(d/(864e5));
-    document.getElementById('cd-hours').textContent = Math.floor((d/36e5)%24);
-    document.getElementById('cd-mins').textContent = Math.floor((d/6e4)%60);
-    document.getElementById('cd-secs').textContent = Math.floor((d/1e3)%60);
-  }
-  setInterval(tick, 1000); tick();
-
-  const obs = new IntersectionObserver(e => e.forEach(x => { if (x.isIntersecting) x.target.classList.add('visible'); }), { threshold: 0.12 });
-  document.querySelectorAll('[data-reveal]').forEach(el => obs.observe(el));
+  guests = gs;
   renderGuests();
+}
+
+function renderGuests() {
+  const l = document.getElementById('guestList');
+  l.innerHTML = '';
+
+  guests.forEach((g, i) => {
+
+    if (g.presenza_matrimonio) sel.add(i);
+
+    const el = document.createElement('div');
+    el.className = 'guest-item';
+    if (sel.has(i)) el.classList.add('selected');
+
+    el.innerHTML = `
+      <div class="guest-check">
+        <svg viewBox="0 0 16 16">
+          <polyline points="3.5 8.5 6.5 11.5 12.5 5.5"/>
+        </svg>
+      </div>
+      <div class="guest-info">
+        <div class="guest-name">${g.nome}</div>
+        <div class="guest-relation">
+          ${g.presenza_pool_party ? "Invitato anche al Pool Party" : "Invitato"}
+        </div>
+      </div>
+    `;
+
+    el.addEventListener('click', () => {
+      if (sel.has(i)) {
+        sel.delete(i);
+        el.classList.remove('selected');
+      } else {
+        sel.add(i);
+        el.classList.add('selected');
+      }
+      updateC();
+    });
+
+    l.appendChild(el);
+  });
+
+  updateC();
+}
+
+function updateC() {
+  document.getElementById('guestCounter').innerHTML =
+    `<span>${sel.size}</span> di ${guests.length} partecipanti`;
+  document.getElementById('confirmBtn').disabled = sel.size === 0;
+}
+
+async function confirmRSVP() {
+
+  const updates = guests.map((g, i) => {
+    return supabase
+      .from("guests")
+      .update({
+        presenza_matrimonio: sel.has(i),
+        presenza_pool_party: g.presenza_pool_party // mantiene valore pool party
+      })
+      .eq("id", g.id)
+      .headers({ token: token });
+  });
+
+  await Promise.all(updates);
+
+  const b = document.getElementById('confirmBtn');
+  b.classList.add('sent');
+  b.textContent = 'Confermato ✓';
+
+  showToast(`${sel.size} conferma${sel.size > 1 ? 'ti' : 'to'} — Grazie!`);
+}
+
+function showToast(m) {
+  const t = document.getElementById('toast');
+  t.textContent = m;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Countdown (non modificato)
+const wd = new Date('2026-09-12T15:00:00');
+function tick() {
+  const d = wd - new Date();
+  if (d <= 0) {
+    ['cd-days','cd-hours','cd-mins','cd-secs']
+      .forEach(id => document.getElementById(id).textContent = '0');
+    return;
+  }
+  document.getElementById('cd-days').textContent = Math.floor(d/(864e5));
+  document.getElementById('cd-hours').textContent = Math.floor((d/36e5)%24);
+  document.getElementById('cd-mins').textContent = Math.floor((d/6e4)%60);
+  document.getElementById('cd-secs').textContent = Math.floor((d/1e3)%60);
+}
+setInterval(tick, 1000);
+tick();
+
+// reveal animation (non modificato)
+const obs = new IntersectionObserver(e =>
+  e.forEach(x => { if (x.isIntersecting) x.target.classList.add('visible'); }),
+  { threshold: 0.12 }
+);
+document.querySelectorAll('[data-reveal]').forEach(el => obs.observe(el));
+
+loadData();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
