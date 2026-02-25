@@ -1005,7 +1005,7 @@ if (!token) {
 async function loadData() {
 
   // 1️⃣ Carico famiglia usando HEADER (RLS)
-  const { data: fam, error: famError } = await supabase
+  const { data: fam, error: famError } = await supabaseClient
     .from("families")
     .select("*")
     .single()
@@ -1019,7 +1019,7 @@ async function loadData() {
   family = fam;
 
   // 2️⃣ Carico invitati della famiglia
-  const { data: gs, error: guestsError } = await supabase
+  const { data: gs, error: guestsError } = await supabaseClient
     .from("guests")
     .select("*")
     .eq("family_id", family.id)
@@ -1086,7 +1086,7 @@ function updateC() {
 async function confirmRSVP() {
 
   const updates = guests.map((g, i) => {
-    return supabase
+    return supabaseClient
       .from("guests")
       .update({
         presenza_matrimonio: sel.has(i),
