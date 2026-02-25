@@ -1041,7 +1041,7 @@ async function loadData() {
 }
 
 function renderGuests() {
-  const l = document.getElementById('guestList
+  const l = document.getElementById('guestList');
   const poolSection = document.getElementById("poolPartySection");
 const hasPoolInvite = guests.some(g => g.pool_party_invited === true);
 
@@ -1050,7 +1050,7 @@ if (hasPoolInvite) {
 } else {
   poolSection.style.display = "none";
 }                                 
-  // Mostra Pool Party solo se almeno un invitato è segnato per il pool party
+ 
 
   l.innerHTML = '';
 
@@ -1071,7 +1071,7 @@ if (hasPoolInvite) {
       <div class="guest-info">
         <div class="guest-name">${g.nome}</div>
         <div class="guest-relation">
-          ${g.presenza_pool_party ? "Invitato anche al Pool Party" : "Invitato"}
+          ${g.pool_party_invited ? "Invitato anche al Pool Party" : "Invitato"}
         </div>
       </div>
     `;
