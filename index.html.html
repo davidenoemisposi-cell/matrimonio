@@ -1041,16 +1041,17 @@ async function loadData() {
 }
 
 function renderGuests() {
-  const l = document.getElementById('guestList');
-  // Mostra Pool Party solo se almeno un invitato è segnato per il pool party
-const hasPoolParty = guests.some(g => g.presenza_pool_party === true);
-const poolSection = document.getElementById("poolPartySection");
+  const l = document.getElementById('guestList
+  const poolSection = document.getElementById("poolPartySection");
+const hasPoolInvite = guests.some(g => g.pool_party_invited === true);
 
-if (hasPoolParty) {
+if (hasPoolInvite) {
   poolSection.style.display = "block";
 } else {
   poolSection.style.display = "none";
-}
+}                                 
+  // Mostra Pool Party solo se almeno un invitato è segnato per il pool party
+
   l.innerHTML = '';
 
   guests.forEach((g, i) => {
