@@ -44,6 +44,35 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  /* ——— PAPER TEXTURE OVERLAY ——— */
+  .paper-texture {
+    position: relative;
+  }
+
+  .paper-texture::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('paper-texture.png');
+    background-repeat: repeat;
+    background-size: 300px 300px;
+    opacity: 0.08;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .paper-texture > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Versione più intensa per sezioni scure */
+  .paper-texture-dark::before {
+    opacity: 0.12;
+    mix-blend-mode: soft-light;
+  }
+
 
 
   /* ——— RICE PAPER TEXTURE ——— */
@@ -1049,7 +1078,7 @@
 
 
 <!-- ——— HERO ——— -->
-<section class="hero paper-grain-light">
+<section class="hero paper-texture paper-grain-light">
   <div class="hero-intro">Insieme alle loro famiglie</div>
 
   <h1 class="hero-names">
@@ -1093,7 +1122,7 @@
 </section>
 
 <!-- ——— SCHEDULE ——— -->
-<div id="programma" class="timeline-section paper-grain-light" style="position:relative; overflow:hidden;">
+<div id="programma" class="timeline-section paper-texture paper-texture-dark" style="position:relative; overflow:hidden;">
   <div class="timeline-content" data-reveal>
     <div class="section-script">Programma</div>
     <div class="section-label">La Giornata</div>
@@ -1139,6 +1168,7 @@
         <div class="tl-side">
           <div class="tl-time">22:00</div>
           <div class="tl-event">Primo Ballo</div>
+          <div class="tl-detail">&nbsp;</div>
         </div>
         <div class="tl-center">
           <div class="tl-dot"><i data-lucide="music" class="tl-icon"></i></div>
@@ -1174,7 +1204,7 @@
 </div>
 
 <!-- ——— GUEST LIST ——— -->
-<div id="conferma" class="guest-page paper-grain paper-speckle paper-edge" style="position:relative; overflow:hidden;">
+<div id="conferma" class="guest-page paper-texture" style="position:relative; overflow:hidden;">
   <div class="guest-content" data-reveal>
     <div class="section-script">Conferma</div>
     <div class="section-label">La Vostra Presenza</div>
@@ -1212,7 +1242,7 @@
 </div>
 
 <!-- ——— INTOLLERANZE & MESSAGGIO ——— -->
-<div class="message-page paper-grain paper-speckle paper-edge" style="position:relative; overflow:hidden; background: var(--crema-chiaro);">
+<div class="message-page paper-texture" style="position:relative; overflow:hidden; background: var(--crema-chiaro);">
   <div class="message-content" data-reveal>
     
     <!-- Intolleranze -->
@@ -1257,7 +1287,7 @@
 </div>
 
 <!-- ——— COUNTDOWN ——— -->
-<div class="countdown-section paper-grain paper-edge" style="position:relative;">
+<div class="countdown-section paper-texture" style="position:relative;">
   <div class="countdown-content" data-reveal>
     <div class="section-script">Mancano</div>
     <div class="section-label">al grande giorno</div>
@@ -1283,7 +1313,7 @@
 </div>
 
 <!-- ——— FOOTER ——— -->
-<div class="footer paper-grain-light" style="position:relative; overflow:hidden;">
+<div class="footer paper-texture paper-texture-dark" style="position:relative; overflow:hidden;">
   <div class="footer-names">GIULIA <span class="footer-and">e</span> MARCO</div>
   <div class="footer-date">12 · Settembre · 2026</div>
   <div class="footer-love">con amore</div>
