@@ -1335,16 +1335,28 @@ async function confirmRSVP() {
         .eq('id', g.id);
     }
 
-    // Salva intolleranze nella famiglia
-    if (intolleranze) {
-      await supabaseClient
-        .from('families')
-        .update({ intolleranze: intolleranze })
-        .eq('id', family.id);
-    }
+    // Salva/aggiorna intolleranze nella famiglia
+    await supabaseClient
+      .from('families')
+      .update({ intolleranze: intolleranze || null })
+      .eq('id', family.id);
 
-    // Salva messaggio (se presente)
-    if (messaggio) {
+    // Controlla se esiste già un messaggio per questa famiglia
+    const { data: existingMsg } = await supabaseClient
+      .from('messages')
+      .select('id')
+      .eq('family_id', family.id)
+      .limit(1)
+      .single();
+
+    if (existingMsg) {
+      // Aggiorna messaggio esistente
+      await supabaseClient
+        .from('messages')
+        .update({ messaggio: messaggio || null })
+        .eq('id', existingMsg.id);
+    } else if (messaggio) {
+      // Crea nuovo messaggio solo se c'è testo
       await supabaseClient
         .from('messages')
         .insert({
@@ -1359,7 +1371,7 @@ async function confirmRSVP() {
   } catch (error) {
     console.error('Errore:', error);
     btn.disabled = false;
-    btn.textContent = 'Conferma Presenza';
+    btn.textContent = 'Conferma';
     showToast('Errore nel salvataggio');
   }
 }
