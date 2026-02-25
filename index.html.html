@@ -296,6 +296,42 @@
     gap: 0.3rem;
     opacity: 0;
     animation: fadeIn 1s ease 2.2s forwards;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .scroll-hint:active {
+    transform: scale(0.95);
+  }
+
+  .scroll-hint-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 2rem;
+    padding-bottom: 0.5rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .scroll-hint-section:active {
+    transform: scale(0.95);
+  }
+
+  .scroll-hint-section .scroll-text {
+    font-size: 0.55rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--sabbia);
+  }
+
+  .scroll-hint-section .scroll-arrow {
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  .scroll-hint-section .scroll-arrow svg {
+    stroke: var(--sabbia);
   }
 
   .scroll-text {
@@ -1029,7 +1065,7 @@
     </a>
   </div>
 
-  <div class="scroll-hint">
+  <div class="scroll-hint" onclick="scrollToSection('programma')">
     <span class="scroll-text">Scorri</span>
     <div class="scroll-arrow">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -1040,7 +1076,7 @@
 </section>
 
 <!-- ——— SCHEDULE ——— -->
-<div class="timeline-section paper-grain-light" style="position:relative; overflow:hidden;">
+<div id="programma" class="timeline-section paper-grain-light" style="position:relative; overflow:hidden;">
   <div class="timeline-content" data-reveal>
     <div class="section-script">Programma</div>
     <div class="section-label">La Giornata</div>
@@ -1107,11 +1143,20 @@
     </div>
 
     </div>
+    
+    <div class="scroll-hint-section" onclick="scrollToSection('conferma')">
+      <span class="scroll-text">Scorri</span>
+      <div class="scroll-arrow">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7 10l5 5 5-5"/>
+        </svg>
+      </div>
+    </div>
   </div>
 </div>
 
 <!-- ——— GUEST LIST ——— -->
-<div class="guest-page paper-grain paper-speckle paper-edge" style="position:relative; overflow:hidden;">
+<div id="conferma" class="guest-page paper-grain paper-speckle paper-edge" style="position:relative; overflow:hidden;">
   <div class="guest-content" data-reveal>
     <div class="section-script">Conferma</div>
     <div class="section-label">La Vostra Presenza</div>
@@ -1446,6 +1491,14 @@ function showToast(m) {
   t.textContent = m;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Scroll automatico alle sezioni
+function scrollToSection(sectionId) {
+  const section = document.getElementById(sectionId);
+  if (section) {
+    section.scrollIntoView({ behavior: 'smooth' });
+  }
 }
 
 // Apri mappe nativa
