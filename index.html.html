@@ -1004,12 +1004,12 @@ if (!token) {
 
 async function loadData() {
 
-  // 1️⃣ Carico famiglia usando HEADER (RLS)
+  // 🔹 Carico famiglia tramite token
   const { data: fam, error: famError } = await supabaseClient
     .from("families")
     .select("*")
-    .single()
-    .headers({ token: token });
+    .eq("token", token)
+    .single();
 
   if (famError || !fam) {
     document.getElementById("guestList").innerHTML = "Famiglia non trovata";
@@ -1018,12 +1018,11 @@ async function loadData() {
 
   family = fam;
 
-  // 2️⃣ Carico invitati della famiglia
+  // 🔹 Carico invitati collegati alla famiglia
   const { data: gs, error: guestsError } = await supabaseClient
     .from("guests")
     .select("*")
-    .eq("family_id", family.id)
-    .headers({ token: token });
+    .eq("family_id", family.id);
 
   if (guestsError) {
     document.getElementById("guestList").innerHTML = "Errore caricamento invitati";
@@ -1080,7 +1079,7 @@ function renderGuests() {
 function updateC() {
   document.getElementById('guestCounter').innerHTML =
     `<span>${sel.size}</span> di ${guests.length} partecipanti`;
-  document.getElementById('confirmBtn').disabled = sel.size === 0;
+  document.getElementById('confirmBtn').disabled = false;
 }
 
 async function confirmRSVP() {
@@ -1089,11 +1088,9 @@ async function confirmRSVP() {
     return supabaseClient
       .from("guests")
       .update({
-        presenza_matrimonio: sel.has(i),
-        presenza_pool_party: g.presenza_pool_party // mantiene valore pool party
+        presenza_matrimonio: sel.has(i)
       })
-      .eq("id", g.id)
-      .headers({ token: token });
+      .eq("id", g.id);
   });
 
   await Promise.all(updates);
@@ -1112,7 +1109,7 @@ function showToast(m) {
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-// Countdown (non modificato)
+// Countdown
 const wd = new Date('2026-09-12T15:00:00');
 function tick() {
   const d = wd - new Date();
@@ -1129,7 +1126,7 @@ function tick() {
 setInterval(tick, 1000);
 tick();
 
-// reveal animation (non modificato)
+// Reveal animation
 const obs = new IntersectionObserver(e =>
   e.forEach(x => { if (x.isIntersecting) x.target.classList.add('visible'); }),
   { threshold: 0.12 }
