@@ -598,7 +598,7 @@
 
   .guest-content {
     padding: 3.5rem 2rem 2rem;
-    max-width: 420px;
+    max-width: 800px;
     margin: 0 auto;
     text-align: center;
     opacity: 0;
@@ -609,8 +609,58 @@
   }
   .guest-content.visible { opacity: 1; transform: translateY(0); }
 
-  .guest-list {
+  /* ——— RSVP COLUMNS ——— */
+  .rsvp-columns {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
     margin-top: 2rem;
+  }
+
+  @media (min-width: 600px) {
+    .rsvp-columns {
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+  }
+
+  .rsvp-column {
+    background: rgba(240,229,211,0.5);
+    border: 1px solid var(--sabbia-chiaro);
+    border-radius: 2px;
+    padding: 1.5rem;
+  }
+
+  .rsvp-column-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--sabbia-chiaro);
+  }
+
+  .rsvp-column-icon {
+    margin-bottom: 0.8rem;
+  }
+
+  .rsvp-column-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--verde);
+  }
+
+  .rsvp-column-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 0.9rem;
+    color: var(--verde-chiaro);
+    margin-top: 0.3rem;
+  }
+
+  .guest-list {
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
@@ -621,7 +671,7 @@
     align-items: center;
     gap: 1rem;
     padding: 1rem 1.2rem;
-    background: rgba(240,229,211,0.5);
+    background: rgba(247,240,226,0.8);
     border: 1px solid var(--sabbia-chiaro);
     cursor: pointer;
     transition: all 0.3s ease;
@@ -685,13 +735,23 @@
 
   .guest-counter {
     text-align: center;
-    margin-top: 1.5rem;
+    margin-top: 1rem;
     font-size: 0.72rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--verde-chiaro);
   }
   .guest-counter span { color: var(--verde); font-weight: 500; }
+
+  .no-pool-guests {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 0.95rem;
+    color: var(--sabbia-scuro);
+    padding: 2rem 1rem;
+    text-align: center;
+  }
 
   /* ——— CONFIRM ——— */
   .confirm-wrapper {
@@ -827,11 +887,6 @@
 
 <!-- ——— HERO ——— -->
 <section class="hero paper-grain-light">
-  <!-- Botanical corners -->
-
-
-
-
   <div class="hero-intro">Insieme alle loro famiglie</div>
 
   <h1 class="hero-names">
@@ -860,7 +915,6 @@
     <div class="hero-venue-address">Loc. Poggio Alto, Fiesole</div>
   </div>
 
-  
   <div class="scroll-hint">▼</div>
 </section>
 
@@ -937,8 +991,8 @@
     </a>
   </div>
 </div>
-<div class="countdown-section paper-grain paper-edge" style="position:relative;">
 
+<div class="countdown-section paper-grain paper-edge" style="position:relative;">
   <div class="countdown-content" data-reveal>
     <div class="section-script">Mancano</div>
     <div class="section-label">al grande giorno</div>
@@ -965,30 +1019,58 @@
 
 <!-- ——— GUEST LIST ——— -->
 <div class="guest-page paper-grain paper-speckle paper-edge" style="position:relative; overflow:hidden;">
-
   <div class="guest-content" data-reveal>
-    <div id="poolPartySection" style="display:none; padding:3rem 2rem; text-align:center;">
-  <div class="section-script">Pool Party</div>
-  <div class="section-label">Evento esclusivo</div>
-  <p class="section-text">
-    Siete invitati al Pool Party il giorno prima del matrimonio.
-  </p>
-</div>
     <div class="section-script">Conferma</div>
     <div class="section-label">La Vostra Presenza</div>
-    <p class="section-text" style="margin-bottom: 0.5rem;">Selezionate chi parteciperà<br>tra gli invitati di questo invito</p>
-    <div class="guest-list" id="guestList"></div>
-    <div class="guest-counter" id="guestCounter"></div>
+    <p class="section-text" style="margin-bottom: 0.5rem;">Selezionate chi parteciperà agli eventi</p>
+    
+    <div class="rsvp-columns">
+      <!-- Colonna Matrimonio -->
+      <div class="rsvp-column">
+        <div class="rsvp-column-header">
+          <div class="rsvp-column-icon">
+            <svg width="32" height="32" viewBox="0 0 30 30" fill="none">
+              <circle cx="11" cy="16" r="6.5" stroke="var(--verde)" stroke-width="1.3" fill="none"/>
+              <circle cx="19" cy="16" r="6.5" stroke="var(--verde)" stroke-width="1.3" fill="none"/>
+              <path d="M15 10 L15 6 L13 8 M15 6 L17 8" stroke="var(--verde)" stroke-width="1" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
+          <div class="rsvp-column-title">Matrimonio</div>
+          <div class="rsvp-column-subtitle">12 Settembre 2026</div>
+        </div>
+        <div class="guest-list" id="guestListMatrimonio"></div>
+        <div class="guest-counter" id="counterMatrimonio"></div>
+      </div>
+
+      <!-- Colonna Pool Party (solo se ci sono invitati abilitati) -->
+      <div class="rsvp-column" id="poolPartyColumn" style="display: none;">
+        <div class="rsvp-column-header">
+          <div class="rsvp-column-icon">
+            <svg width="32" height="32" viewBox="0 0 30 30" fill="none">
+              <ellipse cx="15" cy="20" rx="12" ry="5" stroke="var(--verde)" stroke-width="1.3" fill="none"/>
+              <path d="M5 16 Q10 12 15 16 Q20 20 25 16" stroke="var(--verde)" stroke-width="1" fill="none" opacity="0.6"/>
+              <path d="M7 18 Q12 14 17 18" stroke="var(--verde)" stroke-width="0.8" fill="none" opacity="0.4"/>
+              <circle cx="10" cy="8" r="3" stroke="var(--verde)" stroke-width="1.2" fill="none"/>
+              <path d="M10 11 L10 14" stroke="var(--verde)" stroke-width="1.2" stroke-linecap="round"/>
+              <path d="M7 12 L13 12" stroke="var(--verde)" stroke-width="1" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="rsvp-column-title">Pool Party</div>
+          <div class="rsvp-column-subtitle">11 Settembre 2026</div>
+        </div>
+        <div class="guest-list" id="guestListPoolParty"></div>
+        <div class="guest-counter" id="counterPoolParty"></div>
+      </div>
+    </div>
   </div>
 
   <div class="confirm-wrapper">
-    <button class="confirm-btn" id="confirmBtn" disabled onclick="confirmRSVP()">Conferma Presenza</button>
+    <button class="confirm-btn" id="confirmBtn" onclick="confirmRSVP()">Conferma Presenza</button>
   </div>
 </div>
 
 <!-- ——— FOOTER ——— -->
 <div class="footer paper-grain-light" style="position:relative; overflow:hidden;">
-
   <div class="footer-names">GIULIA <span class="footer-and">e</span> MARCO</div>
   <div class="footer-date">12 · Settembre · 2026</div>
   <div class="footer-love">con amore</div>
@@ -998,7 +1080,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
 <script>
-const sel = new Set();
 let guests = [];
 let family = null;
 
@@ -1006,12 +1087,11 @@ const params = new URLSearchParams(window.location.search);
 const token = params.get("token");
 
 if (!token) {
-  document.getElementById("guestList").innerHTML = "Token non valido";
+  document.getElementById("guestListMatrimonio").innerHTML = "<div class='no-pool-guests'>Token non valido</div>";
 }
 
 async function loadData() {
-
-  // 🔹 Carico famiglia tramite token
+  // Carico famiglia tramite token
   const { data: fam, error: famError } = await supabaseClient
     .from("families")
     .select("*")
@@ -1019,20 +1099,20 @@ async function loadData() {
     .single();
 
   if (famError || !fam) {
-    document.getElementById("guestList").innerHTML = "Famiglia non trovata";
+    document.getElementById("guestListMatrimonio").innerHTML = "<div class='no-pool-guests'>Famiglia non trovata</div>";
     return;
   }
 
   family = fam;
 
-  // 🔹 Carico invitati collegati alla famiglia
+  // Carico invitati collegati alla famiglia
   const { data: gs, error: guestsError } = await supabaseClient
     .from("guests")
     .select("*")
     .eq("family_id", family.id);
 
   if (guestsError) {
-    document.getElementById("guestList").innerHTML = "Errore caricamento invitati";
+    document.getElementById("guestListMatrimonio").innerHTML = "<div class='no-pool-guests'>Errore caricamento invitati</div>";
     return;
   }
 
@@ -1040,83 +1120,111 @@ async function loadData() {
   renderGuests();
 }
 
-function renderGuests() {
-  const l = document.getElementById('guestList');
-  const poolSection = document.getElementById("poolPartySection");
-const hasPoolInvite = guests.some(g => g.pool_party_invited === true);
+function createGuestItem(guest, index, type) {
+  const isMatrimonio = type === 'matrimonio';
+  const isSelected = isMatrimonio ? guest.presenza_matrimonio : guest.presenza_pool_party;
+  
+  const el = document.createElement('div');
+  el.className = `guest-item ${isSelected ? 'selected' : ''}`;
+  el.dataset.index = index;
+  el.dataset.type = type;
 
-if (hasPoolInvite) {
-  poolSection.style.display = "block";
-} else {
-  poolSection.style.display = "none";
-}                                 
- 
+  el.innerHTML = `
+    <div class="guest-check">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    </div>
+    <div class="guest-info">
+      <div class="guest-name">${guest.nome}</div>
+    </div>
+  `;
 
-  l.innerHTML = '';
-
-  guests.forEach((g, i) => {
-
-    if (g.presenza_matrimonio) sel.add(i);
-
-    const el = document.createElement('div');
-    el.className = 'guest-item';
-    if (sel.has(i)) el.classList.add('selected');
-
-    el.innerHTML = `
-      <div class="guest-check">
-        <svg viewBox="0 0 16 16">
-          <polyline points="3.5 8.5 6.5 11.5 12.5 5.5"/>
-        </svg>
-      </div>
-      <div class="guest-info">
-        <div class="guest-name">${g.nome}</div>
-        <div class="guest-relation">
-          ${g.pool_party_invited ? "Invitato anche al Pool Party" : "Invitato"}
-        </div>
-      </div>
-    `;
-
-    el.addEventListener('click', () => {
-      if (sel.has(i)) {
-        sel.delete(i);
-        el.classList.remove('selected');
-      } else {
-        sel.add(i);
-        el.classList.add('selected');
-      }
-      updateC();
-    });
-
-    l.appendChild(el);
+  el.addEventListener('click', () => {
+    const idx = parseInt(el.dataset.index);
+    
+    if (type === 'matrimonio') {
+      guests[idx].presenza_matrimonio = !guests[idx].presenza_matrimonio;
+    } else {
+      guests[idx].presenza_pool_party = !guests[idx].presenza_pool_party;
+    }
+    
+    el.classList.toggle('selected');
+    updateCounters();
   });
 
-  updateC();
+  return el;
 }
 
-function updateC() {
-  document.getElementById('guestCounter').innerHTML =
-    `<span>${sel.size}</span> di ${guests.length} partecipanti`;
-  document.getElementById('confirmBtn').disabled = false;
+function renderGuests() {
+  const containerMatrimonio = document.getElementById('guestListMatrimonio');
+  const containerPoolParty = document.getElementById('guestListPoolParty');
+  const poolPartyColumn = document.getElementById('poolPartyColumn');
+  
+  containerMatrimonio.innerHTML = "";
+  containerPoolParty.innerHTML = "";
+
+  // Filtra invitati al pool party
+  const poolPartyGuests = guests.filter(g => g.pool_party_invited);
+  
+  // Mostra colonna pool party solo se ci sono invitati abilitati
+  if (poolPartyGuests.length > 0) {
+    poolPartyColumn.style.display = 'block';
+  } else {
+    poolPartyColumn.style.display = 'none';
+  }
+
+  // Render lista matrimonio (tutti gli invitati)
+  guests.forEach((g, i) => {
+    containerMatrimonio.appendChild(createGuestItem(g, i, 'matrimonio'));
+  });
+
+  // Render lista pool party (solo invitati abilitati)
+  guests.forEach((g, i) => {
+    if (g.pool_party_invited) {
+      containerPoolParty.appendChild(createGuestItem(g, i, 'pool'));
+    }
+  });
+
+  updateCounters();
+}
+
+function updateCounters() {
+  const matrimonioCount = guests.filter(g => g.presenza_matrimonio).length;
+  const poolPartyCount = guests.filter(g => g.pool_party_invited && g.presenza_pool_party).length;
+  const poolPartyTotal = guests.filter(g => g.pool_party_invited).length;
+
+  document.getElementById('counterMatrimonio').innerHTML = 
+    `<span>${matrimonioCount}</span> di ${guests.length} partecipanti`;
+  
+  if (poolPartyTotal > 0) {
+    document.getElementById('counterPoolParty').innerHTML = 
+      `<span>${poolPartyCount}</span> di ${poolPartyTotal} partecipanti`;
+  }
 }
 
 async function confirmRSVP() {
+  const btn = document.getElementById('confirmBtn');
+  btn.disabled = true;
+  btn.textContent = 'Invio in corso...';
 
-  const updates = guests.map((g, i) => {
-    return supabaseClient
-      .from("guests")
-      .update({
-        presenza_matrimonio: sel.has(i)
-      })
-      .eq("id", g.id);
-  });
+  try {
+    for (const g of guests) {
+      await supabaseClient
+        .from('guests')
+        .update({
+          presenza_matrimonio: g.presenza_matrimonio || false,
+          presenza_pool_party: g.presenza_pool_party || false
+        })
+        .eq('id', g.id);
+    }
 
-  await Promise.all(updates);
-
-  const b = document.getElementById('confirmBtn');
-  b.classList.add('sent');
-  b.textContent = 'Confermato ✓';
-
-  showToast(`${sel.size} conferma${sel.size > 1 ? 'ti' : 'to'} — Grazie!`);
+    btn.classList.add('sent');
+    btn.textContent = 'Confermato ✓';
+    showToast('Risposte salvate con successo!');
+  } catch (error) {
+    btn.disabled = false;
+    btn.textContent = 'Conferma Presenza';
+    showToast('Errore nel salvataggio');
+  }
 }
 
 function showToast(m) {
