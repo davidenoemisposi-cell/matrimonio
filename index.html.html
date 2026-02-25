@@ -44,121 +44,21 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* ——— PAPER TEXTURE OVERLAY ——— */
-  .paper-texture {
-    position: relative;
-  }
-
-  .paper-texture::before {
+  /* ——— PAPER TEXTURE OVERLAY - GLOBALE SU BODY ——— */
+  body::after {
     content: '';
-    position: absolute;
-    inset: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background-image: url('paper-texture.png');
     background-repeat: repeat;
-    background-size: 400px 400px;
-    opacity: 0.25;
+    background-size: 300px 300px;
+    opacity: 0.45;
     mix-blend-mode: multiply;
     pointer-events: none;
-    z-index: 1;
-  }
-
-  .paper-texture > * {
-    position: relative;
-    z-index: 2;
-  }
-
-  /* Versione più intensa per sezioni scure */
-  .paper-texture-dark::before {
-    opacity: 0.15;
-    mix-blend-mode: soft-light;
-  }
-
-
-
-  /* ——— RICE PAPER TEXTURE ——— */
-  .rice-paper {
-    position: relative;
-  }
-
-  .rice-paper::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1;
-    mix-blend-mode: multiply;
-    opacity: 1;
-    filter: url(#ricePaper);
-    background: transparent;
-  }
-
-  /* Ensure content stays above texture */
-  .rice-paper > * {
-    position: relative;
-    z-index: 2;
-  }
-
-  /* Grain overlay for all light backgrounds */
-  .paper-grain::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    background-repeat: repeat;
-    background-size: 256px 256px;
-  }
-
-  /* Fiber streaks for light sections */
-  .paper-fibers::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.01 0.3' numOctaves='3' seed='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.05'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
-    background-repeat: repeat;
-    background-size: 400px 400px;
-    mix-blend-mode: multiply;
-  }
-
-  /* Subtle speckles */
-  .paper-speckle {
-    position: relative;
-  }
-
-  .paper-speckle::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1;
-    background-image:
-      radial-gradient(circle, rgba(90,99,67,0.03) 1px, transparent 1px),
-      radial-gradient(circle, rgba(180,170,148,0.04) 1px, transparent 1px);
-    background-size: 17px 19px, 23px 29px;
-    background-position: 0 0, 11px 13px;
-  }
-
-  /* Edge shadow for thick paper feel */
-  .paper-edge {
-    box-shadow:
-      inset 0 1px 3px rgba(90,99,67,0.04),
-      inset 0 -1px 3px rgba(90,99,67,0.04);
-  }
-
-  /* Dark sections get lighter texture */
-  .paper-grain-light::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
-    background-repeat: repeat;
-    background-size: 256px 256px;
-    mix-blend-mode: soft-light;
+    z-index: 10000;
   }
 
   /* ——— HERO ——— */
@@ -174,10 +74,6 @@
     background: var(--crema-chiaro);
     overflow: hidden;
   }
-
-
-
-
 
   .hero-intro {
     font-size: 0.75rem;
@@ -544,7 +440,6 @@
     background: var(--verde);
     padding: 0;
     position: relative;
-    overflow: hidden;
   }
 
   .timeline-content {
@@ -684,7 +579,6 @@
   .message-page {
     background: var(--crema-chiaro);
     position: relative;
-    overflow: hidden;
   }
 
   .message-content {
@@ -737,7 +631,6 @@
   .countdown-section {
     background: var(--sabbia);
     position: relative;
-    overflow: hidden;
   }
 
   .countdown-content {
@@ -785,7 +678,6 @@
   .guest-page {
     background: var(--crema-chiaro);
     position: relative;
-    overflow: hidden;
   }
 
   .guest-content {
@@ -977,7 +869,6 @@
     text-align: center;
     padding: 4rem 2rem 3.5rem;
     position: relative;
-    overflow: hidden;
   }
 
   .footer-names {
@@ -1038,47 +929,8 @@
 </head>
 <body>
 
-<!-- Rice paper texture filter -->
-<svg style="position:absolute;width:0;height:0;overflow:hidden">
-  <defs>
-    <!-- Fine grain noise -->
-    <filter id="grain" x="0%" y="0%" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="6" stitchTiles="stitch" result="noise"/>
-      <feColorMatrix type="saturate" values="0" in="noise" result="grayNoise"/>
-      <feComponentTransfer in="grayNoise" result="softNoise">
-        <feFuncA type="linear" slope="0.12"/>
-      </feComponentTransfer>
-      <feBlend in="SourceGraphic" in2="softNoise" mode="multiply"/>
-    </filter>
-    <!-- Fiber-like streaks -->
-    <filter id="fibers" x="-5%" y="-5%" width="110%" height="110%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.015 0.4" numOctaves="4" seed="2" stitchTiles="stitch" result="fiberNoise"/>
-      <feColorMatrix type="saturate" values="0" in="fiberNoise" result="grayFiber"/>
-      <feComponentTransfer in="grayFiber" result="softFiber">
-        <feFuncA type="linear" slope="0.06"/>
-      </feComponentTransfer>
-      <feBlend in="SourceGraphic" in2="softFiber" mode="multiply"/>
-    </filter>
-    <!-- Combined paper texture -->
-    <filter id="ricePaper" x="0%" y="0%" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="5" seed="5" stitchTiles="stitch" result="grain"/>
-      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.35" numOctaves="3" seed="8" stitchTiles="stitch" result="fibers"/>
-      <feMerge result="combined">
-        <feMergeNode in="grain"/>
-        <feMergeNode in="fibers"/>
-      </feMerge>
-      <feColorMatrix type="saturate" values="0" in="combined" result="bw"/>
-      <feComponentTransfer in="bw" result="soft">
-        <feFuncA type="linear" slope="0.08"/>
-      </feComponentTransfer>
-      <feBlend in="SourceGraphic" in2="soft" mode="multiply"/>
-    </filter>
-  </defs>
-</svg>
-
-
 <!-- ——— HERO ——— -->
-<section class="hero paper-texture paper-grain-light">
+<section class="hero">
   <div class="hero-intro">Insieme alle loro famiglie</div>
 
   <h1 class="hero-names">
@@ -1122,7 +974,7 @@
 </section>
 
 <!-- ——— SCHEDULE ——— -->
-<div id="programma" class="timeline-section paper-texture paper-texture-dark" style="position:relative; overflow:hidden;">
+<div id="programma" class="timeline-section">
   <div class="timeline-content" data-reveal>
     <div class="section-script">Programma</div>
     <div class="section-label">La Giornata</div>
@@ -1199,12 +1051,11 @@
       </div>
     </div>
 
-    </div>
   </div>
 </div>
 
 <!-- ——— GUEST LIST ——— -->
-<div id="conferma" class="guest-page paper-texture" style="position:relative; overflow:hidden;">
+<div id="conferma" class="guest-page">
   <div class="guest-content" data-reveal>
     <div class="section-script">Conferma</div>
     <div class="section-label">La Vostra Presenza</div>
@@ -1242,7 +1093,7 @@
 </div>
 
 <!-- ——— INTOLLERANZE & MESSAGGIO ——— -->
-<div class="message-page paper-texture" style="position:relative; overflow:hidden; background: var(--crema-chiaro);">
+<div class="message-page">
   <div class="message-content" data-reveal>
     
     <!-- Intolleranze -->
@@ -1287,7 +1138,7 @@
 </div>
 
 <!-- ——— COUNTDOWN ——— -->
-<div class="countdown-section paper-texture" style="position:relative;">
+<div class="countdown-section">
   <div class="countdown-content" data-reveal>
     <div class="section-script">Mancano</div>
     <div class="section-label">al grande giorno</div>
@@ -1313,7 +1164,7 @@
 </div>
 
 <!-- ——— FOOTER ——— -->
-<div class="footer paper-texture paper-texture-dark" style="position:relative; overflow:hidden;">
+<div class="footer">
   <div class="footer-names">GIULIA <span class="footer-and">e</span> MARCO</div>
   <div class="footer-date">12 · Settembre · 2026</div>
   <div class="footer-love">con amore</div>
@@ -1334,7 +1185,6 @@ if (!token) {
 }
 
 async function loadData() {
-  // Carico famiglia tramite token
   const { data: fam, error: famError } = await supabaseClient
     .from("families")
     .select("*")
@@ -1348,25 +1198,21 @@ async function loadData() {
 
   family = fam;
 
-  // Carica intolleranze esistenti
   if (family.intolleranze) {
     document.getElementById('intolleranzeField').value = family.intolleranze;
   }
 
-  // Carica messaggio esistente (se già inviato)
-  const { data: existingMsg } = await supabaseClient
+  const { data: existingMsgs } = await supabaseClient
     .from("messages")
     .select("messaggio")
     .eq("family_id", family.id)
     .order('created_at', { ascending: false })
-    .limit(1)
-    .single();
+    .limit(1);
 
-  if (existingMsg && existingMsg.messaggio) {
-    document.getElementById('messaggioField').value = existingMsg.messaggio;
+  if (existingMsgs && existingMsgs.length > 0 && existingMsgs[0].messaggio) {
+    document.getElementById('messaggioField').value = existingMsgs[0].messaggio;
   }
 
-  // Carico invitati collegati alla famiglia
   const { data: gs, error: guestsError } = await supabaseClient
     .from("guests")
     .select("*")
@@ -1423,22 +1269,18 @@ function renderGuests() {
   containerMatrimonio.innerHTML = "";
   containerPoolParty.innerHTML = "";
 
-  // Filtra invitati al pool party
   const poolPartyGuests = guests.filter(g => g.pool_party_invited);
   
-  // Mostra colonna pool party solo se ci sono invitati abilitati
   if (poolPartyGuests.length > 0) {
     poolPartyColumn.style.display = 'block';
   } else {
     poolPartyColumn.style.display = 'none';
   }
 
-  // Render lista matrimonio (tutti gli invitati)
   guests.forEach((g, i) => {
     containerMatrimonio.appendChild(createGuestItem(g, i, 'matrimonio'));
   });
 
-  // Render lista pool party (solo invitati abilitati)
   guests.forEach((g, i) => {
     if (g.pool_party_invited) {
       containerPoolParty.appendChild(createGuestItem(g, i, 'pool'));
@@ -1471,7 +1313,6 @@ async function confirmRSVP() {
   const messaggio = document.getElementById('messaggioField').value.trim();
 
   try {
-    // Salva presenze per ogni ospite
     for (const g of guests) {
       await supabaseClient
         .from('guests')
@@ -1482,28 +1323,23 @@ async function confirmRSVP() {
         .eq('id', g.id);
     }
 
-    // Salva/aggiorna intolleranze nella famiglia
     await supabaseClient
       .from('families')
       .update({ intolleranze: intolleranze || null })
       .eq('id', family.id);
 
-    // Controlla se esiste già un messaggio per questa famiglia
-    const { data: existingMsg } = await supabaseClient
+    const { data: existingMsgs } = await supabaseClient
       .from('messages')
       .select('id')
       .eq('family_id', family.id)
-      .limit(1)
-      .single();
+      .limit(1);
 
-    if (existingMsg) {
-      // Aggiorna messaggio esistente
+    if (existingMsgs && existingMsgs.length > 0) {
       await supabaseClient
         .from('messages')
         .update({ messaggio: messaggio || null })
-        .eq('id', existingMsg.id);
+        .eq('id', existingMsgs[0].id);
     } else if (messaggio) {
-      // Crea nuovo messaggio solo se c'è testo
       await supabaseClient
         .from('messages')
         .insert({
@@ -1530,7 +1366,6 @@ function showToast(m) {
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-// Scroll automatico alle sezioni
 function scrollToSection(sectionId) {
   const section = document.getElementById(sectionId);
   if (section) {
@@ -1538,7 +1373,6 @@ function scrollToSection(sectionId) {
   }
 }
 
-// Apri mappe nativa
 const VENUE_NAME = "Masseria San Michele, Martina Franca";
 
 function openMaps(e) {
@@ -1549,18 +1383,14 @@ function openMaps(e) {
   const encodedName = encodeURIComponent(VENUE_NAME);
   
   if (isIOS) {
-    // Apple Maps con ricerca luogo
     window.location.href = `maps://maps.apple.com/?q=${encodedName}`;
   } else if (isAndroid) {
-    // Google Maps app con ricerca luogo
     window.location.href = `geo:0,0?q=${encodedName}`;
   } else {
-    // Desktop: apri Google Maps nel browser
     window.open(`https://www.google.com/maps/search/?api=1&query=${encodedName}`, '_blank');
   }
 }
 
-// Countdown
 const wd = new Date('2026-09-12T15:00:00');
 function tick() {
   const d = wd - new Date();
@@ -1577,7 +1407,6 @@ function tick() {
 setInterval(tick, 1000);
 tick();
 
-// Reveal animation
 const obs = new IntersectionObserver(e =>
   e.forEach(x => { if (x.isIntersecting) x.target.classList.add('visible'); }),
   { threshold: 0.12 }
