@@ -967,6 +967,13 @@
 <div class="guest-page paper-grain paper-speckle paper-edge" style="position:relative; overflow:hidden;">
 
   <div class="guest-content" data-reveal>
+    <div id="poolPartySection" style="display:none; padding:3rem 2rem; text-align:center;">
+  <div class="section-script">Pool Party</div>
+  <div class="section-label">Evento esclusivo</div>
+  <p class="section-text">
+    Siete invitati al Pool Party il giorno prima del matrimonio.
+  </p>
+</div>
     <div class="section-script">Conferma</div>
     <div class="section-label">La Vostra Presenza</div>
     <p class="section-text" style="margin-bottom: 0.5rem;">Selezionate chi parteciperà<br>tra gli invitati di questo invito</p>
@@ -1035,6 +1042,15 @@ async function loadData() {
 
 function renderGuests() {
   const l = document.getElementById('guestList');
+  // Mostra Pool Party solo se almeno un invitato è segnato per il pool party
+const hasPoolParty = guests.some(g => g.presenza_pool_party === true);
+const poolSection = document.getElementById("poolPartySection");
+
+if (hasPoolParty) {
+  poolSection.style.display = "block";
+} else {
+  poolSection.style.display = "none";
+}
   l.innerHTML = '';
 
   guests.forEach((g, i) => {
