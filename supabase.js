@@ -6,21 +6,18 @@ const supabaseClient = supabase.createClient(
   SUPABASE_ANON_KEY
 );
 
-// prende il token dall'URL
 function getToken() {
   const params = new URLSearchParams(window.location.search);
   return params.get("token");
 }
 
-async function loadFamily() {
+async function init() {
   const token = getToken();
 
   if (!token) {
-    console.log("Nessun token trovato nell'URL");
+    document.body.innerHTML = "<h2>Accesso non autorizzato</h2>";
     return;
   }
-
-  console.log("Token trovato:", token);
 
   const { data, error } = await supabaseClient
     .from("families")
@@ -28,11 +25,12 @@ async function loadFamily() {
     .eq("token", token)
     .single();
 
-  if (error) {
-    console.log("Errore:", error);
-  } else {
-    console.log("Famiglia caricata:", data);
+  if (error || !data) {
+    document.body.innerHTML = "<h2>Invito non valido</h2>";
+    return;
   }
+
+  console.log("Famiglia:", data);
 }
 
-loadFamily();
+init();
