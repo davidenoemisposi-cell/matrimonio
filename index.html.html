@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Giulia & Marco — 12.09.2026</title>
+<style>
+  @font-face {
+    font-family: "Housttely Signature";
+    src:     font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde: #7A8B72;
+    --verde-chiaro: #96A88E;
+    --crema: #F0E5D3;
+    --sabbia: #CFC4A8;
+    --verde-scuro: #5F6E58;
+    --verde-sbiadito: #ADBEA6;
+    --crema-chiaro: #F7F0E2;
+    --sabbia-chiaro: #DDD5C0;
+    --sabbia-scuro: #B8AD94;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    background: var(--crema-chiaro);
+    color: var(--verde-scuro);
+    min-height: 100dvh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+
+
+  /* ——— RICE PAPER TEXTURE ——— */
+  .rice-paper {
+    position: relative;
+  }
+
+  .rice-paper::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: multiply;
+    opacity: 1;
+    filter: url(#ricePaper);
+    background: transparent;
+  }
+
+  /* Ensure content stays above texture */
+  .rice-paper > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Grain overlay for all light backgrounds */
+  .paper-grain::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+  }
+
+  /* Fiber streaks for light sections */
+  .paper-fibers::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.01 0.3' numOctaves='3' seed='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.05'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 400px 400px;
+    mix-blend-mode: multiply;
+  }
+
+  /* Subtle speckles */
+  .paper-speckle {
+    position: relative;
+  }
+
+  .paper-speckle::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image:
+      radial-gradient(circle, rgba(90,99,67,0.03) 1px, transparent 1px),
+      radial-gradient(circle, rgba(180,170,148,0.04) 1px, transparent 1px);
+    background-size: 17px 19px, 23px 29px;
+    background-position: 0 0, 11px 13px;
+  }
+
+  /* Edge shadow for thick paper feel */
+  .paper-edge {
+    box-shadow:
+      inset 0 1px 3px rgba(90,99,67,0.04),
+      inset 0 -1px 3px rgba(90,99,67,0.04);
+  }
+
+  /* Dark sections get lighter texture */
+  .paper-grain-light::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+    mix-blend-mode: soft-light;
+  }
+
+  /* ——— HERO ——— */
+  .hero {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    position: relative;
+    background: var(--crema-chiaro);
+    overflow: hidden;
+  }
+
+
+
+
+
+  .hero-intro {
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--verde-chiaro);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeIn 1s ease 0.3s forwards;
+    position: relative; z-index: 2;
+  }
+
+  .hero-names {
+    font-family: 'Naervik', 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: clamp(3.2rem, 13vw, 5rem);
+    line-height: 0.95;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--verde);
+    opacity: 0;
+    animation: fadeIn 1.2s ease 0.5s forwards;
+    position: relative; z-index: 2;
+  }
+
+  .hero-and {
+    font-family: 'Housttely Signature', 'Cormorant Garamond', serif;
+    font-size: clamp(2.8rem, 9vw, 3.8rem);
+    color: var(--verde-chiaro);
+    margin: 0.1em auto;
+    display: block;
+    text-transform: none;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-request {
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--verde-chiaro);
+    line-height: 2.2;
+    margin-top: 2rem;
+    opacity: 0;
+    animation: fadeIn 1s ease 0.9s forwards;
+    position: relative; z-index: 2;
+  }
+
+  .hero-date-block {
+    margin-top: 2rem;
+    opacity: 0;
+    animation: fadeIn 1s ease 1.2s forwards;
+    position: relative; z-index: 2;
+  }
+
+  .hero-day-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 4rem;
+    color: var(--verde);
+    line-height: 1;
+  }
+
+  .hero-day-num sup {
+    font-size: 0.35em;
+    vertical-align: super;
+    letter-spacing: 0;
+  }
+
+  .hero-month {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 1.4rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--verde);
+    margin-top: 0.2rem;
+  }
+
+  .hero-dayline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-top: 0.5rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--verde-chiaro);
+  }
+
+  .hero-dayline .pipe {
+    color: var(--sabbia);
+  }
+
+  .hero-ceremony-time {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.05rem;
+    color: var(--verde-chiaro);
+    margin-top: 0.6rem;
+  }
+
+  .hero-venue-block {
+    margin-top: 1.5rem;
+    opacity: 0;
+    animation: fadeIn 1s ease 1.5s forwards;
+    position: relative; z-index: 2;
+  }
+
+  .hero-venue-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--verde);
+  }
+
+  .hero-venue-address {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 0.9rem;
+    color: var(--verde-chiaro);
+    margin-top: 0.3rem;
+    line-height: 1.6;
+  }
+
+  .hero-follow {
+    font-family: 'Housttely Signature', 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    color: var(--verde-chiaro);
+    margin-top: 1.5rem;
+    opacity: 0;
+    animation: fadeIn 1s ease 1.8s forwards;
+    position: relative; z-index: 2;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 1.5rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--sabbia);
+    opacity: 0;
+    animation: fadeIn 1s ease 2.2s forwards;
+  }
+
+  /* ——— SECTIONS ——— */
+  .page {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .section {
+    padding: 3.5rem 2rem;
+    max-width: 420px;
+    margin: 0 auto;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(25px);
+    transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    z-index: 2;
+  }
+  .section.visible { opacity: 1; transform: translateY(0); }
+
+  .section-script {
+    font-family: 'Housttely Signature', 'Cormorant Garamond', serif;
+    font-size: 2.6rem;
+    color: var(--verde);
+    margin-bottom: 0.3rem;
+  }
+
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--sabbia-scuro);
+    margin-bottom: 1.5rem;
+  }
+
+  .section-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--verde-chiaro);
+  }
+
+  /* ——— VENUE CARDS ——— */
+  .venue-card {
+    margin-top: 2rem;
+    padding: 2rem 1.5rem;
+    background: rgba(240,229,211,0.5);
+    border: 1px solid var(--sabbia-chiaro);
+    border-radius: 2px;
+    text-align: center;
+  }
+
+  .venue-card .icon {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .venue-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--verde);
+    margin-bottom: 0.5rem;
+  }
+
+  .venue-card p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.05rem;
+    color: var(--verde-chiaro);
+    line-height: 1.5;
+  }
+
+  .venue-card .time-badge {
+    display: inline-block;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--verde);
+    border: 1px solid var(--sabbia);
+    padding: 0.35rem 1rem;
+    margin-top: 0.8rem;
+  }
+
+  .maps-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 2rem;
+    padding: 0.9rem 1.8rem;
+    background: var(--verde);
+    color: var(--crema);
+    text-decoration: none;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+  }
+
+  .maps-btn:active {
+    transform: scale(0.97);
+    opacity: 0.9;
+  }
+
+  .maps-btn-light {
+    background: var(--sabbia);
+    color: var(--verde-scuro);
+    margin-top: 2.5rem;
+  }
+
+  /* ——— SCHEDULE TIMELINE ——— */
+  .timeline-section {
+    background: var(--verde);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .timeline-content {
+    padding: 3.5rem 1.5rem;
+    max-width: 420px;
+    margin: 0 auto;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(25px);
+    transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    z-index: 2;
+  }
+  .timeline-content.visible { opacity: 1; transform: translateY(0); }
+
+  .timeline-content .section-script {
+    color: var(--crema);
+  }
+
+  .timeline-content .section-label {
+    color: var(--sabbia);
+  }
+
+  .timeline {
+    margin-top: 2rem;
+    position: relative;
+    padding: 1rem 0;
+  }
+
+  /* central vertical line */
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--sabbia), var(--sabbia), transparent);
+    transform: translateX(-50%);
+  }
+
+  .tl-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .tl-item:last-child {
+    margin-bottom: 0;
+  }
+
+  /* alternating sides */
+  .tl-item.left {
+    flex-direction: row;
+  }
+  .tl-item.right {
+    flex-direction: row-reverse;
+  }
+
+  .tl-side {
+    width: calc(50% - 26px);
+    text-align: right;
+    padding: 0.8rem 0;
+  }
+  .tl-item.right .tl-side {
+    text-align: left;
+  }
+
+  /* center dot with icon */
+  .tl-center {
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .tl-dot {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--verde);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+
+  .tl-time {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--sabbia);
+    margin-bottom: 0.2rem;
+  }
+
+  .tl-event {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 1.1rem;
+    color: var(--crema);
+    letter-spacing: 0.03em;
+  }
+
+  .tl-detail {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 0.85rem;
+    color: var(--verde-chiaro);
+    margin-top: 0.1rem;
+  }
+
+  /* ——— COUNTDOWN (sabbia) ——— */
+  .countdown-section {
+    background: var(--sabbia);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .countdown-content {
+    padding: 3.5rem 2rem;
+    max-width: 420px;
+    margin: 0 auto;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(25px);
+    transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    z-index: 2;
+  }
+  .countdown-content.visible { opacity: 1; transform: translateY(0); }
+
+  .countdown-content .section-script { color: var(--verde-scuro); }
+  .countdown-content .section-label { color: var(--verde); }
+
+  .countdown-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    margin-top: 2rem;
+  }
+
+  .cd-item { text-align: center; }
+
+  .cd-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 3.2rem;
+    line-height: 1;
+    color: var(--verde);
+  }
+
+  .cd-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--verde);
+    margin-top: 0.5rem;
+  }
+
+  /* ——— GUEST LIST (crema) ——— */
+  .guest-page {
+    background: var(--crema-chiaro);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .guest-content {
+    padding: 3.5rem 2rem 2rem;
+    max-width: 420px;
+    margin: 0 auto;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(25px);
+    transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    z-index: 2;
+  }
+  .guest-content.visible { opacity: 1; transform: translateY(0); }
+
+  .guest-list {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .guest-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+    background: rgba(240,229,211,0.5);
+    border: 1px solid var(--sabbia-chiaro);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    -webkit-user-select: none;
+    user-select: none;
+    text-align: left;
+  }
+
+  .guest-item:active { transform: scale(0.98); }
+
+  .guest-item.selected {
+    border-color: var(--verde);
+    background: rgba(113,123,84,0.08);
+  }
+
+  .guest-check {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    border: 1.5px solid var(--sabbia);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+  }
+
+  .guest-item.selected .guest-check {
+    background: var(--verde);
+    border-color: var(--verde);
+  }
+
+  .guest-check svg {
+    width: 12px; height: 12px;
+    stroke: var(--crema); stroke-width: 2.5; fill: none;
+    opacity: 0; transform: scale(0.5);
+    transition: all 0.25s ease;
+  }
+
+  .guest-item.selected .guest-check svg {
+    opacity: 1; transform: scale(1);
+  }
+
+  .guest-info { flex: 1; }
+
+  .guest-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 1.15rem;
+    color: var(--verde);
+    letter-spacing: 0.03em;
+    transition: all 0.3s ease;
+  }
+
+  .guest-relation {
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sabbia-scuro);
+    margin-top: 0.15rem;
+  }
+
+  .guest-counter {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--verde-chiaro);
+  }
+  .guest-counter span { color: var(--verde); font-weight: 500; }
+
+  /* ——— CONFIRM ——— */
+  .confirm-wrapper {
+    padding: 1.5rem 2rem 4.5rem;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  .confirm-btn {
+    width: 100%;
+    padding: 1.15rem 2rem;
+    background: var(--verde);
+    color: var(--crema);
+    border: none;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.4s ease;
+  }
+
+  .confirm-btn:active { transform: scale(0.98); }
+  .confirm-btn:disabled { opacity: 0.2; cursor: not-allowed; }
+  .confirm-btn.sent { background: var(--verde-chiaro); pointer-events: none; }
+
+  /* ——— FOOTER ——— */
+  .footer {
+    background: var(--verde);
+    text-align: center;
+    padding: 4rem 2rem 3.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .footer-names {
+    font-family: 'Naervik', 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 1.5rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--crema);
+  }
+
+  .footer-and {
+    font-family: 'Housttely Signature', 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    color: var(--sabbia);
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  .footer-date {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--verde-chiaro);
+    margin-top: 1.2rem;
+  }
+
+  .footer-love {
+    font-family: 'Housttely Signature', 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    color: var(--sabbia);
+    margin-top: 0.6rem;
+  }
+
+  /* ——— TOAST ——— */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--verde);
+    color: var(--crema);
+    padding: 1rem 2rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    z-index: 100;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Rice paper texture filter -->
+<svg style="position:absolute;width:0;height:0;overflow:hidden">
+  <defs>
+    <!-- Fine grain noise -->
+    <filter id="grain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="6" stitchTiles="stitch" result="noise"/>
+      <feColorMatrix type="saturate" values="0" in="noise" result="grayNoise"/>
+      <feComponentTransfer in="grayNoise" result="softNoise">
+        <feFuncA type="linear" slope="0.12"/>
+      </feComponentTransfer>
+      <feBlend in="SourceGraphic" in2="softNoise" mode="multiply"/>
+    </filter>
+    <!-- Fiber-like streaks -->
+    <filter id="fibers" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.015 0.4" numOctaves="4" seed="2" stitchTiles="stitch" result="fiberNoise"/>
+      <feColorMatrix type="saturate" values="0" in="fiberNoise" result="grayFiber"/>
+      <feComponentTransfer in="grayFiber" result="softFiber">
+        <feFuncA type="linear" slope="0.06"/>
+      </feComponentTransfer>
+      <feBlend in="SourceGraphic" in2="softFiber" mode="multiply"/>
+    </filter>
+    <!-- Combined paper texture -->
+    <filter id="ricePaper" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="5" seed="5" stitchTiles="stitch" result="grain"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.35" numOctaves="3" seed="8" stitchTiles="stitch" result="fibers"/>
+      <feMerge result="combined">
+        <feMergeNode in="grain"/>
+        <feMergeNode in="fibers"/>
+      </feMerge>
+      <feColorMatrix type="saturate" values="0" in="combined" result="bw"/>
+      <feComponentTransfer in="bw" result="soft">
+        <feFuncA type="linear" slope="0.08"/>
+      </feComponentTransfer>
+      <feBlend in="SourceGraphic" in2="soft" mode="multiply"/>
+    </filter>
+  </defs>
+</svg>
+
+
+<!-- ——— HERO ——— -->
+<section class="hero paper-grain-light">
+  <!-- Botanical corners -->
+
+
+
+
+  <div class="hero-intro">Insieme alle loro famiglie</div>
+
+  <h1 class="hero-names">
+    GIULIA
+    <span class="hero-and">e</span>
+    MARCO
+  </h1>
+
+  <div class="hero-request">
+    Richiedono il piacere<br>
+    della Vostra presenza per celebrare<br>
+    il loro matrimonio
+  </div>
+
+  <div class="hero-date-block">
+    <div class="hero-day-num">12</div>
+    <div class="hero-month">Settembre</div>
+    <div class="hero-dayline">
+      Sabato <span class="pipe">|</span> 2026
+    </div>
+    <div class="hero-ceremony-time">Cerimonia alle ore 15</div>
+  </div>
+
+  <div class="hero-venue-block">
+    <div class="hero-venue-name">Villa dei Cipressi</div>
+    <div class="hero-venue-address">Loc. Poggio Alto, Fiesole</div>
+  </div>
+
+  
+  <div class="scroll-hint">▼</div>
+</section>
+
+<!-- ——— SCHEDULE ——— -->
+<div class="timeline-section paper-grain-light" style="position:relative; overflow:hidden;">
+  <div class="timeline-content" data-reveal>
+    <div class="section-script">Programma</div>
+    <div class="section-label">La Giornata</div>
+
+    <div class="timeline">
+      <div class="tl-item left">
+        <div class="tl-side">
+          <div class="tl-time">15:00</div>
+          <div class="tl-event">Cerimonia</div>
+          <div class="tl-detail">Giardino della villa</div>
+        </div>
+        <div class="tl-center">
+          <div class="tl-dot"><svg width="26" height="26" viewBox="0 0 30 30" fill="none"><circle cx="11" cy="16" r="6.5" stroke="var(--crema)" stroke-width="1.3" fill="none"/><circle cx="19" cy="16" r="6.5" stroke="var(--crema)" stroke-width="1.3" fill="none"/><path d="M15 10 L15 6 L13 8 M15 6 L17 8" stroke="var(--crema)" stroke-width="1" stroke-linecap="round" fill="none"/></svg></div>
+        </div>
+        <div class="tl-side"></div>
+      </div>
+
+      <div class="tl-item right">
+        <div class="tl-side">
+          <div class="tl-time">17:00</div>
+          <div class="tl-event">Aperitivo</div>
+          <div class="tl-detail">Terrazza panoramica</div>
+        </div>
+        <div class="tl-center">
+          <div class="tl-dot"><svg width="26" height="26" viewBox="0 0 30 30" fill="none"><path d="M10 5 L13 16 L13 23" stroke="var(--crema)" stroke-width="1.3" stroke-linecap="round"/><path d="M20 5 L17 16 L17 23" stroke="var(--crema)" stroke-width="1.3" stroke-linecap="round"/><line x1="10" y1="23" x2="20" y2="23" stroke="var(--crema)" stroke-width="1.3" stroke-linecap="round"/><path d="M10 5 Q15 9 20 5" stroke="var(--crema)" stroke-width="1" fill="none"/><path d="M6 3 Q8 5 10 5" stroke="var(--crema)" stroke-width="0.8" stroke-linecap="round" fill="none" opacity="0.6"/><path d="M24 3 Q22 5 20 5" stroke="var(--crema)" stroke-width="0.8" stroke-linecap="round" fill="none" opacity="0.6"/></svg></div>
+        </div>
+        <div class="tl-side"></div>
+      </div>
+
+      <div class="tl-item left">
+        <div class="tl-side">
+          <div class="tl-time">19:30</div>
+          <div class="tl-event">Cena</div>
+          <div class="tl-detail">Sala principale</div>
+        </div>
+        <div class="tl-center">
+          <div class="tl-dot"><svg width="26" height="26" viewBox="0 0 30 30" fill="none"><path d="M9 5 L9 12 Q9 14 11 14 L11 25" stroke="var(--crema)" stroke-width="1.3" stroke-linecap="round" fill="none"/><line x1="9" y1="5" x2="9" y2="10" stroke="var(--crema)" stroke-width="1.3" stroke-linecap="round"/><line x1="7" y1="5" x2="7" y2="10" stroke="var(--crema)" stroke-width="1" stroke-linecap="round"/><line x1="11" y1="5" x2="11" y2="10" stroke="var(--crema)" stroke-width="1" stroke-linecap="round"/><path d="M21 5 Q21 14 19 14 L19 25" stroke="var(--crema)" stroke-width="1.3" stroke-linecap="round" fill="none"/></svg></div>
+        </div>
+        <div class="tl-side"></div>
+      </div>
+
+      <div class="tl-item right">
+        <div class="tl-side">
+          <div class="tl-time">22:00</div>
+          <div class="tl-event">Primo Ballo</div>
+        </div>
+        <div class="tl-center">
+          <div class="tl-dot"><svg width="26" height="26" viewBox="0 0 30 30" fill="none"><circle cx="11" cy="6" r="2.5" stroke="var(--crema)" stroke-width="1.2" fill="none"/><circle cx="19" cy="8" r="2.5" stroke="var(--crema)" stroke-width="1.2" fill="none"/><path d="M11 9 L11 17 L8 24" stroke="var(--crema)" stroke-width="1.3" stroke-linecap="round" fill="none"/><path d="M11 17 L14 24" stroke="var(--crema)" stroke-width="1.3" stroke-linecap="round"/><path d="M19 11 L19 18 L16 24" stroke="var(--crema)" stroke-width="1.3" stroke-linecap="round" fill="none"/><path d="M19 18 L22 24" stroke="var(--crema)" stroke-width="1.3" stroke-linecap="round"/><path d="M11 12 L19 13" stroke="var(--crema)" stroke-width="1.2" stroke-linecap="round"/><path d="M8 11 L11 12" stroke="var(--crema)" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+        </div>
+        <div class="tl-side"></div>
+      </div>
+
+      <div class="tl-item left">
+        <div class="tl-side">
+          <div class="tl-time">22:30</div>
+          <div class="tl-event">Festa & Musica</div>
+          <div class="tl-detail">Fino a tarda notte</div>
+        </div>
+        <div class="tl-center">
+          <div class="tl-dot"><svg width="26" height="26" viewBox="0 0 30 30" fill="none"><ellipse cx="9" cy="22" rx="4" ry="3" stroke="var(--crema)" stroke-width="1.3" fill="none"/><line x1="13" y1="22" x2="13" y2="5" stroke="var(--crema)" stroke-width="1.3" stroke-linecap="round"/><path d="M13 5 Q20 3 20 9 Q20 12 13 11" stroke="var(--crema)" stroke-width="1.3" fill="none" stroke-linecap="round"/><circle cx="22" cy="6" r="1" fill="var(--crema)" opacity="0.5"/><circle cx="24" cy="10" r="0.7" fill="var(--crema)" opacity="0.4"/><circle cx="21" cy="13" r="0.8" fill="var(--crema)" opacity="0.3"/></svg></div>
+        </div>
+        <div class="tl-side"></div>
+      </div>
+    </div>
+
+    <a class="maps-btn maps-btn-light" href="https://maps.google.com/?q=Villa+dei+Cipressi+Fiesole" target="_blank" rel="noopener">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+      Apri in Google Maps
+    </a>
+  </div>
+</div>
+<div class="countdown-section paper-grain paper-edge" style="position:relative;">
+
+  <div class="countdown-content" data-reveal>
+    <div class="section-script">Mancano</div>
+    <div class="section-label">al grande giorno</div>
+    <div class="countdown-grid">
+      <div class="cd-item">
+        <div class="cd-num" id="cd-days">—</div>
+        <div class="cd-label">Giorni</div>
+      </div>
+      <div class="cd-item">
+        <div class="cd-num" id="cd-hours">—</div>
+        <div class="cd-label">Ore</div>
+      </div>
+      <div class="cd-item">
+        <div class="cd-num" id="cd-mins">—</div>
+        <div class="cd-label">Min</div>
+      </div>
+      <div class="cd-item">
+        <div class="cd-num" id="cd-secs">—</div>
+        <div class="cd-label">Sec</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ——— GUEST LIST ——— -->
+<div class="guest-page paper-grain paper-speckle paper-edge" style="position:relative; overflow:hidden;">
+
+  <div class="guest-content" data-reveal>
+    <div class="section-script">Conferma</div>
+    <div class="section-label">La Vostra Presenza</div>
+    <p class="section-text" style="margin-bottom: 0.5rem;">Selezionate chi parteciperà<br>tra gli invitati di questo invito</p>
+    <div class="guest-list" id="guestList"></div>
+    <div class="guest-counter" id="guestCounter"></div>
+  </div>
+
+  <div class="confirm-wrapper">
+    <button class="confirm-btn" id="confirmBtn" disabled onclick="confirmRSVP()">Conferma Presenza</button>
+  </div>
+</div>
+
+<!-- ——— FOOTER ——— -->
+<div class="footer paper-grain-light" style="position:relative; overflow:hidden;">
+
+  <div class="footer-names">GIULIA <span class="footer-and">e</span> MARCO</div>
+  <div class="footer-date">12 · Settembre · 2026</div>
+  <div class="footer-love">con amore</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const guests = [
+    { name: 'Antonio Rossi', relation: 'Famiglia dello sposo' },
+    { name: 'Maria Rossi', relation: 'Famiglia dello sposo' },
+    { name: 'Francesca Rossi', relation: 'Famiglia dello sposo' },
+    { name: 'Luca Rossi', relation: 'Famiglia dello sposo' },
+  ];
+  const sel = new Set();
+
+  function renderGuests() {
+    const l = document.getElementById('guestList');
+    l.innerHTML = '';
+    guests.forEach((g, i) => {
+      const el = document.createElement('div');
+      el.className = 'guest-item';
+      el.innerHTML = `<div class="guest-check"><svg viewBox="0 0 16 16"><polyline points="3.5 8.5 6.5 11.5 12.5 5.5"/></svg></div><div class="guest-info"><div class="guest-name">${g.name}</div><div class="guest-relation">${g.relation}</div></div>`;
+      el.addEventListener('click', () => { sel.has(i) ? (sel.delete(i), el.classList.remove('selected')) : (sel.add(i), el.classList.add('selected')); updateC(); });
+      l.appendChild(el);
+    });
+    updateC();
+  }
+
+  function updateC() {
+    document.getElementById('guestCounter').innerHTML = `<span>${sel.size}</span> di ${guests.length} partecipanti`;
+    document.getElementById('confirmBtn').disabled = sel.size === 0;
+  }
+
+  function confirmRSVP() {
+    const b = document.getElementById('confirmBtn');
+    b.classList.add('sent'); b.textContent = 'Confermato ✓';
+    showToast(`${sel.size} conferma${sel.size > 1 ? 'ti' : 'to'} — Grazie!`);
+  }
+
+  function showToast(m) {
+    const t = document.getElementById('toast');
+    t.textContent = m; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  const wd = new Date('2026-09-12T15:00:00');
+  function tick() {
+    const d = wd - new Date();
+    if (d <= 0) { ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id => document.getElementById(id).textContent = '0'); return; }
+    document.getElementById('cd-days').textContent = Math.floor(d/(864e5));
+    document.getElementById('cd-hours').textContent = Math.floor((d/36e5)%24);
+    document.getElementById('cd-mins').textContent = Math.floor((d/6e4)%60);
+    document.getElementById('cd-secs').textContent = Math.floor((d/1e3)%60);
+  }
+  setInterval(tick, 1000); tick();
+
+  const obs = new IntersectionObserver(e => e.forEach(x => { if (x.isIntersecting) x.target.classList.add('visible'); }), { threshold: 0.12 });
+  document.querySelectorAll('[data-reveal]').forEach(el => obs.observe(el));
+  renderGuests();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+</body>
+</html>
