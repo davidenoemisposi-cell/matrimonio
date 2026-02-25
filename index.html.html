@@ -1041,53 +1041,57 @@ async function loadData() {
 }
 
 function renderGuests() {
-  const l = document.getElementById('guestList');
-  const poolSection = document.getElementById("poolPartySection");
-const hasPoolInvite = guests.some(g => g.pool_party_invited === true);
 
-if (hasPoolInvite) {
-  poolSection.style.display = "block";
-} else {
-  poolSection.style.display = "none";
-}                                 
- 
-
-  l.innerHTML = '';
+  const container = document.getElementById('guestList');
+  container.innerHTML = "";
 
   guests.forEach((g, i) => {
 
-    if (g.presenza_matrimonio) sel.add(i);
-
     const el = document.createElement('div');
     el.className = 'guest-item';
-    if (sel.has(i)) el.classList.add('selected');
 
     el.innerHTML = `
-      <div class="guest-check">
-        <svg viewBox="0 0 16 16">
-          <polyline points="3.5 8.5 6.5 11.5 12.5 5.5"/>
-        </svg>
-      </div>
       <div class="guest-info">
         <div class="guest-name">${g.nome}</div>
-        <div class="guest-relation">
-          ${g.pool_party_invited ? "Invitato anche al Pool Party" : "Invitato"}
+
+        <div style="margin-top:10px; font-size:14px;">
+
+          <label style="display:flex; gap:8px; align-items:center; margin-bottom:6px;">
+            <input type="checkbox" 
+              ${g.presenza_matrimonio ? "checked" : ""} 
+              data-type="matrimonio">
+            Matrimonio
+          </label>
+
+          ${g.pool_party_invited ? `
+            <label style="display:flex; gap:8px; align-items:center;">
+              <input type="checkbox" 
+                ${g.presenza_pool_party ? "checked" : ""} 
+                data-type="pool">
+              Pool Party
+            </label>
+          ` : ""}
+
         </div>
       </div>
     `;
 
-    el.addEventListener('click', () => {
-      if (sel.has(i)) {
-        sel.delete(i);
-        el.classList.remove('selected');
-      } else {
-        sel.add(i);
-        el.classList.add('selected');
-      }
-      updateC();
+    el.querySelectorAll("input").forEach(input => {
+      input.addEventListener("change", (e) => {
+
+        if (e.target.dataset.type === "matrimonio") {
+          guests[i].presenza_matrimonio = e.target.checked;
+        }
+
+        if (e.target.dataset.type === "pool") {
+          guests[i].presenza_pool_party = e.target.checked;
+        }
+
+        updateC();
+      });
     });
 
-    l.appendChild(el);
+    container.appendChild(el);
   });
 
   updateC();
@@ -1101,22 +1105,18 @@ function updateC() {
 
 async function confirmRSVP() {
 
-  const updates = guests.map((g, i) => {
-    return supabaseClient
-      .from("guests")
+  for (const g of guests) {
+
+    await supabaseClient
+      .from('guests')
       .update({
-        presenza_matrimonio: sel.has(i)
+        presenza_matrimonio: g.presenza_matrimonio || false,
+        presenza_pool_party: g.presenza_pool_party || false
       })
-      .eq("id", g.id);
-  });
+      .eq('id', g.id);
+  }
 
-  await Promise.all(updates);
-
-  const b = document.getElementById('confirmBtn');
-  b.classList.add('sent');
-  b.textContent = 'Confermato ✓';
-
-  showToast(`${sel.size} conferma${sel.size > 1 ? 'ti' : 'to'} — Grazie!`);
+  alert("Risposte salvate correttamente ❤️");
 }
 
 function showToast(m) {
