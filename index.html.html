@@ -44,21 +44,36 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* ——— PAPER TEXTURE OVERLAY - GLOBALE SU BODY ——— */
-  body::after {
+  /* ——— PAPER TEXTURE OVERLAY ——— */
+  .paper-texture {
+    position: relative;
+  }
+
+  .paper-texture::after {
     content: '';
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     background-image: url('paper-texture.png');
     background-repeat: repeat;
-    background-size: 300px 300px;
-    opacity: 0.45;
+    background-size: 250px 250px;
+    opacity: 0.6;
     mix-blend-mode: multiply;
     pointer-events: none;
-    z-index: 10000;
+    z-index: 1;
+  }
+
+  .paper-texture > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Versione per sfondi scuri */
+  .paper-texture-dark::after {
+    opacity: 0.35;
+    mix-blend-mode: soft-light;
   }
 
   /* ——— HERO ——— */
@@ -930,7 +945,7 @@
 <body>
 
 <!-- ——— HERO ——— -->
-<section class="hero">
+<section class="hero paper-texture">
   <div class="hero-intro">Insieme alle loro famiglie</div>
 
   <h1 class="hero-names">
@@ -974,7 +989,7 @@
 </section>
 
 <!-- ——— SCHEDULE ——— -->
-<div id="programma" class="timeline-section">
+<div id="programma" class="timeline-section paper-texture paper-texture-dark">
   <div class="timeline-content" data-reveal>
     <div class="section-script">Programma</div>
     <div class="section-label">La Giornata</div>
@@ -1055,7 +1070,7 @@
 </div>
 
 <!-- ——— GUEST LIST ——— -->
-<div id="conferma" class="guest-page">
+<div id="conferma" class="guest-page paper-texture">
   <div class="guest-content" data-reveal>
     <div class="section-script">Conferma</div>
     <div class="section-label">La Vostra Presenza</div>
@@ -1093,7 +1108,7 @@
 </div>
 
 <!-- ——— INTOLLERANZE & MESSAGGIO ——— -->
-<div class="message-page">
+<div class="message-page paper-texture">
   <div class="message-content" data-reveal>
     
     <!-- Intolleranze -->
@@ -1138,7 +1153,7 @@
 </div>
 
 <!-- ——— COUNTDOWN ——— -->
-<div class="countdown-section">
+<div class="countdown-section paper-texture">
   <div class="countdown-content" data-reveal>
     <div class="section-script">Mancano</div>
     <div class="section-label">al grande giorno</div>
@@ -1164,7 +1179,7 @@
 </div>
 
 <!-- ——— FOOTER ——— -->
-<div class="footer">
+<div class="footer paper-texture paper-texture-dark">
   <div class="footer-names">GIULIA <span class="footer-and">e</span> MARCO</div>
   <div class="footer-date">12 · Settembre · 2026</div>
   <div class="footer-love">con amore</div>
