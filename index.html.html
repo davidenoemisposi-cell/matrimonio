@@ -142,9 +142,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     text-align: center;
-    padding: 2rem 1.5rem 3rem;
+    padding: 6rem 1.5rem 3rem;
     position: relative;
     background: var(--crema-chiaro);
     overflow: hidden;
@@ -167,7 +167,7 @@
     line-height: 0.95;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--verde);
+    color: #ffffff;
     opacity: 0;
     animation: fadeIn 1.2s ease 0.5s forwards;
     position: relative;
@@ -177,7 +177,7 @@
   .hero-and {
     font-family: 'Housttely Signature', 'Cormorant Garamond', serif;
     font-size: clamp(2.4rem, 8vw, 3.2rem);
-    color: var(--verde-chiaro);
+    color: rgba(255,255,255,0.85);
     margin: 0.05em auto;
     display: block;
     text-transform: none;
@@ -197,17 +197,20 @@
   }
 
   .hero-date-block {
-    margin-top: 1.2rem;
+    position: absolute;
+    bottom: 5rem;
+    left: 50%;
+    transform: translateX(-50%);
     opacity: 0;
     animation: fadeIn 1s ease 1.2s forwards;
-    position: relative; z-index: 2;
+    z-index: 2;
   }
 
   .hero-day-num {
     font-family: 'Cormorant Garamond', serif;
     font-weight: 300;
     font-size: 3.5rem;
-    color: var(--verde);
+    color: #ffffff;
     line-height: 1;
   }
 
@@ -223,7 +226,7 @@
     font-size: 1.3rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--verde);
+    color: #ffffff;
     margin-top: 0.15rem;
   }
 
@@ -236,11 +239,11 @@
     font-size: 0.75rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--verde-chiaro);
+    color: rgba(255,255,255,0.85);
   }
 
   .hero-dayline .pipe {
-    color: var(--sabbia);
+    color: rgba(255,255,255,0.5);
   }
 
   .hero-ceremony-time {
@@ -339,7 +342,7 @@
     font-size: 0.65rem;
     letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: var(--sabbia);
+    color: rgba(255,255,255,0.8);
   }
 
   .scroll-arrow {
@@ -347,7 +350,7 @@
   }
 
   .scroll-arrow svg {
-    stroke: var(--sabbia);
+    stroke: rgba(255,255,255,0.8);
   }
 
   @keyframes bounce {
@@ -1253,36 +1256,31 @@
 
 <div class="toast" id="toast"></div>
 <script>
-// ——— HERO VIDEO PING-PONG ———
-const heroVideo = document.getElementById('heroVideo');
-let playForward = true;
+// ——— HERO VIDEO PING-PONG (autoplay seamless) ———
+(function() {
+  const heroVideo = document.getElementById('heroVideo');
+  let isReversing = false;
+  let reverseInterval = null;
 
-heroVideo.addEventListener('loadedmetadata', function() {
-  heroVideo.playbackRate = 1;
-});
+  // Quando il video arriva alla fine, inverti
+  heroVideo.addEventListener('ended', function() {
+    isReversing = true;
+    reverseInterval = setInterval(() => {
+      if (heroVideo.currentTime <= 0.05) {
+        clearInterval(reverseInterval);
+        isReversing = false;
+        heroVideo.currentTime = 0;
+        heroVideo.play();
+      } else {
+        heroVideo.currentTime -= 0.033;
+      }
+    }, 33);
+  });
 
-heroVideo.addEventListener('ended', function() {
-  // Quando finisce forward, inverti direzione
-  playForward = false;
-  reversePlay();
-});
-
-function reversePlay() {
-  const step = 1 / 30; // ~30fps
-  const reverseInterval = setInterval(() => {
-    if (heroVideo.currentTime <= 0) {
-      clearInterval(reverseInterval);
-      playForward = true;
-      heroVideo.currentTime = 0;
-      heroVideo.play();
-    } else {
-      heroVideo.currentTime -= step;
-    }
-  }, 33); // ~30fps
-}
-
-// Avvia il video
-heroVideo.play().catch(e => console.log('Autoplay bloccato'));
+  // Forza autoplay appena possibile
+  heroVideo.muted = true;
+  heroVideo.play().catch(() => {});
+})();
 </script>
 
 <script>
