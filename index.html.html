@@ -1287,6 +1287,18 @@ introVideo.addEventListener('ended', function() {
   }, 1200);
 });
 
+// Dissolvenza a 3 secondi
+introVideo.addEventListener('timeupdate', function() {
+  if (introVideo.currentTime >= 3 && !videoIntro.classList.contains('fade-out')) {
+    videoIntro.classList.add('fade-out');
+    document.body.classList.remove('no-scroll');
+    setTimeout(() => {
+      videoIntro.classList.add('hidden');
+      introVideo.pause();
+    }, 1200);
+  }
+});
+
 // Fallback: doppio tap per saltare
 videoIntro.addEventListener('dblclick', function() {
   videoIntro.classList.add('fade-out');
