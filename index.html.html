@@ -986,7 +986,7 @@
     id="introVideo" 
     class="intro-video"
     playsinline
-    preload="auto"
+    preload="metadata"
     muted
   >
     <source src="intro-video.mp4" type="video/mp4">
@@ -1250,6 +1250,11 @@ const tapHint = document.getElementById('tapHint');
 
 let videoStarted = false;
 
+// Forza caricamento primo frame
+introVideo.addEventListener('loadedmetadata', function() {
+  introVideo.currentTime = 0.001;
+});
+
 // Click sul sigillo
 sealHotspot.addEventListener('click', function() {
   if (videoStarted) return;
@@ -1259,17 +1264,15 @@ sealHotspot.addEventListener('click', function() {
   tapHint.classList.add('hidden');
   sealHotspot.style.display = 'none';
   
-  // Attiva audio e avvia il video
+  // Riporta all'inizio, attiva audio e avvia
+  introVideo.currentTime = 0;
   introVideo.muted = false;
   introVideo.play();
 });
 
 // Quando il video finisce
 introVideo.addEventListener('ended', function() {
-  // Dissolvenza
   videoIntro.classList.add('fade-out');
-  
-  // Dopo la transizione, rimuovi completamente
   setTimeout(() => {
     videoIntro.classList.add('hidden');
   }, 1200);
