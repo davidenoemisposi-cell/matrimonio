@@ -105,8 +105,13 @@
     font-size: 1.1rem;
     color: rgba(255,255,255,0.85);
     letter-spacing: 0.1em;
-    animation: fadeInHint 1s ease 0.3s forwards, pulseHint 2.5s ease-in-out 1.3s infinite;
     opacity: 0;
+    visibility: hidden;
+  }
+
+  .tap-hint.visible {
+    visibility: visible;
+    animation: fadeInHint 1s ease forwards, pulseHint 2.5s ease-in-out 1s infinite;
   }
 
   @keyframes fadeInHint {
@@ -1269,9 +1274,14 @@ const tapHint = document.getElementById('tapHint');
 
 let videoStarted = false;
 
-// Forza caricamento primo frame
+// Forza caricamento primo frame e mostra scritta insieme
 introVideo.addEventListener('loadedmetadata', function() {
   introVideo.currentTime = 0.001;
+});
+
+introVideo.addEventListener('seeked', function() {
+  // Il primo frame è pronto, mostra la scritta
+  tapHint.classList.add('visible');
 });
 
 // Click sul sigillo
