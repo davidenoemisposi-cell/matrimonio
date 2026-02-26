@@ -282,88 +282,6 @@
     color: #ffffff;
   }
 
-  /* ——— UCCELLI ANIMATI ——— */
-  .birds-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  .bird {
-    position: absolute;
-    opacity: 0.7;
-  }
-
-  .bird svg {
-    width: 30px;
-    height: 30px;
-    fill: none;
-    stroke: rgba(30, 30, 30, 0.6);
-    stroke-width: 1.5;
-  }
-
-  .bird-1 {
-    top: 15%;
-    animation: flyAcross1 18s linear infinite;
-    animation-delay: 2s;
-  }
-
-  .bird-2 {
-    top: 22%;
-    animation: flyAcross2 22s linear infinite;
-    animation-delay: 8s;
-  }
-
-  .bird-3 {
-    top: 12%;
-    animation: flyAcross1 25s linear infinite;
-    animation-delay: 15s;
-  }
-
-  @keyframes flyAcross1 {
-    0% {
-      left: -5%;
-      transform: scaleX(1);
-    }
-    100% {
-      left: 105%;
-      transform: scaleX(1);
-    }
-  }
-
-  @keyframes flyAcross2 {
-    0% {
-      left: 105%;
-      transform: scaleX(-1);
-    }
-    100% {
-      left: -5%;
-      transform: scaleX(-1);
-    }
-  }
-
-  .bird svg .wing {
-    animation: flap 0.3s ease-in-out infinite alternate;
-  }
-
-  .bird-2 svg .wing {
-    animation-delay: 0.1s;
-  }
-
-  .bird-3 svg .wing {
-    animation-delay: 0.2s;
-  }
-
-  @keyframes flap {
-    0% { transform: rotate(-20deg); }
-    100% { transform: rotate(20deg); }
-  }
-
   .hero-ceremony-time {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
@@ -1152,31 +1070,6 @@
   <video class="hero-video" id="heroVideo" autoplay muted playsinline disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback">
     <source src="hero-bg.mp4" type="video/mp4">
   </video>
-
-  <!-- Uccelli animati -->
-  <div class="birds-container">
-    <div class="bird bird-1">
-      <svg viewBox="0 0 40 20">
-        <path class="wing" d="M20 10 Q10 2, 0 8" transform-origin="20 10"/>
-        <path class="wing" d="M20 10 Q30 2, 40 8" transform-origin="20 10"/>
-        <circle cx="20" cy="10" r="2"/>
-      </svg>
-    </div>
-    <div class="bird bird-2">
-      <svg viewBox="0 0 40 20">
-        <path class="wing" d="M20 10 Q10 2, 0 8" transform-origin="20 10"/>
-        <path class="wing" d="M20 10 Q30 2, 40 8" transform-origin="20 10"/>
-        <circle cx="20" cy="10" r="2"/>
-      </svg>
-    </div>
-    <div class="bird bird-3">
-      <svg viewBox="0 0 40 20">
-        <path class="wing" d="M20 10 Q10 2, 0 8" transform-origin="20 10"/>
-        <path class="wing" d="M20 10 Q30 2, 40 8" transform-origin="20 10"/>
-        <circle cx="20" cy="10" r="2"/>
-      </svg>
-    </div>
-  </div>
   
   <h1 class="hero-names">
     GIULIA
