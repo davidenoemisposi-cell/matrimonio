@@ -44,6 +44,14 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  /* Blocca scroll quando video intro è attivo */
+  body.no-scroll {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+  }
+
   /* ——— VIDEO INTRO ——— */
   .video-intro {
     position: fixed;
@@ -978,7 +986,7 @@
   }
 </style>
 </head>
-<body>
+<body class="no-scroll">
 
 <!-- ——— VIDEO INTRO ——— -->
 <div class="video-intro" id="videoIntro">
@@ -996,7 +1004,7 @@
   <div class="seal-hotspot" id="sealHotspot"></div>
   
   <!-- Hint per cliccare -->
-  <div class="tap-hint" id="tapHint">Apri il sigillo</div>
+  <div class="tap-hint" id="tapHint">Tocca il sigillo</div>
 </div>
 
 <!-- ——— HERO ——— -->
@@ -1273,6 +1281,7 @@ sealHotspot.addEventListener('click', function() {
 // Quando il video finisce
 introVideo.addEventListener('ended', function() {
   videoIntro.classList.add('fade-out');
+  document.body.classList.remove('no-scroll');
   setTimeout(() => {
     videoIntro.classList.add('hidden');
   }, 1200);
@@ -1281,6 +1290,7 @@ introVideo.addEventListener('ended', function() {
 // Fallback: doppio tap per saltare
 videoIntro.addEventListener('dblclick', function() {
   videoIntro.classList.add('fade-out');
+  document.body.classList.remove('no-scroll');
   setTimeout(() => {
     videoIntro.classList.add('hidden');
   }, 1200);
