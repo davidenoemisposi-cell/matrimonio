@@ -158,6 +158,27 @@
     height: 100%;
     object-fit: cover;
     z-index: 0;
+    pointer-events: none;
+  }
+
+  /* Nasconde controlli video su tutti i browser */
+  .hero-video::-webkit-media-controls {
+    display: none !important;
+  }
+  .hero-video::-webkit-media-controls-enclosure {
+    display: none !important;
+  }
+  .hero-video::-webkit-media-controls-panel {
+    display: none !important;
+  }
+  .hero-video::-webkit-media-controls-play-button {
+    display: none !important;
+  }
+  .hero-video::-webkit-media-controls-start-playback-button {
+    display: none !important;
+  }
+  .hero-video::-moz-media-controls {
+    display: none !important;
   }
 
   .hero-names {
@@ -1031,7 +1052,7 @@
 <!-- ——— HERO ——— -->
 <section class="hero paper-texture">
   <!-- Video Background con effetto ping-pong -->
-  <video class="hero-video" id="heroVideo" autoplay muted playsinline>
+  <video class="hero-video" id="heroVideo" autoplay muted playsinline disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback">
     <source src="hero-bg.mp4" type="video/mp4">
   </video>
   
@@ -1261,16 +1282,19 @@
 // ——— HERO VIDEO PING-PONG (autoplay seamless) ———
 (function() {
   const heroVideo = document.getElementById('heroVideo');
-  let isReversing = false;
+  if (!heroVideo) return;
+  
   let reverseInterval = null;
+
+  // Forza rimozione controlli
+  heroVideo.controls = false;
+  heroVideo.removeAttribute('controls');
 
   // Quando il video arriva alla fine, inverti
   heroVideo.addEventListener('ended', function() {
-    isReversing = true;
     reverseInterval = setInterval(() => {
       if (heroVideo.currentTime <= 0.05) {
         clearInterval(reverseInterval);
-        isReversing = false;
         heroVideo.currentTime = 0;
         heroVideo.play();
       } else {
@@ -1279,9 +1303,19 @@
     }, 33);
   });
 
-  // Forza autoplay appena possibile
-  heroVideo.muted = true;
-  heroVideo.play().catch(() => {});
+  // Forza autoplay
+  function tryPlay() {
+    heroVideo.muted = true;
+    heroVideo.play().catch(() => {
+      // Riprova dopo un attimo
+      setTimeout(tryPlay, 100);
+    });
+  }
+  
+  // Avvia subito e anche su interazione utente
+  tryPlay();
+  document.addEventListener('touchstart', tryPlay, { once: true });
+  document.addEventListener('click', tryPlay, { once: true });
 })();
 </script>
 
