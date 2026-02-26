@@ -74,60 +74,17 @@
     object-fit: cover;
   }
 
-  /* Zona cliccabile sul sigillo - posizionata al centro-basso */
+  /* Zona cliccabile sul sigillo - invisibile */
   .seal-hotspot {
     position: absolute;
     bottom: 32%;
     left: 50%;
     transform: translateX(-50%);
-    width: 90px;
-    height: 90px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     cursor: pointer;
     z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .seal-hotspot::before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    border: 2px solid rgba(255,255,255,0.4);
-    animation: sealGlow 2s ease-in-out infinite;
-  }
-
-  .seal-pulse {
-    width: 60%;
-    height: 60%;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.15);
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  @keyframes sealGlow {
-    0%, 100% { 
-      transform: scale(1);
-      opacity: 0.6;
-    }
-    50% { 
-      transform: scale(1.15);
-      opacity: 1;
-    }
-  }
-
-  @keyframes pulse {
-    0%, 100% { 
-      transform: scale(0.8);
-      opacity: 0.3;
-    }
-    50% { 
-      transform: scale(1);
-      opacity: 0.6;
-    }
   }
 
   .tap-hint {
@@ -137,10 +94,10 @@
     transform: translateX(-50%);
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
-    font-size: 0.95rem;
-    color: rgba(255,255,255,0.7);
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.85);
     letter-spacing: 0.1em;
-    animation: fadeInHint 1.5s ease 0.5s forwards;
+    animation: fadeInHint 1s ease 0.3s forwards;
     opacity: 0;
   }
 
@@ -1030,20 +987,16 @@
     class="intro-video"
     playsinline
     preload="auto"
-    poster=""
+    muted
   >
     <source src="intro-video.mp4" type="video/mp4">
   </video>
   
-  <!-- Zona cliccabile sul sigillo -->
-  <div class="seal-hotspot" id="sealHotspot">
-    <div class="seal-pulse"></div>
-  </div>
+  <!-- Zona cliccabile sul sigillo - invisibile -->
+  <div class="seal-hotspot" id="sealHotspot"></div>
   
   <!-- Hint per cliccare -->
-  <div class="tap-hint" id="tapHint">
-    <span>Tocca il sigillo</span>
-  </div>
+  <div class="tap-hint" id="tapHint">Apri il sigillo</div>
 </div>
 
 <!-- ——— HERO ——— -->
@@ -1302,11 +1255,12 @@ sealHotspot.addEventListener('click', function() {
   if (videoStarted) return;
   videoStarted = true;
   
-  // Nascondi hint e hotspot
+  // Nascondi hint
   tapHint.classList.add('hidden');
   sealHotspot.style.display = 'none';
   
-  // Avvia il video
+  // Attiva audio e avvia il video
+  introVideo.muted = false;
   introVideo.play();
 });
 
@@ -1321,7 +1275,7 @@ introVideo.addEventListener('ended', function() {
   }, 1200);
 });
 
-// Fallback: se il video non parte, permetti di saltare con doppio tap
+// Fallback: doppio tap per saltare
 videoIntro.addEventListener('dblclick', function() {
   videoIntro.classList.add('fade-out');
   setTimeout(() => {
