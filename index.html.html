@@ -1400,12 +1400,12 @@
   document.addEventListener('touchstart', tryPlay, { once: true });
   document.addEventListener('click', tryPlay, { once: true });
 
-  // Fa partire video 2 subito all'inizio
-  // Aspetta che video 1 sia pronto, poi parte video 2
-  heroVideo.addEventListener('loadeddata', function() {
+  // Fa partire video 2 subito all'inizio (dopo che l'intro video è finito)
+  // Aspetta l'evento custom che viene lanciato quando l'intro finisce
+  document.addEventListener('introFinished', function() {
     setTimeout(() => {
       playVideo2();
-    }, 500); // piccolo delay per assicurarsi che tutto sia caricato
+    }, 300);
   }, { once: true });
 })();
 </script>
@@ -1450,6 +1450,7 @@ introVideo.addEventListener('ended', function() {
   document.body.classList.remove('no-scroll');
   setTimeout(() => {
     videoIntro.classList.add('hidden');
+    document.dispatchEvent(new CustomEvent('introFinished'));
   }, 1200);
 });
 
@@ -1461,6 +1462,7 @@ introVideo.addEventListener('timeupdate', function() {
     setTimeout(() => {
       videoIntro.classList.add('hidden');
       introVideo.pause();
+      document.dispatchEvent(new CustomEvent('introFinished'));
     }, 1200);
   }
 });
@@ -1471,6 +1473,7 @@ videoIntro.addEventListener('dblclick', function() {
   document.body.classList.remove('no-scroll');
   setTimeout(() => {
     videoIntro.classList.add('hidden');
+    document.dispatchEvent(new CustomEvent('introFinished'));
   }, 1200);
 });
 </script>
