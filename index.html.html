@@ -190,25 +190,6 @@
     overflow: hidden;
   }
 
-  /* Scurisci leggermente il video per far risaltare le scritte */
-  .hero::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      to bottom,
-      rgba(0,0,0,0.35) 0%,
-      rgba(0,0,0,0.15) 35%,
-      rgba(0,0,0,0.10) 65%,
-      rgba(0,0,0,0.40) 100%
-    );
-    z-index: 1;
-    pointer-events: none;
-  }
-
   .hero-video {
     position: absolute;
     top: 0;
@@ -224,7 +205,6 @@
   .hero-video-2 {
     opacity: 0;
     z-index: 1;
-    transition: opacity 0.8s ease;
   }
 
   .hero-video-2.active {
@@ -264,8 +244,7 @@
     line-height: 0.95;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #ffffff;
-    text-shadow: 0 2px 20px rgba(0,0,0,0.35), 0 1px 6px rgba(0,0,0,0.25);
+    color: #7A9B6D;
     opacity: 0;
     animation: fadeIn 1.2s ease 0.5s forwards;
     position: absolute;
@@ -279,8 +258,7 @@
     font-family: 'Playfair Display', serif;
     font-style: italic;
     font-size: clamp(2.2rem, 8vw, 3.2rem);
-    color: #ffffff;
-    text-shadow: 0 2px 20px rgba(0,0,0,0.35), 0 1px 6px rgba(0,0,0,0.25);
+    color: #7A9B6D;
     margin: 0.1em auto;
     display: block;
     text-transform: lowercase;
@@ -291,8 +269,7 @@
     font-size: 0.7rem;
     letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.85);
-    text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+    color: var(--verde-chiaro);
     line-height: 2;
     margin-top: 1.2rem;
     opacity: 0;
@@ -315,20 +292,18 @@
   .hero-date-line {
     font-family: 'Cormorant Garamond', serif;
     font-weight: 400;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: #ffffff;
-    text-shadow: 0 2px 15px rgba(0,0,0,0.4), 0 1px 4px rgba(0,0,0,0.3);
   }
 
   .hero-ceremony-time {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
     font-weight: 300;
-    font-size: 1.1rem;
-    color: rgba(255,255,255,0.9);
-    text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+    font-size: 1.05rem;
+    color: var(--verde-chiaro);
     margin-top: 0.4rem;
   }
 
@@ -345,8 +320,7 @@
     font-size: 0.9rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.9);
-    text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+    color: var(--verde);
   }
 
   .hero-venue-address {
@@ -354,8 +328,7 @@
     font-style: italic;
     font-weight: 300;
     font-size: 0.95rem;
-    color: rgba(255,255,255,0.8);
-    text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+    color: var(--verde-chiaro);
     margin-top: 0.2rem;
     line-height: 1.5;
   }
@@ -363,8 +336,7 @@
   .hero-follow {
     font-family: 'Housttely Signature', 'Cormorant Garamond', serif;
     font-size: 1.4rem;
-    color: rgba(255,255,255,0.85);
-    text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+    color: var(--verde-chiaro);
     margin-top: 1rem;
     opacity: 0;
     animation: fadeIn 1s ease 1.8s forwards;
@@ -382,7 +354,6 @@
     animation: fadeIn 1s ease 2.2s forwards;
     cursor: pointer;
     transition: transform 0.3s ease;
-    z-index: 2;
   }
 
   .scroll-hint:active {
@@ -424,7 +395,6 @@
     letter-spacing: 0.25em;
     text-transform: uppercase;
     color: #ffffff;
-    text-shadow: 0 1px 6px rgba(0,0,0,0.3);
   }
 
   .scroll-arrow {
@@ -435,7 +405,6 @@
     width: 25px;
     height: 25px;
     stroke: #ffffff;
-    filter: drop-shadow(0 1px 4px rgba(0,0,0,0.3));
   }
 
   @keyframes bounce {
@@ -1118,7 +1087,7 @@
     <source src="hero-bg.mp4" type="video/mp4">
   </video>
   
-  <!-- Video 2 Background - parte subito, poi ogni minuto -->
+  <!-- Video 2 Background - parte ogni minuto -->
   <video class="hero-video hero-video-2" id="heroVideo2" muted playsinline disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback">
     <source src="bg-2.mp4" type="video/mp4">
   </video>
@@ -1343,8 +1312,8 @@
 
 <script>
 // ——— HERO VIDEO DUAL SYSTEM ———
-// Video 2 (bg-2): parte SUBITO, poi ogni minuto
-// Video 1 (hero-bg): loop boomerang continuo sotto
+// Video 1: loop boomerang continuo
+// Video 2: parte ogni minuto, una sola volta
 (function() {
   const heroVideo = document.getElementById('heroVideo');
   const heroVideo2 = document.getElementById('heroVideo2');
@@ -1395,6 +1364,7 @@
     
     // Se video 2 sta andando, aspetta che finisca
     if (isPlayingVideo2) {
+      // Riprendi video 1 quando video 2 finisce
       heroVideo2.addEventListener('ended', function onVideo2End() {
         heroVideo2.removeEventListener('ended', onVideo2End);
         startBoomerangReverse();
@@ -1416,14 +1386,11 @@
     }, 33);
   }
 
-  // Forza autoplay video 1 + avvia subito video 2
+  // Forza autoplay video 1
   function tryPlay() {
     heroVideo.muted = true;
     heroVideo2.muted = true;
-    heroVideo.play().then(() => {
-      // Video 1 partito, ora avvia subito video 2
-      playVideo2();
-    }).catch(() => {
+    heroVideo.play().catch(() => {
       setTimeout(tryPlay, 100);
     });
   }
@@ -1432,6 +1399,9 @@
   tryPlay();
   document.addEventListener('touchstart', tryPlay, { once: true });
   document.addEventListener('click', tryPlay, { once: true });
+
+  // Imposta il tempo iniziale per far partire video 2 dopo 1 minuto
+  lastVideo2PlayTime = Date.now();
 })();
 </script>
 
