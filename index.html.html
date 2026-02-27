@@ -201,23 +201,39 @@
     pointer-events: none;
   }
 
+  /* Video 2 nascosto di default */
+  .hero-video-2 {
+    opacity: 0;
+    z-index: 1;
+  }
+
+  .hero-video-2.active {
+    opacity: 1;
+  }
+
   /* Nasconde controlli video su tutti i browser */
-  .hero-video::-webkit-media-controls {
+  .hero-video::-webkit-media-controls,
+  .hero-video-2::-webkit-media-controls {
     display: none !important;
   }
-  .hero-video::-webkit-media-controls-enclosure {
+  .hero-video::-webkit-media-controls-enclosure,
+  .hero-video-2::-webkit-media-controls-enclosure {
     display: none !important;
   }
-  .hero-video::-webkit-media-controls-panel {
+  .hero-video::-webkit-media-controls-panel,
+  .hero-video-2::-webkit-media-controls-panel {
     display: none !important;
   }
-  .hero-video::-webkit-media-controls-play-button {
+  .hero-video::-webkit-media-controls-play-button,
+  .hero-video-2::-webkit-media-controls-play-button {
     display: none !important;
   }
-  .hero-video::-webkit-media-controls-start-playback-button {
+  .hero-video::-webkit-media-controls-start-playback-button,
+  .hero-video-2::-webkit-media-controls-start-playback-button {
     display: none !important;
   }
-  .hero-video::-moz-media-controls {
+  .hero-video::-moz-media-controls,
+  .hero-video-2::-moz-media-controls {
     display: none !important;
   }
 
@@ -1066,9 +1082,14 @@
 
 <!-- ——— HERO ——— -->
 <section class="hero paper-texture">
-  <!-- Video Background con effetto ping-pong -->
+  <!-- Video 1 Background - loop boomerang continuo -->
   <video class="hero-video" id="heroVideo" autoplay muted playsinline disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback">
     <source src="hero-bg.mp4" type="video/mp4">
+  </video>
+  
+  <!-- Video 2 Background - parte ogni minuto -->
+  <video class="hero-video hero-video-2" id="heroVideo2" muted playsinline disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback">
+    <source src="bg-2.mp4" type="video/mp4">
   </video>
   
   <h1 class="hero-names">
@@ -1288,20 +1309,72 @@
 </div>
 
 <div class="toast" id="toast"></div>
+
 <script>
-// ——— HERO VIDEO PING-PONG (autoplay seamless) ———
+// ——— HERO VIDEO DUAL SYSTEM ———
+// Video 1: loop boomerang continuo
+// Video 2: parte ogni minuto, una sola volta
 (function() {
   const heroVideo = document.getElementById('heroVideo');
-  if (!heroVideo) return;
+  const heroVideo2 = document.getElementById('heroVideo2');
+  if (!heroVideo || !heroVideo2) return;
   
   let reverseInterval = null;
+  let isPlayingVideo2 = false;
+  let lastVideo2PlayTime = 0;
+  const VIDEO2_INTERVAL = 60000; // 60 secondi = 1 minuto
 
   // Forza rimozione controlli
   heroVideo.controls = false;
   heroVideo.removeAttribute('controls');
+  heroVideo2.controls = false;
+  heroVideo2.removeAttribute('controls');
 
-  // Quando il video arriva alla fine, inverti
+  // Funzione per avviare il video 2
+  function playVideo2() {
+    if (isPlayingVideo2) return;
+    
+    isPlayingVideo2 = true;
+    lastVideo2PlayTime = Date.now();
+    
+    // Mostra video 2 sopra video 1
+    heroVideo2.classList.add('active');
+    heroVideo2.currentTime = 0;
+    heroVideo2.play();
+  }
+
+  // Quando video 2 finisce, torna a video 1
+  heroVideo2.addEventListener('ended', function() {
+    heroVideo2.classList.remove('active');
+    isPlayingVideo2 = false;
+  });
+
+  // Funzione per controllare se è ora di riprodurre video 2
+  function checkVideo2Timing() {
+    const now = Date.now();
+    if (!isPlayingVideo2 && (now - lastVideo2PlayTime) >= VIDEO2_INTERVAL) {
+      playVideo2();
+    }
+  }
+
+  // Video 1: Quando arriva alla fine, inverti (effetto boomerang)
   heroVideo.addEventListener('ended', function() {
+    // Prima controlla se deve partire video 2
+    checkVideo2Timing();
+    
+    // Se video 2 sta andando, aspetta che finisca
+    if (isPlayingVideo2) {
+      // Riprendi video 1 quando video 2 finisce
+      heroVideo2.addEventListener('ended', function onVideo2End() {
+        heroVideo2.removeEventListener('ended', onVideo2End);
+        startBoomerangReverse();
+      }, { once: true });
+    } else {
+      startBoomerangReverse();
+    }
+  });
+
+  function startBoomerangReverse() {
     reverseInterval = setInterval(() => {
       if (heroVideo.currentTime <= 0.05) {
         clearInterval(reverseInterval);
@@ -1311,13 +1384,13 @@
         heroVideo.currentTime -= 0.033;
       }
     }, 33);
-  });
+  }
 
-  // Forza autoplay
+  // Forza autoplay video 1
   function tryPlay() {
     heroVideo.muted = true;
+    heroVideo2.muted = true;
     heroVideo.play().catch(() => {
-      // Riprova dopo un attimo
       setTimeout(tryPlay, 100);
     });
   }
@@ -1326,6 +1399,9 @@
   tryPlay();
   document.addEventListener('touchstart', tryPlay, { once: true });
   document.addEventListener('click', tryPlay, { once: true });
+
+  // Imposta il tempo iniziale per far partire video 2 dopo 1 minuto
+  lastVideo2PlayTime = Date.now();
 })();
 </script>
 
