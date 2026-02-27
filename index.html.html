@@ -65,6 +65,7 @@
     --crema-chiaro: #F7F0E2;
     --sabbia-chiaro: #DDD5C0;
     --sabbia-scuro: #B8AD94;
+    --salvia: #7A9B6D;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -84,7 +85,6 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Blocca scroll quando video intro è attivo */
   body.no-scroll {
     overflow: hidden;
     position: fixed;
@@ -122,7 +122,6 @@
     object-fit: cover;
   }
 
-  /* Zona cliccabile sul sigillo - invisibile */
   .seal-hotspot {
     position: absolute;
     bottom: 32%;
@@ -174,8 +173,6 @@
     transition: opacity 0.3s ease;
   }
 
-  /* ——— PAPER TEXTURE OVERLAY (disabilitato) ——— */
-
   /* ——— HERO ——— */
   .hero {
     min-height: 100dvh;
@@ -190,7 +187,7 @@
     overflow: hidden;
   }
 
-  .hero-video {
+  .hero-bg {
     position: absolute;
     top: 0;
     left: 0;
@@ -198,27 +195,6 @@
     height: 100%;
     object-fit: cover;
     z-index: 0;
-    pointer-events: none;
-  }
-
-  /* Nasconde controlli video su tutti i browser */
-  .hero-video::-webkit-media-controls {
-    display: none !important;
-  }
-  .hero-video::-webkit-media-controls-enclosure {
-    display: none !important;
-  }
-  .hero-video::-webkit-media-controls-panel {
-    display: none !important;
-  }
-  .hero-video::-webkit-media-controls-play-button {
-    display: none !important;
-  }
-  .hero-video::-webkit-media-controls-start-playback-button {
-    display: none !important;
-  }
-  .hero-video::-moz-media-controls {
-    display: none !important;
   }
 
   .hero-names {
@@ -228,7 +204,7 @@
     line-height: 0.95;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: rgba(245, 214, 123, 0.70);
+    color: var(--salvia);
     opacity: 0;
     animation: fadeIn 1.2s ease 0.5s forwards;
     position: absolute;
@@ -242,23 +218,11 @@
     font-family: 'Playfair Display', serif;
     font-style: italic;
     font-size: clamp(2.2rem, 8vw, 3.2rem);
-    color: rgba(245, 214, 123, 0.70);
+    color: var(--salvia);
     margin: 0.1em auto;
     display: block;
     text-transform: lowercase;
     letter-spacing: 0.05em;
-  }
-
-  .hero-request {
-    font-size: 0.7rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--verde-chiaro);
-    line-height: 2;
-    margin-top: 1.2rem;
-    opacity: 0;
-    animation: fadeIn 1s ease 0.9s forwards;
-    position: relative; z-index: 2;
   }
 
   .hero-date-block {
@@ -279,52 +243,7 @@
     font-size: 1.5rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: #ffffff;
-  }
-
-  .hero-ceremony-time {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-weight: 300;
-    font-size: 1.05rem;
-    color: var(--verde-chiaro);
-    margin-top: 0.4rem;
-  }
-
-  .hero-venue-block {
-    margin-top: 1rem;
-    opacity: 0;
-    animation: fadeIn 1s ease 1.5s forwards;
-    position: relative; z-index: 2;
-  }
-
-  .hero-venue-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 600;
-    font-size: 0.9rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--verde);
-  }
-
-  .hero-venue-address {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-weight: 300;
-    font-size: 0.95rem;
-    color: var(--verde-chiaro);
-    margin-top: 0.2rem;
-    line-height: 1.5;
-  }
-
-  .hero-follow {
-    font-family: 'Housttely Signature', 'Cormorant Garamond', serif;
-    font-size: 1.4rem;
-    color: var(--verde-chiaro);
-    margin-top: 1rem;
-    opacity: 0;
-    animation: fadeIn 1s ease 1.8s forwards;
-    position: relative; z-index: 2;
+    color: var(--salvia);
   }
 
   .scroll-hint {
@@ -338,10 +257,36 @@
     animation: fadeIn 1s ease 2.2s forwards;
     cursor: pointer;
     transition: transform 0.3s ease;
+    z-index: 2;
   }
 
   .scroll-hint:active {
     transform: scale(0.95);
+  }
+
+  .scroll-arrow {
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  .scroll-arrow svg {
+    width: 25px;
+    height: 25px;
+    stroke: var(--salvia);
+  }
+
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+      opacity: 0.6;
+    }
+    40% {
+      transform: translateY(6px);
+      opacity: 1;
+    }
+    60% {
+      transform: translateY(3px);
+      opacity: 0.8;
+    }
   }
 
   .scroll-hint-section {
@@ -374,71 +319,7 @@
     stroke: var(--crema);
   }
 
-  .scroll-text {
-    font-size: 0.65rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: #ffffff;
-  }
-
-  .scroll-arrow {
-    animation: bounce 2s ease-in-out infinite;
-  }
-
-  .scroll-arrow svg {
-    width: 25px;
-    height: 25px;
-    stroke: #ffffff;
-  }
-
-  @keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-      transform: translateY(0);
-      opacity: 0.6;
-    }
-    40% {
-      transform: translateY(6px);
-      opacity: 1;
-    }
-    60% {
-      transform: translateY(3px);
-      opacity: 0.8;
-    }
-  }
-
-  .maps-btn-hero {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 0.8rem;
-    padding: 0.65rem 1.3rem;
-    background: transparent;
-    color: var(--verde);
-    text-decoration: none;
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.65rem;
-    font-weight: 300;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    border: 1px solid var(--sabbia);
-    transition: all 0.3s ease;
-  }
-
-  .maps-btn-hero:active {
-    transform: scale(0.97);
-    background: rgba(122,139,114,0.08);
-  }
-
-  .maps-btn-hero svg {
-    stroke: var(--verde-chiaro);
-  }
-
   /* ——— SECTIONS ——— */
-  .page {
-    position: relative;
-    overflow: hidden;
-  }
-
   .section {
     padding: 3.5rem 2rem;
     max-width: 420px;
@@ -476,81 +357,6 @@
     color: var(--verde-chiaro);
   }
 
-  /* ——— VENUE CARDS ——— */
-  .venue-card {
-    margin-top: 2rem;
-    padding: 2rem 1.5rem;
-    background: rgba(240,229,211,0.5);
-    border: 1px solid var(--sabbia-chiaro);
-    border-radius: 2px;
-    text-align: center;
-  }
-
-  .venue-card .icon {
-    margin-bottom: 1rem;
-    display: flex;
-    justify-content: center;
-  }
-
-  .venue-card h3 {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 600;
-    font-size: 1.05rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--verde);
-    margin-bottom: 0.5rem;
-  }
-
-  .venue-card p {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-weight: 300;
-    font-size: 1.05rem;
-    color: var(--verde-chiaro);
-    line-height: 1.5;
-  }
-
-  .venue-card .time-badge {
-    display: inline-block;
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.75rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--verde);
-    border: 1px solid var(--sabbia);
-    padding: 0.35rem 1rem;
-    margin-top: 0.8rem;
-  }
-
-  .maps-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    margin-top: 2rem;
-    padding: 0.9rem 1.8rem;
-    background: var(--verde);
-    color: var(--crema);
-    text-decoration: none;
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.65rem;
-    font-weight: 300;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    transition: all 0.3s ease;
-  }
-
-  .maps-btn:active {
-    transform: scale(0.97);
-    opacity: 0.9;
-  }
-
-  .maps-btn-light {
-    background: var(--sabbia);
-    color: var(--verde-scuro);
-    margin-top: 2.5rem;
-  }
-
   /* ——— SCHEDULE TIMELINE ——— */
   .timeline-section {
     background: var(--verde);
@@ -585,7 +391,6 @@
     padding: 0.5rem 0;
   }
 
-  /* central vertical line */
   .timeline::before {
     content: '';
     position: absolute;
@@ -608,7 +413,6 @@
     margin-bottom: 0;
   }
 
-  /* alternating sides */
   .tl-item.left {
     flex-direction: row;
   }
@@ -625,7 +429,6 @@
     text-align: left;
   }
 
-  /* center dot with icon */
   .tl-center {
     width: 52px;
     height: 52px;
@@ -691,7 +494,7 @@
     margin-top: 0.1rem;
   }
 
-  /* ——— INTOLLERANZE & MESSAGGIO ——— */
+  /* ——— MESSAGE PAGE ——— */
   .message-page {
     background: var(--crema-chiaro);
     position: relative;
@@ -709,10 +512,6 @@
     z-index: 2;
   }
   .message-content.visible { opacity: 1; transform: translateY(0); }
-
-  .input-wrapper {
-    position: relative;
-  }
 
   .elegant-textarea {
     width: 100%;
@@ -743,7 +542,7 @@
     font-weight: 300;
   }
 
-  /* ——— COUNTDOWN (sabbia) ——— */
+  /* ——— COUNTDOWN ——— */
   .countdown-section {
     background: var(--sabbia);
     position: relative;
@@ -790,7 +589,7 @@
     margin-top: 0.5rem;
   }
 
-  /* ——— GUEST LIST (crema) ——— */
+  /* ——— GUEST PAGE ——— */
   .guest-page {
     background: var(--crema-chiaro);
     position: relative;
@@ -809,7 +608,6 @@
   }
   .guest-content.visible { opacity: 1; transform: translateY(0); }
 
-  /* ——— RSVP COLUMNS ——— */
   .rsvp-columns {
     display: grid;
     grid-template-columns: 1fr;
@@ -925,14 +723,6 @@
     transition: all 0.3s ease;
   }
 
-  .guest-relation {
-    font-size: 0.75rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--sabbia-scuro);
-    margin-top: 0.15rem;
-  }
-
   .guest-counter {
     text-align: center;
     margin-top: 1rem;
@@ -953,7 +743,6 @@
     text-align: center;
   }
 
-  /* ——— CONFIRM ——— */
   .confirm-wrapper {
     padding: 1.5rem 2rem 4.5rem;
     max-width: 420px;
@@ -988,7 +777,7 @@
   }
 
   .footer-names {
-    font-family: 'Naervik', 'Cormorant Garamond', serif;
+    font-family: 'Cormorant Garamond', serif;
     font-weight: 400;
     font-size: 1.5rem;
     letter-spacing: 0.1em;
@@ -1019,7 +808,6 @@
     margin-top: 0.6rem;
   }
 
-  /* ——— TOAST ——— */
   .toast {
     position: fixed;
     bottom: 2rem;
@@ -1047,29 +835,16 @@
 
 <!-- ——— VIDEO INTRO ——— -->
 <div class="video-intro" id="videoIntro">
-  <video 
-    id="introVideo" 
-    class="intro-video"
-    playsinline
-    preload="metadata"
-    muted
-  >
+  <video id="introVideo" class="intro-video" playsinline preload="metadata" muted>
     <source src="intro-video.mp4" type="video/mp4">
   </video>
-  
-  <!-- Zona cliccabile sul sigillo - invisibile -->
   <div class="seal-hotspot" id="sealHotspot"></div>
-  
-  <!-- Hint per cliccare -->
   <div class="tap-hint" id="tapHint">Tocca il sigillo</div>
 </div>
 
 <!-- ——— HERO ——— -->
-<section class="hero paper-texture">
-  <!-- Video Background con effetto ping-pong -->
-  <video class="hero-video" id="heroVideo" autoplay muted playsinline disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback">
-    <source src="hero-bg.mp4" type="video/mp4">
-  </video>
+<section class="hero">
+  <img src="hero-bg.jpg" alt="" class="hero-bg">
   
   <h1 class="hero-names">
     GIULIA
@@ -1091,7 +866,7 @@
 </section>
 
 <!-- ——— SCHEDULE ——— -->
-<div id="programma" class="timeline-section paper-texture paper-texture-dark">
+<div id="programma" class="timeline-section">
   <div class="timeline-content" data-reveal>
     <div class="section-script">Programma</div>
     <div class="section-label">La Giornata</div>
@@ -1157,7 +932,6 @@
         <div class="tl-side"></div>
       </div>
 
-      <!-- Scroll hint dentro la timeline -->
       <div class="scroll-hint-section" onclick="scrollToSection('conferma')">
         <span class="scroll-text">Scorri</span>
         <div class="scroll-arrow">
@@ -1167,19 +941,17 @@
         </div>
       </div>
     </div>
-
   </div>
 </div>
 
 <!-- ——— GUEST LIST ——— -->
-<div id="conferma" class="guest-page paper-texture">
+<div id="conferma" class="guest-page">
   <div class="guest-content" data-reveal>
     <div class="section-script">Conferma</div>
     <div class="section-label">La Vostra Presenza</div>
     <p class="section-text" style="margin-bottom: 0.5rem;">Selezionate chi parteciperà agli eventi</p>
     
     <div class="rsvp-columns">
-      <!-- Colonna Matrimonio -->
       <div class="rsvp-column">
         <div class="rsvp-column-header">
           <div class="rsvp-column-icon">
@@ -1192,7 +964,6 @@
         <div class="guest-counter" id="counterMatrimonio"></div>
       </div>
 
-      <!-- Colonna Pool Party (solo se ci sono invitati abilitati) -->
       <div class="rsvp-column" id="poolPartyColumn" style="display: none;">
         <div class="rsvp-column-header">
           <div class="rsvp-column-icon">
@@ -1206,48 +977,29 @@
       </div>
     </div>
   </div>
-
 </div>
 
 <!-- ——— INTOLLERANZE & MESSAGGIO ——— -->
-<div class="message-page paper-texture">
+<div class="message-page">
   <div class="message-content" data-reveal>
-    
-    <!-- Intolleranze -->
     <div class="section-script">Intolleranze</div>
     <div class="section-label">Allergie Alimentari</div>
     <p class="section-text" style="margin-bottom: 1.5rem;">
       Indicateci eventuali intolleranze o allergie<br>per permetterci di accogliervi al meglio
     </p>
     
-    <div class="input-wrapper">
-      <textarea 
-        id="intolleranzeField" 
-        class="elegant-textarea" 
-        placeholder="Es. Mario: celiaco, Anna: intollerante al lattosio..."
-        rows="3"
-      ></textarea>
-    </div>
+    <textarea id="intolleranzeField" class="elegant-textarea" placeholder="Es. Mario: celiaco, Anna: intollerante al lattosio..." rows="3"></textarea>
 
     <div style="margin-top: 3rem;"></div>
 
-    <!-- Messaggio -->
     <div class="section-script">Un Pensiero</div>
     <div class="section-label">Per gli Sposi</div>
     <p class="section-text" style="margin-bottom: 1.5rem;">
       Se desiderate, lasciateci un messaggio.<br>Sarà un ricordo prezioso per noi.
     </p>
     
-    <div class="input-wrapper">
-      <textarea 
-        id="messaggioField" 
-        class="elegant-textarea" 
-        placeholder="Il vostro messaggio per Giulia e Marco..."
-        rows="4"
-      ></textarea>
-    </div>
-
-</div>
+    <textarea id="messaggioField" class="elegant-textarea" placeholder="Il vostro messaggio per Giulia e Marco..." rows="4"></textarea>
+  </div>
 
   <div class="confirm-wrapper">
     <button class="confirm-btn" id="confirmBtn" onclick="confirmRSVP()">Conferma</button>
@@ -1255,7 +1007,7 @@
 </div>
 
 <!-- ——— COUNTDOWN ——— -->
-<div class="countdown-section paper-texture">
+<div class="countdown-section">
   <div class="countdown-content" data-reveal>
     <div class="section-script">Mancano</div>
     <div class="section-label">al grande giorno</div>
@@ -1281,53 +1033,13 @@
 </div>
 
 <!-- ——— FOOTER ——— -->
-<div class="footer paper-texture paper-texture-dark">
+<div class="footer">
   <div class="footer-names">GIULIA <span class="footer-and">e</span> MARCO</div>
   <div class="footer-date">12 · Settembre · 2026</div>
   <div class="footer-love">con amore</div>
 </div>
 
 <div class="toast" id="toast"></div>
-<script>
-// ——— HERO VIDEO PING-PONG (autoplay seamless) ———
-(function() {
-  const heroVideo = document.getElementById('heroVideo');
-  if (!heroVideo) return;
-  
-  let reverseInterval = null;
-
-  // Forza rimozione controlli
-  heroVideo.controls = false;
-  heroVideo.removeAttribute('controls');
-
-  // Quando il video arriva alla fine, inverti
-  heroVideo.addEventListener('ended', function() {
-    reverseInterval = setInterval(() => {
-      if (heroVideo.currentTime <= 0.05) {
-        clearInterval(reverseInterval);
-        heroVideo.currentTime = 0;
-        heroVideo.play();
-      } else {
-        heroVideo.currentTime -= 0.033;
-      }
-    }, 33);
-  });
-
-  // Forza autoplay
-  function tryPlay() {
-    heroVideo.muted = true;
-    heroVideo.play().catch(() => {
-      // Riprova dopo un attimo
-      setTimeout(tryPlay, 100);
-    });
-  }
-  
-  // Avvia subito e anche su interazione utente
-  tryPlay();
-  document.addEventListener('touchstart', tryPlay, { once: true });
-  document.addEventListener('click', tryPlay, { once: true });
-})();
-</script>
 
 <script>
 // ——— VIDEO INTRO ———
@@ -1338,32 +1050,24 @@ const tapHint = document.getElementById('tapHint');
 
 let videoStarted = false;
 
-// Forza caricamento primo frame e mostra scritta insieme
 introVideo.addEventListener('loadedmetadata', function() {
   introVideo.currentTime = 0.001;
 });
 
 introVideo.addEventListener('seeked', function() {
-  // Il primo frame è pronto, mostra la scritta
   tapHint.classList.add('visible');
 });
 
-// Click sul sigillo
 sealHotspot.addEventListener('click', function() {
   if (videoStarted) return;
   videoStarted = true;
-  
-  // Nascondi hint
   tapHint.classList.add('hidden');
   sealHotspot.style.display = 'none';
-  
-  // Riporta all'inizio, attiva audio e avvia
   introVideo.currentTime = 0;
   introVideo.muted = false;
   introVideo.play();
 });
 
-// Quando il video finisce
 introVideo.addEventListener('ended', function() {
   videoIntro.classList.add('fade-out');
   document.body.classList.remove('no-scroll');
@@ -1372,7 +1076,6 @@ introVideo.addEventListener('ended', function() {
   }, 1200);
 });
 
-// Dissolvenza a 3 secondi
 introVideo.addEventListener('timeupdate', function() {
   if (introVideo.currentTime >= 3 && !videoIntro.classList.contains('fade-out')) {
     videoIntro.classList.add('fade-out');
@@ -1384,7 +1087,6 @@ introVideo.addEventListener('timeupdate', function() {
   }
 });
 
-// Fallback: doppio tap per saltare
 videoIntro.addEventListener('dblclick', function() {
   videoIntro.classList.add('fade-out');
   document.body.classList.remove('no-scroll');
@@ -1409,10 +1111,7 @@ if (!token) {
 
 async function loadData() {
   const { data: fam, error: famError } = await supabaseClient
-    .from("families")
-    .select("*")
-    .eq("token", token)
-    .single();
+    .from("families").select("*").eq("token", token).single();
 
   if (famError || !fam) {
     document.getElementById("guestListMatrimonio").innerHTML = "<div class='no-pool-guests'>Famiglia non trovata</div>";
@@ -1426,20 +1125,15 @@ async function loadData() {
   }
 
   const { data: existingMsgs } = await supabaseClient
-    .from("messages")
-    .select("messaggio")
-    .eq("family_id", family.id)
-    .order('created_at', { ascending: false })
-    .limit(1);
+    .from("messages").select("messaggio").eq("family_id", family.id)
+    .order('created_at', { ascending: false }).limit(1);
 
   if (existingMsgs && existingMsgs.length > 0 && existingMsgs[0].messaggio) {
     document.getElementById('messaggioField').value = existingMsgs[0].messaggio;
   }
 
   const { data: gs, error: guestsError } = await supabaseClient
-    .from("guests")
-    .select("*")
-    .eq("family_id", family.id);
+    .from("guests").select("*").eq("family_id", family.id);
 
   if (guestsError) {
     document.getElementById("guestListMatrimonio").innerHTML = "<div class='no-pool-guests'>Errore caricamento invitati</div>";
@@ -1470,13 +1164,11 @@ function createGuestItem(guest, index, type) {
 
   el.addEventListener('click', () => {
     const idx = parseInt(el.dataset.index);
-    
     if (type === 'matrimonio') {
       guests[idx].presenza_matrimonio = !guests[idx].presenza_matrimonio;
     } else {
       guests[idx].presenza_pool_party = !guests[idx].presenza_pool_party;
     }
-    
     el.classList.toggle('selected');
     updateCounters();
   });
@@ -1493,12 +1185,7 @@ function renderGuests() {
   containerPoolParty.innerHTML = "";
 
   const poolPartyGuests = guests.filter(g => g.pool_party_invited);
-  
-  if (poolPartyGuests.length > 0) {
-    poolPartyColumn.style.display = 'block';
-  } else {
-    poolPartyColumn.style.display = 'none';
-  }
+  poolPartyColumn.style.display = poolPartyGuests.length > 0 ? 'block' : 'none';
 
   guests.forEach((g, i) => {
     containerMatrimonio.appendChild(createGuestItem(g, i, 'matrimonio'));
@@ -1537,38 +1224,24 @@ async function confirmRSVP() {
 
   try {
     for (const g of guests) {
-      await supabaseClient
-        .from('guests')
-        .update({
-          presenza_matrimonio: g.presenza_matrimonio || false,
-          presenza_pool_party: g.presenza_pool_party || false
-        })
-        .eq('id', g.id);
+      await supabaseClient.from('guests').update({
+        presenza_matrimonio: g.presenza_matrimonio || false,
+        presenza_pool_party: g.presenza_pool_party || false
+      }).eq('id', g.id);
     }
 
-    await supabaseClient
-      .from('families')
-      .update({ intolleranze: intolleranze || null })
-      .eq('id', family.id);
+    await supabaseClient.from('families')
+      .update({ intolleranze: intolleranze || null }).eq('id', family.id);
 
     const { data: existingMsgs } = await supabaseClient
-      .from('messages')
-      .select('id')
-      .eq('family_id', family.id)
-      .limit(1);
+      .from('messages').select('id').eq('family_id', family.id).limit(1);
 
     if (existingMsgs && existingMsgs.length > 0) {
-      await supabaseClient
-        .from('messages')
-        .update({ messaggio: messaggio || null })
-        .eq('id', existingMsgs[0].id);
+      await supabaseClient.from('messages')
+        .update({ messaggio: messaggio || null }).eq('id', existingMsgs[0].id);
     } else if (messaggio) {
-      await supabaseClient
-        .from('messages')
-        .insert({
-          family_id: family.id,
-          messaggio: messaggio
-        });
+      await supabaseClient.from('messages')
+        .insert({ family_id: family.id, messaggio: messaggio });
     }
 
     btn.classList.add('sent');
@@ -1591,35 +1264,14 @@ function showToast(m) {
 
 function scrollToSection(sectionId) {
   const section = document.getElementById(sectionId);
-  if (section) {
-    section.scrollIntoView({ behavior: 'smooth' });
-  }
-}
-
-const VENUE_NAME = "Masseria San Michele, Martina Franca";
-
-function openMaps(e) {
-  e.preventDefault();
-  
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-  const isAndroid = /Android/.test(navigator.userAgent);
-  const encodedName = encodeURIComponent(VENUE_NAME);
-  
-  if (isIOS) {
-    window.location.href = `maps://maps.apple.com/?q=${encodedName}`;
-  } else if (isAndroid) {
-    window.location.href = `geo:0,0?q=${encodedName}`;
-  } else {
-    window.open(`https://www.google.com/maps/search/?api=1&query=${encodedName}`, '_blank');
-  }
+  if (section) section.scrollIntoView({ behavior: 'smooth' });
 }
 
 const wd = new Date('2026-09-12T15:00:00');
 function tick() {
   const d = wd - new Date();
   if (d <= 0) {
-    ['cd-days','cd-hours','cd-mins','cd-secs']
-      .forEach(id => document.getElementById(id).textContent = '0');
+    ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id => document.getElementById(id).textContent = '0');
     return;
   }
   document.getElementById('cd-days').textContent = Math.floor(d/(864e5));
@@ -1639,9 +1291,6 @@ document.querySelectorAll('[data-reveal]').forEach(el => obs.observe(el));
 loadData();
 </script>
 <script src="https://unpkg.com/lucide@latest"></script>
-<script>
-  lucide.createIcons();
-</script>
-
+<script>lucide.createIcons();</script>
 </body>
 </html>
