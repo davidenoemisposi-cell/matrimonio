@@ -1400,8 +1400,13 @@
   document.addEventListener('touchstart', tryPlay, { once: true });
   document.addEventListener('click', tryPlay, { once: true });
 
-  // Imposta il tempo iniziale per far partire video 2 dopo 1 minuto
-  lastVideo2PlayTime = Date.now();
+  // Fa partire video 2 subito all'inizio
+  // Aspetta che video 1 sia pronto, poi parte video 2
+  heroVideo.addEventListener('loadeddata', function() {
+    setTimeout(() => {
+      playVideo2();
+    }, 500); // piccolo delay per assicurarsi che tutto sia caricato
+  }, { once: true });
 })();
 </script>
 
