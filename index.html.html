@@ -1400,13 +1400,8 @@
   document.addEventListener('touchstart', tryPlay, { once: true });
   document.addEventListener('click', tryPlay, { once: true });
 
-  // Fa partire video 2 subito all'inizio (dopo che l'intro video è finito)
-  // Aspetta l'evento custom che viene lanciato quando l'intro finisce
-  document.addEventListener('introFinished', function() {
-    setTimeout(() => {
-      playVideo2();
-    }, 300);
-  }, { once: true });
+  // Imposta il tempo iniziale per far partire video 2 dopo 1 minuto
+  lastVideo2PlayTime = Date.now();
 })();
 </script>
 
@@ -1450,7 +1445,6 @@ introVideo.addEventListener('ended', function() {
   document.body.classList.remove('no-scroll');
   setTimeout(() => {
     videoIntro.classList.add('hidden');
-    document.dispatchEvent(new CustomEvent('introFinished'));
   }, 1200);
 });
 
@@ -1462,7 +1456,6 @@ introVideo.addEventListener('timeupdate', function() {
     setTimeout(() => {
       videoIntro.classList.add('hidden');
       introVideo.pause();
-      document.dispatchEvent(new CustomEvent('introFinished'));
     }, 1200);
   }
 });
@@ -1473,7 +1466,6 @@ videoIntro.addEventListener('dblclick', function() {
   document.body.classList.remove('no-scroll');
   setTimeout(() => {
     videoIntro.classList.add('hidden');
-    document.dispatchEvent(new CustomEvent('introFinished'));
   }, 1200);
 });
 </script>
