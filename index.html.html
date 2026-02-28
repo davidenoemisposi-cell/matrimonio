@@ -62,7 +62,6 @@
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lucide-static@0.263.1/font/lucide.min.css">
-<link href="https://cdn.maptiler.com/maptiler-sdk-js/v2.0.3/maptiler-sdk.css" rel="stylesheet">
 <style>
   :root {
     --verde: #7A8B72;
@@ -632,32 +631,15 @@
     margin-top: 1.5rem;
     background: rgba(240,229,211,0.5);
     border: 1px solid var(--sabbia-chiaro);
-    border-radius: 2px;
+    border-radius: 14px;
     overflow: hidden;
   }
 
   .location-map {
     width: 100%;
-    height: 220px;
+    height: 280px;
     border: none;
     display: block;
-  }
-
-  /* MapTiler minimal styling */
-  .location-map .maplibregl-ctrl-logo,
-  .location-map .maptiler-ctrl-logo {
-    display: none !important;
-  }
-  
-  .location-map .maplibregl-ctrl-attrib {
-    font-size: 9px;
-    opacity: 0.4;
-  }
-
-  .location-map .maplibregl-ctrl-group {
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   }
 
   .location-info {
@@ -1342,7 +1324,13 @@
 
     <!-- Location Box -->
     <div class="location-box">
-      <div id="location-map-container" class="location-map"></div>
+      <iframe 
+        class="location-map"
+        src="https://maps.google.com/maps?q=Masseria+San+Michele+Strada+Cupa+7+Martina+Franca&t=&z=15&ie=UTF8&iwloc=&output=embed"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen
+      ></iframe>
       <div class="location-info">
         <div class="location-name">Masseria San Michele</div>
         <div class="location-address">Strada Cupa 7, 74015 Martina Franca (TA)</div>
@@ -1971,41 +1959,6 @@ const obs = new IntersectionObserver(e =>
 document.querySelectorAll('[data-reveal]').forEach(el => obs.observe(el));
 
 loadData();
-</script>
-<script src="https://cdn.maptiler.com/maptiler-sdk-js/v2.0.3/maptiler-sdk.umd.min.js"></script>
-<script>
-// ——— MAPTILER ———
-maptilersdk.config.apiKey = 'EJ6Iybg1Zi7Mv8KNB99m';
-
-const map = new maptilersdk.Map({
-  container: 'location-map-container',
-  style: maptilersdk.MapStyle.DATAVIZ.LIGHT,
-  center: [17.32595, 40.72111],
-  zoom: 14,
-  attributionControl: false,
-  geolocateControl: false,
-  terrainControl: false,
-  maptilerLogo: false
-});
-
-// Marker custom colore salvia
-const markerEl = document.createElement('div');
-markerEl.innerHTML = `<svg width="32" height="42" viewBox="0 0 32 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M16 0C7.16 0 0 7.16 0 16c0 12 16 26 16 26s16-14 16-26C32 7.16 24.84 0 16 0z" fill="#7A8B72"/>
-  <circle cx="16" cy="15" r="6" fill="#F7F0E2"/>
-</svg>`;
-markerEl.style.cursor = 'pointer';
-
-const popup = new maptilersdk.Popup({ offset: 25, closeButton: false })
-  .setHTML('<div style="font-family:Cormorant Garamond,serif;text-align:center;padding:4px 8px;"><strong style="color:#5F6E58;letter-spacing:0.05em;">Masseria San Michele</strong><br><span style="font-style:italic;color:#96A88E;font-size:0.85rem;">Strada Cupa 7, Martina Franca</span></div>');
-
-new maptilersdk.Marker({ element: markerEl, anchor: 'bottom' })
-  .setLngLat([17.32595, 40.72111])
-  .setPopup(popup)
-  .addTo(map);
-
-// Controlli minimal - solo zoom
-map.addControl(new maptilersdk.NavigationControl({ showCompass: false }), 'top-right');
 </script>
 <script src="https://unpkg.com/lucide@latest"></script>
 <script>
