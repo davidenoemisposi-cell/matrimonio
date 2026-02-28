@@ -1192,6 +1192,74 @@
     margin-top: 0.15rem;
   }
 
+  /* ——— PRE-WEDDING PARTY ——— */
+  .prewedding-section {
+    background: var(--verde);
+    position: relative;
+  }
+
+  .prewedding-content {
+    padding: 3.5rem 2rem;
+    max-width: 420px;
+    margin: 0 auto;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(25px);
+    transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    z-index: 2;
+  }
+  .prewedding-content.visible { opacity: 1; transform: translateY(0); }
+
+  .prewedding-content .section-script { color: var(--crema); }
+  .prewedding-content .section-label { color: var(--sabbia); }
+
+  .prewedding-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: rgba(240,229,211,0.85);
+  }
+
+  .prewedding-cards {
+    display: flex;
+    gap: 0.8rem;
+    margin-top: 1.8rem;
+  }
+
+  .prewedding-card {
+    flex: 1;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 14px;
+    padding: 1.4rem 0.8rem;
+    text-align: center;
+  }
+
+  .prewedding-card-icon {
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .prewedding-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 1.05rem;
+    color: var(--crema);
+    letter-spacing: 0.03em;
+  }
+
+  .prewedding-card-time {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sabbia);
+    margin-top: 0.4rem;
+  }
+
   /* ——— GUEST LIST (crema) ——— */
   .guest-page {
     background: var(--crema-chiaro);
@@ -1681,6 +1749,35 @@
   </div>
 </div>
 
+<!-- ——— PRE-WEDDING PARTY ——— -->
+<div id="prewedding-section" class="prewedding-section" style="display: none;">
+  <div class="prewedding-content" data-reveal>
+    <div class="section-script">Pre-Wedding</div>
+    <div class="section-label">11 Settembre 2026</div>
+    <p class="prewedding-text">
+      La sera prima del grande giorno ci piacerebbe<br>passare del tempo con gli amici più stretti,<br>tra un aperitivo in piscina e un pizza party.
+    </p>
+
+    <div class="prewedding-cards">
+      <div class="prewedding-card">
+        <div class="prewedding-card-icon">🏊</div>
+        <div class="prewedding-card-title">Pool Party</div>
+        <div class="prewedding-card-time">Aperitivo</div>
+      </div>
+      <div class="prewedding-card">
+        <div class="prewedding-card-icon">🍕</div>
+        <div class="prewedding-card-title">Pizza Party</div>
+        <div class="prewedding-card-time">Cena</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ——— PHOTO PARTY ——— -->
+<div id="party-photo" style="width:100%; overflow:hidden; line-height:0; display:none;">
+  <img src="party.png" alt="" style="width:100%; height:auto; display:block; object-fit:cover; max-height:45vh;">
+</div>
+
 <!-- ——— GUEST LIST ——— -->
 <div id="conferma" class="guest-page paper-texture">
   <div class="guest-content" data-reveal>
@@ -2093,8 +2190,18 @@ function renderGuests() {
   
   if (poolPartyGuests.length > 0) {
     poolPartyColumn.style.display = 'block';
+    
+    // Mostra sezione Pre-Wedding Party e foto
+    document.getElementById('prewedding-section').style.display = 'block';
+    document.getElementById('party-photo').style.display = 'block';
+    
+    // Observe per animazione reveal
+    const preweddingEl = document.querySelector('.prewedding-content');
+    if (preweddingEl && typeof obs !== 'undefined') obs.observe(preweddingEl);
   } else {
     poolPartyColumn.style.display = 'none';
+    document.getElementById('prewedding-section').style.display = 'none';
+    document.getElementById('party-photo').style.display = 'none';
   }
 
   guests.forEach((g, i) => {
