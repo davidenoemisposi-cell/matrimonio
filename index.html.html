@@ -77,6 +77,97 @@
     --sabbia-scuro: #B8AD94;
   }
 
+  /* ——— DESKTOP PHONE FRAME ——— */
+  @media (min-width: 768px) {
+    body {
+      background: var(--crema);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    body.no-scroll {
+      display: flex;
+      overflow: hidden;
+      position: static;
+    }
+
+    .phone-frame {
+      position: relative;
+      width: 390px;
+      max-width: 390px;
+      height: calc(100vh - 4rem);
+      margin: 2rem auto;
+      border-radius: 40px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      box-shadow: 
+        0 0 0 8px #1a1a1a,
+        0 0 0 10px #333,
+        0 20px 60px rgba(0,0,0,0.25),
+        0 0 100px rgba(122,139,114,0.08);
+    }
+
+    .phone-frame::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 28px;
+      background: #1a1a1a;
+      border-radius: 0 0 16px 16px;
+      z-index: 999999;
+    }
+
+    .video-intro {
+      position: absolute;
+      border-radius: 40px;
+    }
+
+    /* Desktop background decoration */
+    body::before {
+      content: 'G & M';
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Playfair Display', serif;
+      font-weight: 400;
+      font-size: 15rem;
+      color: var(--sabbia-chiaro);
+      opacity: 0.3;
+      z-index: -1;
+      pointer-events: none;
+      letter-spacing: 0.05em;
+    }
+
+    body::after {
+      content: '12 · 09 · 2026';
+      position: fixed;
+      bottom: 3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--sabbia);
+      opacity: 0.5;
+      z-index: -1;
+      pointer-events: none;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .phone-frame {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   html {
@@ -1587,6 +1678,7 @@
     background: var(--verde);
     color: var(--crema);
     padding: 1rem 2rem;
+    border-radius: 8px;
     font-size: 0.6rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -1608,6 +1700,7 @@
 </style>
 </head>
 <body class="no-scroll">
+<div class="phone-frame">
 
 <!-- ——— VIDEO INTRO ——— -->
 <div class="video-intro" id="videoIntro">
@@ -1964,6 +2057,8 @@
 </div>
 
 <div class="toast" id="toast"></div>
+
+</div><!-- .phone-frame -->
 
 <script>
 // ——— HERO VIDEO DUAL SYSTEM ———
