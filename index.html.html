@@ -981,6 +981,117 @@
     fill: none;
   }
 
+  /* ——— PERNOTTO ——— */
+  .pernotto-section {
+    background: var(--verde);
+    position: relative;
+  }
+
+  .pernotto-content {
+    padding: 3.5rem 2rem;
+    max-width: 420px;
+    margin: 0 auto;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(25px);
+    transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    z-index: 2;
+  }
+  .pernotto-content.visible { opacity: 1; transform: translateY(0); }
+
+  .pernotto-box {
+    margin-top: 1.5rem;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .pernotto-map {
+    width: 100%;
+    height: 240px;
+    border: none;
+    display: block;
+    border-radius: 14px 14px 0 0;
+  }
+
+  .pernotto-map .leaflet-control-zoom {
+    border: none !important;
+    border-radius: 8px !important;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+  }
+
+  .pernotto-map .leaflet-control-zoom a {
+    color: var(--verde-scuro) !important;
+    background: rgba(255,255,255,0.95) !important;
+    border-bottom: 1px solid rgba(0,0,0,0.08) !important;
+  }
+
+  .pernotto-map .leaflet-control-attribution {
+    font-size: 8px;
+    opacity: 0.4;
+    background: transparent !important;
+  }
+
+  .pernotto-info {
+    padding: 1.3rem 1.5rem;
+    text-align: center;
+  }
+
+  .pernotto-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--crema);
+  }
+
+  .pernotto-address {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 0.95rem;
+    color: var(--sabbia);
+    margin-top: 0.3rem;
+    line-height: 1.5;
+  }
+
+  .pernotto-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding: 0.7rem 1.5rem;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: var(--crema);
+    text-decoration: none;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .pernotto-btn:active {
+    transform: scale(0.97);
+    background: rgba(255,255,255,0.18);
+  }
+
+  .pernotto-btn svg {
+    width: 14px;
+    height: 14px;
+    stroke: var(--crema);
+    stroke-width: 1.5;
+    fill: none;
+  }
+
   /* ——— GUEST LIST (crema) ——— */
   .guest-page {
     background: var(--crema-chiaro);
@@ -1418,6 +1529,29 @@
   </div>
 </div>
 
+<!-- ——— PERNOTTO ——— -->
+<div id="pernotto-section" class="pernotto-section" style="display: none;">
+  <div class="pernotto-content" data-reveal>
+    <div class="section-script" style="color: var(--crema);">Pernotto</div>
+    <div class="section-label" style="color: var(--sabbia);">Dove Alloggerete</div>
+    <p class="section-text" style="color: rgba(240,229,211,0.85); margin-bottom: 1.5rem;">
+      Non dovete preoccuparvi di nulla,<br>il pernotto è incluso e alloggerete presso:
+    </p>
+
+    <div class="pernotto-box">
+      <div id="hotel-map" class="pernotto-map"></div>
+      <div class="pernotto-info">
+        <div class="pernotto-name" id="hotelName"></div>
+        <div class="pernotto-address" id="hotelAddress"></div>
+        <button class="pernotto-btn" id="hotelMapsBtn" onclick="openHotelMaps(event)">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Apri in Maps
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ——— GUEST LIST ——— -->
 <div id="conferma" class="guest-page paper-texture">
   <div class="guest-content" data-reveal>
@@ -1696,6 +1830,53 @@ async function loadData() {
 
   family = fam;
 
+  // ——— PERNOTTO ———
+  if (family.pernotto) {
+    document.getElementById('pernotto-section').style.display = 'block';
+    document.getElementById('hotelName').textContent = family.nome_hotel || '';
+    document.getElementById('hotelAddress').textContent = family.indirizzo_hotel || '';
+    
+    // Inizializza mappa hotel
+    if (family.coordinate_hotel) {
+      const coords = family.coordinate_hotel.split(',').map(c => parseFloat(c.trim()));
+      if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
+        const hotelMap = L.map('hotel-map', {
+          center: coords,
+          zoom: 15,
+          zoomControl: false,
+          attributionControl: true
+        });
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+          attribution: '&copy; OSM &copy; CARTO',
+          subdomains: 'abcd',
+          maxZoom: 19
+        }).addTo(hotelMap);
+
+        L.control.zoom({ position: 'topright' }).addTo(hotelMap);
+
+        const hotelMarker = L.divIcon({
+          html: `<svg width="32" height="42" viewBox="0 0 32 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 0C7.16 0 0 7.16 0 16c0 12 16 26 16 26s16-14 16-26C32 7.16 24.84 0 16 0z" fill="#7A8B72"/>
+            <circle cx="16" cy="15" r="6" fill="#F7F0E2"/>
+          </svg>`,
+          className: '',
+          iconSize: [32, 42],
+          iconAnchor: [16, 42],
+          popupAnchor: [0, -38]
+        });
+
+        L.marker(coords, { icon: hotelMarker })
+          .addTo(hotelMap)
+          .bindPopup(`<div style="font-family:Cormorant Garamond,serif;text-align:center;padding:6px 10px;"><strong style="color:#5F6E58;letter-spacing:0.05em;font-size:1rem;">${family.nome_hotel || ''}</strong><br><span style="font-style:italic;color:#96A88E;font-size:0.85rem;">${family.indirizzo_hotel || ''}</span></div>`, { offset: [0, 4] });
+
+        // Re-observe per animazione reveal
+        const pernottoEl = document.querySelector('.pernotto-content');
+        if (pernottoEl) obs.observe(pernottoEl);
+      }
+    }
+  }
+
   if (family.intolleranze) {
     document.getElementById('intolleranzeField').value = family.intolleranze;
   }
@@ -1926,6 +2107,30 @@ function openMaps(e) {
     window.location.href = `geo:0,0?q=${encodedName}`;
   } else {
     window.open(`https://www.google.com/maps/search/?api=1&query=${encodedName}`, '_blank');
+  }
+}
+
+function openHotelMaps(e) {
+  e.preventDefault();
+  
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const isAndroid = /Android/.test(navigator.userAgent);
+  
+  // Usa link_hotel se disponibile, altrimenti cerca per nome
+  if (family && family.link_hotel) {
+    window.open(family.link_hotel, '_blank');
+    return;
+  }
+  
+  const hotelName = family ? family.nome_hotel : '';
+  const encoded = encodeURIComponent(hotelName);
+  
+  if (isIOS) {
+    window.location.href = `maps://maps.apple.com/?q=${encoded}`;
+  } else if (isAndroid) {
+    window.location.href = `geo:0,0?q=${encoded}`;
+  } else {
+    window.open(`https://www.google.com/maps/search/?api=1&query=${encoded}`, '_blank');
   }
 }
 
