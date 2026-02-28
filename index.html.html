@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
 <title>Giulia & Marco — 12.09.2026</title>
 <style>
   @font-face {
@@ -1468,6 +1469,12 @@
     line-height: 1.6;
   }
 
+  .iban-code a {
+    color: var(--verde-scuro) !important;
+    text-decoration: none !important;
+    pointer-events: none;
+  }
+
   .iban-copy-btn {
     display: inline-flex;
     align-items: center;
@@ -1895,7 +1902,7 @@
 
     <div class="iban-box">
       <div class="iban-intestatario">Giulia Rossi & Marco Bianchi</div>
-      <div class="iban-code" id="ibanCode">IT00 A000 0000 0000 0000 0000 000</div>
+      <div class="iban-code" id="ibanCode">IT60 X054 2811 1010 0000 1234 567</div>
       <button class="iban-copy-btn" onclick="copyIban()">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
         Copia IBAN
