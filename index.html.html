@@ -62,6 +62,7 @@
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lucide-static@0.263.1/font/lucide.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
   :root {
     --verde: #7A8B72;
@@ -640,6 +641,42 @@
     height: 280px;
     border: none;
     display: block;
+    border-radius: 14px 14px 0 0;
+  }
+
+  /* Leaflet minimal overrides */
+  .location-map .leaflet-control-zoom {
+    border: none !important;
+    border-radius: 8px !important;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+  }
+
+  .location-map .leaflet-control-zoom a {
+    color: var(--verde-scuro) !important;
+    background: rgba(255,255,255,0.95) !important;
+    border-bottom: 1px solid rgba(0,0,0,0.08) !important;
+  }
+
+  .location-map .leaflet-control-attribution {
+    font-size: 8px;
+    opacity: 0.4;
+    background: transparent !important;
+  }
+
+  /* Custom popup */
+  .leaflet-popup-content-wrapper {
+    border-radius: 8px !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.12) !important;
+    padding: 0 !important;
+  }
+
+  .leaflet-popup-tip {
+    box-shadow: none !important;
+  }
+
+  .leaflet-popup-close-button {
+    display: none !important;
   }
 
   .location-info {
@@ -1324,13 +1361,7 @@
 
     <!-- Location Box -->
     <div class="location-box">
-      <iframe 
-        class="location-map"
-        src="https://maps.google.com/maps?q=Masseria+San+Michele+Strada+Cupa+7+Martina+Franca&t=&z=15&ie=UTF8&iwloc=&output=embed"
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-        allowfullscreen
-      ></iframe>
+      <div id="osm-map" class="location-map"></div>
       <div class="location-info">
         <div class="location-name">Masseria San Michele</div>
         <div class="location-address">Strada Cupa 7, 74015 Martina Franca (TA)</div>
@@ -1959,6 +1990,42 @@ const obs = new IntersectionObserver(e =>
 document.querySelectorAll('[data-reveal]').forEach(el => obs.observe(el));
 
 loadData();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+// ——— OSM + LEAFLET ———
+const osmMap = L.map('osm-map', {
+  center: [40.72111, 17.32595],
+  zoom: 15,
+  zoomControl: false,
+  attributionControl: true
+});
+
+// CartoDB Positron — stile minimal bianco
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+  subdomains: 'abcd',
+  maxZoom: 19
+}).addTo(osmMap);
+
+// Zoom in alto a destra
+L.control.zoom({ position: 'topright' }).addTo(osmMap);
+
+// Marker SVG custom salvia
+const markerIcon = L.divIcon({
+  html: `<svg width="32" height="42" viewBox="0 0 32 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 0C7.16 0 0 7.16 0 16c0 12 16 26 16 26s16-14 16-26C32 7.16 24.84 0 16 0z" fill="#7A8B72"/>
+    <circle cx="16" cy="15" r="6" fill="#F7F0E2"/>
+  </svg>`,
+  className: '',
+  iconSize: [32, 42],
+  iconAnchor: [16, 42],
+  popupAnchor: [0, -38]
+});
+
+L.marker([40.72111, 17.32595], { icon: markerIcon })
+  .addTo(osmMap)
+  .bindPopup('<div style="font-family:Cormorant Garamond,serif;text-align:center;padding:6px 10px;"><strong style="color:#5F6E58;letter-spacing:0.05em;font-size:1rem;">Masseria San Michele</strong><br><span style="font-style:italic;color:#96A88E;font-size:0.85rem;">Strada Cupa 7, Martina Franca</span></div>', { offset: [0, 4] });
 </script>
 <script src="https://unpkg.com/lucide@latest"></script>
 <script>
