@@ -1386,6 +1386,12 @@
     text-align: center;
   }
 
+  .single-guest-toggle {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
   /* ——— CONFIRM ——— */
   .confirm-wrapper {
     padding: 1.5rem 2rem 4.5rem;
@@ -2128,6 +2134,54 @@ function createGuestItem(guest, index, type) {
   return el;
 }
 
+function createSingleGuestToggle(guest, index, type) {
+  const isMatrimonio = type === 'matrimonio';
+  const isSelected = isMatrimonio ? guest.presenza_matrimonio : guest.presenza_pool_party;
+  
+  const wrapper = document.createElement('div');
+  wrapper.className = 'single-guest-toggle';
+
+  const yesEl = document.createElement('div');
+  yesEl.className = `guest-item ${isSelected ? 'selected' : ''}`;
+  yesEl.innerHTML = `
+    <div class="guest-check">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    </div>
+    <div class="guest-info">
+      <div class="guest-name">Parteciperò</div>
+    </div>
+  `;
+
+  const noEl = document.createElement('div');
+  noEl.className = `guest-item ${!isSelected ? 'selected' : ''}`;
+  noEl.innerHTML = `
+    <div class="guest-check">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    </div>
+    <div class="guest-info">
+      <div class="guest-name">Non parteciperò</div>
+    </div>
+  `;
+
+  function updateToggle(partecipa) {
+    if (type === 'matrimonio') {
+      guests[index].presenza_matrimonio = partecipa;
+    } else {
+      guests[index].presenza_pool_party = partecipa;
+    }
+    yesEl.classList.toggle('selected', partecipa);
+    noEl.classList.toggle('selected', !partecipa);
+    updateCounters();
+  }
+
+  yesEl.addEventListener('click', () => updateToggle(true));
+  noEl.addEventListener('click', () => updateToggle(false));
+
+  wrapper.appendChild(yesEl);
+  wrapper.appendChild(noEl);
+  return wrapper;
+}
+
 function renderGuests() {
   const containerMatrimonio = document.getElementById('guestListMatrimonio');
   const containerPoolParty = document.getElementById('guestListPoolParty');
@@ -2154,15 +2208,36 @@ function renderGuests() {
     document.getElementById('party-photo').style.display = 'none';
   }
 
-  guests.forEach((g, i) => {
-    containerMatrimonio.appendChild(createGuestItem(g, i, 'matrimonio'));
-  });
+  const isSingle = guests.length === 1;
 
-  guests.forEach((g, i) => {
-    if (g.pool_party_invited) {
-      containerPoolParty.appendChild(createGuestItem(g, i, 'pool'));
-    }
-  });
+  // Aggiorna testo intro in base al numero di ospiti
+  const introText = document.querySelector('.guest-content .section-text');
+  if (introText) {
+    introText.textContent = isSingle 
+      ? 'Conferma la tua partecipazione agli eventi' 
+      : 'Selezionate chi parteciperà agli eventi';
+  }
+
+  // Matrimonio
+  if (isSingle) {
+    containerMatrimonio.appendChild(createSingleGuestToggle(guests[0], 0, 'matrimonio'));
+  } else {
+    guests.forEach((g, i) => {
+      containerMatrimonio.appendChild(createGuestItem(g, i, 'matrimonio'));
+    });
+  }
+
+  // Pool Party
+  if (poolPartyGuests.length === 1) {
+    const idx = guests.indexOf(poolPartyGuests[0]);
+    containerPoolParty.appendChild(createSingleGuestToggle(poolPartyGuests[0], idx, 'pool'));
+  } else {
+    guests.forEach((g, i) => {
+      if (g.pool_party_invited) {
+        containerPoolParty.appendChild(createGuestItem(g, i, 'pool'));
+      }
+    });
+  }
 
   updateCounters();
 }
@@ -2173,11 +2248,11 @@ function updateCounters() {
   const poolPartyTotal = guests.filter(g => g.pool_party_invited).length;
 
   document.getElementById('counterMatrimonio').innerHTML = 
-    `<span>${matrimonioCount}</span> di ${guests.length} partecipanti`;
+    guests.length > 1 ? `<span>${matrimonioCount}</span> di ${guests.length} partecipanti` : '';
   
   if (poolPartyTotal > 0) {
     document.getElementById('counterPoolParty').innerHTML = 
-      `<span>${poolPartyCount}</span> di ${poolPartyTotal} partecipanti`;
+      poolPartyTotal > 1 ? `<span>${poolPartyCount}</span> di ${poolPartyTotal} partecipanti` : '';
   }
 }
 
