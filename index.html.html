@@ -1049,6 +1049,18 @@
     color: var(--crema);
   }
 
+  .pernotto-name a {
+    color: var(--crema);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(240,229,211,0.3);
+    padding-bottom: 1px;
+    transition: border-color 0.3s ease;
+  }
+
+  .pernotto-name a:active {
+    border-color: rgba(240,229,211,0.7);
+  }
+
   .pernotto-address {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
@@ -1833,7 +1845,13 @@ async function loadData() {
   // ——— PERNOTTO ———
   if (family.pernotto) {
     document.getElementById('pernotto-section').style.display = 'block';
-    document.getElementById('hotelName').textContent = family.nome_hotel || '';
+    
+    const hotelNameEl = document.getElementById('hotelName');
+    if (family.link_hotel && family.nome_hotel) {
+      hotelNameEl.innerHTML = `<a href="${family.link_hotel}" target="_blank">${family.nome_hotel}</a>`;
+    } else {
+      hotelNameEl.textContent = family.nome_hotel || '';
+    }
     document.getElementById('hotelAddress').textContent = family.indirizzo_hotel || '';
     
     // Inizializza mappa hotel solo se ci sono coordinate
@@ -2119,15 +2137,8 @@ function openHotelMaps(e) {
   
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
   const isAndroid = /Android/.test(navigator.userAgent);
-  
-  // Usa link_hotel se disponibile, altrimenti cerca per nome
-  if (family && family.link_hotel) {
-    window.open(family.link_hotel, '_blank');
-    return;
-  }
-  
-  const hotelName = family ? family.nome_hotel : '';
-  const encoded = encodeURIComponent(hotelName);
+  const hotelName = family ? (family.nome_hotel || '') : '';
+  const encoded = encodeURIComponent(hotelName + ', ' + (family ? family.indirizzo_hotel || '' : ''));
   
   if (isIOS) {
     window.location.href = `maps://maps.apple.com/?q=${encoded}`;
