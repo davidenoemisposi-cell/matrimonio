@@ -1597,8 +1597,8 @@
   document.addEventListener('touchstart', tryPlay, { once: true });
   document.addEventListener('click', tryPlay, { once: true });
 
-  // Imposta il tempo iniziale per far partire video 2 dopo 1 minuto
-  lastVideo2PlayTime = Date.now();
+  // Parti subito con bg-2, poi continua il ciclo normale
+ playVideo2();
 })();
 </script>
 
