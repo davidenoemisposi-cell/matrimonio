@@ -983,7 +983,7 @@
 
   /* ——— PERNOTTO ——— */
   .pernotto-section {
-    background: var(--verde);
+    background: var(--crema-chiaro);
     position: relative;
   }
 
@@ -1002,8 +1002,8 @@
 
   .pernotto-box {
     margin-top: 1.5rem;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(240,229,211,0.5);
+    border: 1px solid var(--sabbia-chiaro);
     border-radius: 14px;
     overflow: hidden;
   }
@@ -1046,19 +1046,19 @@
     font-size: 1.05rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--crema);
+    color: var(--verde);
   }
 
   .pernotto-name a {
-    color: var(--crema);
+    color: var(--verde);
     text-decoration: none;
-    border-bottom: 1px solid rgba(240,229,211,0.3);
+    border-bottom: 1px solid var(--sabbia);
     padding-bottom: 1px;
     transition: border-color 0.3s ease;
   }
 
   .pernotto-name a:active {
-    border-color: rgba(240,229,211,0.7);
+    border-color: var(--verde);
   }
 
   .pernotto-address {
@@ -1066,7 +1066,7 @@
     font-style: italic;
     font-weight: 300;
     font-size: 0.95rem;
-    color: var(--sabbia);
+    color: var(--verde-chiaro);
     margin-top: 0.3rem;
     line-height: 1.5;
   }
@@ -1077,8 +1077,7 @@
     gap: 0.5rem;
     margin-top: 1rem;
     padding: 0.7rem 1.5rem;
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.25);
+    background: var(--verde);
     color: var(--crema);
     text-decoration: none;
     font-family: 'Outfit', sans-serif;
@@ -1086,14 +1085,15 @@
     font-weight: 300;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    border-radius: 6px;
+    border: none;
+    border-radius: 0;
     cursor: pointer;
     transition: all 0.3s ease;
   }
 
   .pernotto-btn:active {
     transform: scale(0.97);
-    background: rgba(255,255,255,0.18);
+    opacity: 0.9;
   }
 
   .pernotto-btn svg {
@@ -1102,6 +1102,94 @@
     stroke: var(--crema);
     stroke-width: 1.5;
     fill: none;
+  }
+
+  /* Selezione notti */
+  .nights-selection {
+    margin-top: 2rem;
+  }
+
+  .nights-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--verde);
+    margin-bottom: 1rem;
+  }
+
+  .night-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .night-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+    background: rgba(247,240,226,0.8);
+    border: 1px solid var(--sabbia-chiaro);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    -webkit-user-select: none;
+    user-select: none;
+    text-align: left;
+  }
+
+  .night-item:active { transform: scale(0.98); }
+
+  .night-item.selected {
+    border-color: var(--verde);
+    background: rgba(113,123,84,0.08);
+  }
+
+  .night-check {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    border: 1.5px solid var(--sabbia);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+  }
+
+  .night-item.selected .night-check {
+    background: var(--verde);
+    border-color: var(--verde);
+  }
+
+  .night-check svg {
+    width: 12px; height: 12px;
+    stroke: var(--crema); stroke-width: 2.5; fill: none;
+    opacity: 0; transform: scale(0.5);
+    transition: all 0.25s ease;
+  }
+
+  .night-item.selected .night-check svg {
+    opacity: 1; transform: scale(1);
+  }
+
+  .night-info { flex: 1; }
+
+  .night-date {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 1.15rem;
+    color: var(--verde);
+    letter-spacing: 0.03em;
+  }
+
+  .night-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 0.9rem;
+    color: var(--sabbia-scuro);
+    margin-top: 0.15rem;
   }
 
   /* ——— GUEST LIST (crema) ——— */
@@ -1544,9 +1632,9 @@
 <!-- ——— PERNOTTO ——— -->
 <div id="pernotto-section" class="pernotto-section" style="display: none;">
   <div class="pernotto-content" data-reveal>
-    <div class="section-script" style="color: var(--crema);">Pernotto</div>
-    <div class="section-label" style="color: var(--sabbia);">Dove Alloggerete</div>
-    <p class="section-text" style="color: rgba(240,229,211,0.85); margin-bottom: 1.5rem;">
+    <div class="section-script">Pernotto</div>
+    <div class="section-label">Dove Alloggerete</div>
+    <p class="section-text" style="margin-bottom: 1.5rem;">
       Non dovete preoccuparvi di nulla,<br>il pernotto è incluso e alloggerete presso:
     </p>
 
@@ -1561,6 +1649,32 @@
         </button>
       </div>
     </div>
+
+    <!-- Selezione notti -->
+    <div class="nights-selection">
+      <div class="nights-label">Seleziona le notti</div>
+      <div class="night-items">
+        <div class="night-item" id="nightPre" onclick="toggleNight('pre')">
+          <div class="night-check">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div class="night-info">
+            <div class="night-date">Notte dell'11 Settembre</div>
+            <div class="night-desc">La sera prima del matrimonio</div>
+          </div>
+        </div>
+        <div class="night-item selected" id="nightMatrimonio" onclick="toggleNight('matrimonio')">
+          <div class="night-check">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div class="night-info">
+            <div class="night-date">Notte del 12 Settembre</div>
+            <div class="night-desc">La notte del matrimonio</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -1897,6 +2011,8 @@ async function loadData() {
     // Re-observe per animazione reveal
     const pernottoEl = document.querySelector('.pernotto-content');
     if (pernottoEl && typeof obs !== 'undefined') obs.observe(pernottoEl);
+    
+    loadNightSelections();
   }
 
   if (family.intolleranze) {
@@ -2029,6 +2145,17 @@ async function confirmRSVP() {
       .update({ intolleranze: intolleranze || null })
       .eq('id', family.id);
 
+    // Salva notti pernotto se la sezione è attiva
+    if (family.pernotto) {
+      await supabaseClient
+        .from('families')
+        .update({
+          notte_pre: nightSelection.pre,
+          notte_matrimonio: nightSelection.matrimonio
+        })
+        .eq('id', family.id);
+    }
+
     const { data: existingMsgs } = await supabaseClient
       .from('messages')
       .select('id')
@@ -2147,6 +2274,31 @@ function openHotelMaps(e) {
   } else {
     window.open(`https://www.google.com/maps/search/?api=1&query=${encoded}`, '_blank');
   }
+}
+
+// ——— NOTTI PERNOTTO ———
+let nightSelection = { pre: false, matrimonio: true };
+
+function toggleNight(night) {
+  nightSelection[night] = !nightSelection[night];
+  const el = document.getElementById(night === 'pre' ? 'nightPre' : 'nightMatrimonio');
+  el.classList.toggle('selected');
+}
+
+function loadNightSelections() {
+  if (!family) return;
+  
+  if (typeof family.notte_pre === 'boolean') {
+    nightSelection.pre = family.notte_pre;
+  }
+  if (typeof family.notte_matrimonio === 'boolean') {
+    nightSelection.matrimonio = family.notte_matrimonio;
+  } else {
+    nightSelection.matrimonio = true; // default selezionata
+  }
+  
+  document.getElementById('nightPre').classList.toggle('selected', nightSelection.pre);
+  document.getElementById('nightMatrimonio').classList.toggle('selected', nightSelection.matrimonio);
 }
 
 const wd = new Date('2026-09-12T15:00:00');
