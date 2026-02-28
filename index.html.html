@@ -843,9 +843,9 @@
     letter-spacing: 0.03em;
   }
 
-  /* ——— INTOLLERANZE & MESSAGGIO ——— */
+  /* ——— INTOLLERANZE & NOTE ——— */
   .message-page {
-    background: var(--crema-chiaro);
+    background: var(--verde);
     position: relative;
   }
 
@@ -862,6 +862,10 @@
   }
   .message-content.visible { opacity: 1; transform: translateY(0); }
 
+  .message-content .section-script { color: var(--crema); }
+  .message-content .section-label { color: var(--sabbia); }
+  .message-content .section-text { color: rgba(240,229,211,0.85); }
+
   .input-wrapper {
     position: relative;
   }
@@ -869,13 +873,13 @@
   .elegant-textarea {
     width: 100%;
     padding: 1.2rem 1.4rem;
-    background: rgba(240,229,211,0.5);
-    border: 1px solid var(--sabbia-chiaro);
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
     border-radius: 2px;
     font-family: 'Cormorant Garamond', serif;
     font-size: 1.05rem;
     font-weight: 400;
-    color: var(--verde-scuro);
+    color: var(--crema);
     line-height: 1.6;
     resize: none;
     transition: all 0.3s ease;
@@ -884,13 +888,13 @@
 
   .elegant-textarea:focus {
     outline: none;
-    border-color: var(--verde-chiaro);
-    background: rgba(240,229,211,0.7);
-    box-shadow: 0 0 0 3px rgba(122,139,114,0.1);
+    border-color: rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.15);
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.08);
   }
 
   .elegant-textarea::placeholder {
-    color: var(--sabbia-scuro);
+    color: var(--sabbia);
     font-style: italic;
     font-weight: 300;
   }
@@ -1418,6 +1422,79 @@
   .confirm-btn:disabled { opacity: 0.2; cursor: not-allowed; }
   .confirm-btn.sent { background: var(--verde-chiaro); pointer-events: none; }
 
+  /* ——— IBAN ——— */
+  .iban-section {
+    background: var(--crema-chiaro);
+    position: relative;
+  }
+
+  .iban-content {
+    padding: 3.5rem 2rem 4rem;
+    max-width: 420px;
+    margin: 0 auto;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(25px);
+    transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    z-index: 2;
+  }
+  .iban-content.visible { opacity: 1; transform: translateY(0); }
+
+  .iban-box {
+    background: rgba(240,229,211,0.5);
+    border: 1px solid var(--sabbia-chiaro);
+    border-radius: 2px;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .iban-intestatario {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 1rem;
+    color: var(--verde);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.8rem;
+  }
+
+  .iban-code {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    color: var(--verde-scuro);
+    word-break: break-all;
+    line-height: 1.6;
+  }
+
+  .iban-copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.2rem;
+    padding: 0.65rem 1.3rem;
+    background: transparent;
+    color: var(--verde);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 300;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border: 1px solid var(--sabbia);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .iban-copy-btn:active {
+    transform: scale(0.97);
+    background: rgba(122,139,114,0.08);
+  }
+
+  .iban-copy-btn svg {
+    stroke: var(--verde-chiaro);
+  }
+
   /* ——— FOOTER ——— */
   .footer {
     background: var(--verde);
@@ -1794,8 +1871,30 @@
 
 </div>
 
-  <div class="confirm-wrapper">
-    <button class="confirm-btn" id="confirmBtn" onclick="confirmRSVP()">Conferma</button>
+  <div class="confirm-wrapper" style="background: var(--verde);">
+    <button class="confirm-btn" id="confirmBtn" onclick="confirmRSVP()" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); color: var(--crema);">Conferma</button>
+  </div>
+</div>
+
+<!-- ——— IBAN ——— -->
+<div class="iban-section">
+  <div class="iban-content" data-reveal>
+    <div class="section-script">Un Pensiero</div>
+    <div class="section-label">Per gli Sposi</div>
+    <p class="section-text" style="margin-bottom: 1.8rem;">
+      La vostra presenza è il regalo più bello.<br>
+      Se desiderate accompagnarla con un pensiero,<br>
+      potete farlo tramite bonifico.
+    </p>
+
+    <div class="iban-box">
+      <div class="iban-intestatario">Giulia Rossi & Marco Bianchi</div>
+      <div class="iban-code" id="ibanCode">IT00 A000 0000 0000 0000 0000 000</div>
+      <button class="iban-copy-btn" onclick="copyIban()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copia IBAN
+      </button>
+    </div>
   </div>
 </div>
 
@@ -2267,6 +2366,22 @@ function scrollToSection(sectionId) {
   if (section) {
     section.scrollIntoView({ behavior: 'smooth' });
   }
+}
+
+function copyIban() {
+  const iban = document.getElementById('ibanCode').textContent.replace(/\s/g, '');
+  navigator.clipboard.writeText(iban).then(() => {
+    showToast('IBAN copiato');
+  }).catch(() => {
+    // Fallback per browser che non supportano clipboard API
+    const textarea = document.createElement('textarea');
+    textarea.value = iban;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    showToast('IBAN copiato');
+  });
 }
 
 const VENUE_NAME = "Masseria San Michele, Martina Franca";
