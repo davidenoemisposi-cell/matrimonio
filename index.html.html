@@ -1836,45 +1836,49 @@ async function loadData() {
     document.getElementById('hotelName').textContent = family.nome_hotel || '';
     document.getElementById('hotelAddress').textContent = family.indirizzo_hotel || '';
     
-    // Inizializza mappa hotel
+    // Inizializza mappa hotel solo se ci sono coordinate
     if (family.coordinate_hotel) {
-      const coords = family.coordinate_hotel.split(',').map(c => parseFloat(c.trim()));
-      if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
-        const hotelMap = L.map('hotel-map', {
-          center: coords,
-          zoom: 15,
-          zoomControl: false,
-          attributionControl: true
-        });
+      try {
+        const coords = family.coordinate_hotel.split(',').map(c => parseFloat(c.trim()));
+        if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
+          const hotelMap = L.map('hotel-map', {
+            center: coords,
+            zoom: 15,
+            zoomControl: false,
+            attributionControl: true
+          });
 
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-          attribution: '&copy; OSM &copy; CARTO',
-          subdomains: 'abcd',
-          maxZoom: 19
-        }).addTo(hotelMap);
+          L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; OSM &copy; CARTO',
+            subdomains: 'abcd',
+            maxZoom: 19
+          }).addTo(hotelMap);
 
-        L.control.zoom({ position: 'topright' }).addTo(hotelMap);
+          L.control.zoom({ position: 'topright' }).addTo(hotelMap);
 
-        const hotelMarker = L.divIcon({
-          html: `<svg width="32" height="42" viewBox="0 0 32 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M16 0C7.16 0 0 7.16 0 16c0 12 16 26 16 26s16-14 16-26C32 7.16 24.84 0 16 0z" fill="#7A8B72"/>
-            <circle cx="16" cy="15" r="6" fill="#F7F0E2"/>
-          </svg>`,
-          className: '',
-          iconSize: [32, 42],
-          iconAnchor: [16, 42],
-          popupAnchor: [0, -38]
-        });
+          const hotelMarker = L.divIcon({
+            html: `<svg width="32" height="42" viewBox="0 0 32 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 0C7.16 0 0 7.16 0 16c0 12 16 26 16 26s16-14 16-26C32 7.16 24.84 0 16 0z" fill="#7A8B72"/>
+              <circle cx="16" cy="15" r="6" fill="#F7F0E2"/>
+            </svg>`,
+            className: '',
+            iconSize: [32, 42],
+            iconAnchor: [16, 42],
+            popupAnchor: [0, -38]
+          });
 
-        L.marker(coords, { icon: hotelMarker })
-          .addTo(hotelMap)
-          .bindPopup(`<div style="font-family:Cormorant Garamond,serif;text-align:center;padding:6px 10px;"><strong style="color:#5F6E58;letter-spacing:0.05em;font-size:1rem;">${family.nome_hotel || ''}</strong><br><span style="font-style:italic;color:#96A88E;font-size:0.85rem;">${family.indirizzo_hotel || ''}</span></div>`, { offset: [0, 4] });
-
-        // Re-observe per animazione reveal
-        const pernottoEl = document.querySelector('.pernotto-content');
-        if (pernottoEl) obs.observe(pernottoEl);
+          L.marker(coords, { icon: hotelMarker })
+            .addTo(hotelMap)
+            .bindPopup(`<div style="font-family:Cormorant Garamond,serif;text-align:center;padding:6px 10px;"><strong style="color:#5F6E58;letter-spacing:0.05em;font-size:1rem;">${family.nome_hotel || ''}</strong><br><span style="font-style:italic;color:#96A88E;font-size:0.85rem;">${family.indirizzo_hotel || ''}</span></div>`, { offset: [0, 4] });
+        }
+      } catch(e) {
+        console.log('Coordinate hotel non valide:', e);
       }
     }
+
+    // Re-observe per animazione reveal
+    const pernottoEl = document.querySelector('.pernotto-content');
+    if (pernottoEl && typeof obs !== 'undefined') obs.observe(pernottoEl);
   }
 
   if (family.intolleranze) {
@@ -2156,7 +2160,6 @@ const obs = new IntersectionObserver(e =>
 );
 document.querySelectorAll('[data-reveal]').forEach(el => obs.observe(el));
 
-loadData();
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
@@ -2197,6 +2200,7 @@ L.marker([40.72111, 17.32595], { icon: markerIcon })
 <script src="https://unpkg.com/lucide@latest"></script>
 <script>
   lucide.createIcons();
+  loadData();
 </script>
 
 </body>
