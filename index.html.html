@@ -801,7 +801,7 @@
   }
 
   .tl-side {
-    width: calc(50% - 26px);
+    width: calc(50% - 28px);
     text-align: right;
     padding: 0.5rem 0;
   }
@@ -811,8 +811,8 @@
 
   /* center dot with icon */
   .tl-center {
-    width: 52px;
-    height: 52px;
+    width: 56px;
+    height: 56px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -822,24 +822,23 @@
   }
 
   .tl-dot {
-    width: 52px;
-    height: 52px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
-    background: var(--verde);
-    border: none;
+    background: transparent;
+    border: 1.5px solid var(--sabbia);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.1rem;
-    line-height: 1;
   }
 
-  .tl-icon {
-    width: 22px;
-    height: 22px;
-    stroke: var(--crema);
-    stroke-width: 1.5;
-    fill: none;
+  .tl-dot-time {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+    color: var(--crema);
+    line-height: 1;
   }
 
   .rsvp-icon {
@@ -848,14 +847,6 @@
     stroke: var(--verde);
     stroke-width: 1.5;
     fill: none;
-  }
-
-  .tl-time {
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.8rem;
-    letter-spacing: 0.1em;
-    color: var(--sabbia);
-    margin-bottom: 0.2rem;
   }
 
   .tl-event {
@@ -1383,60 +1374,55 @@
     <div class="timeline">
       <div class="tl-item left">
         <div class="tl-side">
-          <div class="tl-time">15:00</div>
           <div class="tl-event">Cerimonia</div>
           <div class="tl-detail">Giardino della villa</div>
         </div>
         <div class="tl-center">
-          <div class="tl-dot"><i data-lucide="heart" class="tl-icon"></i></div>
+          <div class="tl-dot"><span class="tl-dot-time">15:00</span></div>
         </div>
         <div class="tl-side"></div>
       </div>
 
       <div class="tl-item right">
         <div class="tl-side">
-          <div class="tl-time">17:00</div>
           <div class="tl-event">Aperitivo</div>
           <div class="tl-detail">Terrazza panoramica</div>
         </div>
         <div class="tl-center">
-          <div class="tl-dot"><i data-lucide="wine" class="tl-icon"></i></div>
+          <div class="tl-dot"><span class="tl-dot-time">17:00</span></div>
         </div>
         <div class="tl-side"></div>
       </div>
 
       <div class="tl-item left">
         <div class="tl-side">
-          <div class="tl-time">19:30</div>
           <div class="tl-event">Cena</div>
           <div class="tl-detail">Sala principale</div>
         </div>
         <div class="tl-center">
-          <div class="tl-dot"><i data-lucide="utensils" class="tl-icon"></i></div>
+          <div class="tl-dot"><span class="tl-dot-time">19:30</span></div>
         </div>
         <div class="tl-side"></div>
       </div>
 
       <div class="tl-item right">
         <div class="tl-side">
-          <div class="tl-time">22:00</div>
           <div class="tl-event">Primo Ballo</div>
           <div class="tl-detail">&nbsp;</div>
         </div>
         <div class="tl-center">
-          <div class="tl-dot"><i data-lucide="music" class="tl-icon"></i></div>
+          <div class="tl-dot"><span class="tl-dot-time">22:00</span></div>
         </div>
         <div class="tl-side"></div>
       </div>
 
       <div class="tl-item left">
         <div class="tl-side">
-          <div class="tl-time">22:30</div>
           <div class="tl-event">Festa & Musica</div>
           <div class="tl-detail">Fino a tarda notte</div>
         </div>
         <div class="tl-center">
-          <div class="tl-dot"><i data-lucide="party-popper" class="tl-icon"></i></div>
+          <div class="tl-dot"><span class="tl-dot-time">22:30</span></div>
         </div>
         <div class="tl-side"></div>
       </div>
