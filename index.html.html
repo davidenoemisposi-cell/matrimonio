@@ -233,6 +233,7 @@
   .hero-video-2 {
     opacity: 0;
     z-index: 1;
+    transition: opacity 0.8s ease;
   }
 
   .hero-video-2.active {
@@ -1541,12 +1542,26 @@
     heroVideo2.play();
   }
 
-  // Quando video 2 finisce, torna a video 1
+  // Quando video 2 è vicino alla fine, avvia hero-bg sotto e sfuma
+  heroVideo2.addEventListener('timeupdate', function() {
+    if (heroVideo2.duration && heroVideo2.currentTime >= heroVideo2.duration - 0.9 && isPlayingVideo2) {
+      // Avvia hero-bg sotto prima che bg-2 finisca
+      if (!boomerangStarted) {
+        boomerangStarted = true;
+        heroVideo.currentTime = 0;
+        heroVideo.play();
+      }
+      // Sfuma bg-2
+      heroVideo2.classList.remove('active');
+    }
+  });
+
+  // Quando video 2 finisce, pulisci stato
   heroVideo2.addEventListener('ended', function() {
     heroVideo2.classList.remove('active');
     isPlayingVideo2 = false;
     
-    // Se il boomerang non è ancora partito (primo avvio), avvialo
+    // Se il boomerang non è partito (fallback)
     if (!boomerangStarted) {
       boomerangStarted = true;
       heroVideo.currentTime = 0;
@@ -1566,11 +1581,14 @@
   heroVideo.addEventListener('ended', function() {
     checkVideo2Timing();
     
+    // Se video 2 sta partendo, aspetta la sua sfumatura prima del reverse
     if (isPlayingVideo2) {
-      heroVideo2.addEventListener('ended', function onVideo2End() {
-        heroVideo2.removeEventListener('ended', onVideo2End);
-        startBoomerangReverse();
-      }, { once: true });
+      const waitForFade = setInterval(() => {
+        if (!isPlayingVideo2) {
+          clearInterval(waitForFade);
+          startBoomerangReverse();
+        }
+      }, 100);
     } else {
       startBoomerangReverse();
     }
