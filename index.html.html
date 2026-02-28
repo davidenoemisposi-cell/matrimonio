@@ -766,26 +766,14 @@
   .timeline {
     margin-top: 1.2rem;
     position: relative;
-    padding: 0.5rem 0;
-  }
-
-  /* central vertical line */
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 0;
-    bottom: 0;
-    width: 1px;
-    background: linear-gradient(to bottom, transparent, var(--sabbia), var(--sabbia), transparent);
-    transform: translateX(-50%);
+    padding: 0;
   }
 
   .tl-item {
     position: relative;
     display: flex;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: 0;
   }
 
   .tl-item:last-child {
@@ -808,47 +796,48 @@
     text-align: left;
   }
 
-  /* center dot with icon */
+  /* center column: line-top + time + line-bottom */
   .tl-center {
     width: 56px;
-    height: 56px;
     flex-shrink: 0;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
     position: relative;
     z-index: 2;
   }
 
-  .tl-dot {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: transparent;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
+  .tl-line-segment {
+    width: 1px;
+    height: 2.5rem;
+    background: linear-gradient(to bottom, var(--sabbia), transparent);
   }
 
-  .tl-dot svg.tl-arc {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  .tl-line-segment.bottom {
+    background: linear-gradient(to top, var(--sabbia), transparent);
+  }
+
+  /* First item: top line starts from nothing */
+  .tl-item:first-child .tl-line-segment:first-child {
+    background: linear-gradient(to bottom, transparent, transparent 30%, var(--sabbia));
+    background: linear-gradient(to bottom, transparent, var(--sabbia));
+    height: 1.5rem;
+  }
+
+  /* Last item: bottom line fades to nothing */
+  .tl-item:last-child .tl-line-segment.bottom {
+    background: linear-gradient(to bottom, var(--sabbia), transparent);
+    height: 1.5rem;
   }
 
   .tl-dot-time {
     font-family: 'Cormorant Garamond', serif;
     font-weight: 400;
-    font-size: 0.85rem;
-    letter-spacing: 0.02em;
+    font-size: 0.9rem;
+    letter-spacing: 0.03em;
     color: var(--crema);
     line-height: 1;
-    position: relative;
-    z-index: 1;
+    padding: 0.15rem 0;
   }
 
   .rsvp-icon {
@@ -1373,26 +1362,16 @@
     <div class="section-label">La Giornata</div>
 
     <div class="timeline">
-      <!-- SVG gradient condiviso per taper -->
-      <svg style="position:absolute;width:0;height:0">
-        <defs>
-          <linearGradient id="arcFade" x1="0" y1="1" x2="0" y2="0" gradientUnits="objectBoundingBox">
-            <stop offset="0" stop-color="#CFC4A8" stop-opacity="0"/>
-            <stop offset="0.18" stop-color="#CFC4A8" stop-opacity="1"/>
-            <stop offset="1" stop-color="#CFC4A8" stop-opacity="1"/>
-          </linearGradient>
-        </defs>
-      </svg>
+      <!-- SVG gradient condiviso - not needed anymore, remove -->
 
       <div class="tl-item left">
         <div class="tl-side">
           <div class="tl-event">Cerimonia</div>
         </div>
         <div class="tl-center">
-          <div class="tl-dot">
-            <svg class="tl-arc" viewBox="0 0 56 56"><path d="M17.9 49.8 A24 24 0 1 0 38.1 49.8" fill="none" stroke="url(#arcFade)" stroke-width="1.2" stroke-linecap="round"/></svg>
-            <span class="tl-dot-time">15:00</span>
-          </div>
+          <div class="tl-line-segment bottom" style="background: linear-gradient(to bottom, transparent, var(--sabbia));"></div>
+          <span class="tl-dot-time">15:00</span>
+          <div class="tl-line-segment bottom"></div>
         </div>
         <div class="tl-side"></div>
       </div>
@@ -1402,10 +1381,9 @@
           <div class="tl-event">Aperitivo</div>
         </div>
         <div class="tl-center">
-          <div class="tl-dot">
-            <svg class="tl-arc" viewBox="0 0 56 56"><path d="M17.9 49.8 A24 24 0 1 0 38.1 49.8" fill="none" stroke="url(#arcFade)" stroke-width="1.2" stroke-linecap="round"/></svg>
-            <span class="tl-dot-time">17:00</span>
-          </div>
+          <div class="tl-line-segment"></div>
+          <span class="tl-dot-time">17:00</span>
+          <div class="tl-line-segment bottom"></div>
         </div>
         <div class="tl-side"></div>
       </div>
@@ -1415,10 +1393,9 @@
           <div class="tl-event">Cena</div>
         </div>
         <div class="tl-center">
-          <div class="tl-dot">
-            <svg class="tl-arc" viewBox="0 0 56 56"><path d="M17.9 49.8 A24 24 0 1 0 38.1 49.8" fill="none" stroke="url(#arcFade)" stroke-width="1.2" stroke-linecap="round"/></svg>
-            <span class="tl-dot-time">19:30</span>
-          </div>
+          <div class="tl-line-segment"></div>
+          <span class="tl-dot-time">19:30</span>
+          <div class="tl-line-segment bottom"></div>
         </div>
         <div class="tl-side"></div>
       </div>
@@ -1428,10 +1405,9 @@
           <div class="tl-event">Primo Ballo</div>
         </div>
         <div class="tl-center">
-          <div class="tl-dot">
-            <svg class="tl-arc" viewBox="0 0 56 56"><path d="M17.9 49.8 A24 24 0 1 0 38.1 49.8" fill="none" stroke="url(#arcFade)" stroke-width="1.2" stroke-linecap="round"/></svg>
-            <span class="tl-dot-time">22:00</span>
-          </div>
+          <div class="tl-line-segment"></div>
+          <span class="tl-dot-time">22:00</span>
+          <div class="tl-line-segment bottom"></div>
         </div>
         <div class="tl-side"></div>
       </div>
@@ -1441,10 +1417,9 @@
           <div class="tl-event">Festa & Musica</div>
         </div>
         <div class="tl-center">
-          <div class="tl-dot">
-            <svg class="tl-arc" viewBox="0 0 56 56"><path d="M17.9 49.8 A24 24 0 1 0 38.1 49.8" fill="none" stroke="url(#arcFade)" stroke-width="1.2" stroke-linecap="round"/></svg>
-            <span class="tl-dot-time">22:30</span>
-          </div>
+          <div class="tl-line-segment"></div>
+          <span class="tl-dot-time">22:30</span>
+          <div class="tl-line-segment bottom" style="background: linear-gradient(to bottom, var(--sabbia), transparent);"></div>
         </div>
         <div class="tl-side"></div>
       </div>
