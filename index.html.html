@@ -147,9 +147,19 @@
     }
 
     .hero {
-      min-height: calc(100vh - 4rem);
+      min-height: 0 !important;
+      height: calc(100vh - 4rem);
+      max-height: calc(100vh - 4rem);
       max-width: 390px;
       overflow: hidden;
+    }
+
+    .hero-date-block {
+      bottom: 2.5rem;
+    }
+
+    .scroll-hint {
+      bottom: 0.8rem;
     }
 
     .phone-frame * {
