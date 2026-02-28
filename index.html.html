@@ -635,42 +635,11 @@
     overflow: hidden;
   }
 
-  .location-map-wrapper {
-    position: relative;
-    overflow: hidden;
-    height: 220px;
-  }
-
   .location-map {
     width: 100%;
-    height: 260px;
+    height: 220px;
     border: none;
     display: block;
-    margin-top: -20px;
-    pointer-events: none;
-  }
-
-  /* Copre il link "Visualizza mappa più grande" e il selettore layer */
-  .location-map-wrapper::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 30px;
-    background: rgba(240,229,211,0.5);
-    z-index: 2;
-  }
-
-  .location-map-wrapper::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 50px;
-    height: 50px;
-    background: transparent;
-    z-index: 2;
   }
 
   .location-info {
@@ -1355,15 +1324,13 @@
 
     <!-- Location Box -->
     <div class="location-box">
-      <div class="location-map-wrapper">
-        <iframe 
-          class="location-map"
-          src="https://maps.google.com/maps?q=Masseria+San+Michele+Strada+Cupa+7+Martina+Franca&t=&z=15&ie=UTF8&iwloc=&output=embed"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          allowfullscreen
-        ></iframe>
-      </div>
+      <iframe 
+        class="location-map"
+        src="https://maps.google.com/maps?q=Masseria+San+Michele+Strada+Cupa+7+Martina+Franca&t=&z=15&ie=UTF8&iwloc=&output=embed"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen
+      ></iframe>
       <div class="location-info">
         <div class="location-name">Masseria San Michele</div>
         <div class="location-address">Strada Cupa 7, 74015 Martina Franca (TA)</div>
