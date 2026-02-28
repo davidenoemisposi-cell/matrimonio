@@ -2210,34 +2210,17 @@ function renderGuests() {
 
   const isSingle = guests.length === 1;
 
-  // Aggiorna testo intro in base al numero di ospiti
-  const introText = document.querySelector('.guest-content .section-text');
-  if (introText) {
-    introText.textContent = isSingle 
-      ? 'Conferma la tua partecipazione agli eventi' 
-      : 'Selezionate chi parteciperà agli eventi';
-  }
-
   // Matrimonio
-  if (isSingle) {
-    containerMatrimonio.appendChild(createSingleGuestToggle(guests[0], 0, 'matrimonio'));
-  } else {
-    guests.forEach((g, i) => {
-      containerMatrimonio.appendChild(createGuestItem(g, i, 'matrimonio'));
-    });
-  }
+  guests.forEach((g, i) => {
+    containerMatrimonio.appendChild(createGuestItem(g, i, 'matrimonio'));
+  });
 
   // Pool Party
-  if (poolPartyGuests.length === 1) {
-    const idx = guests.indexOf(poolPartyGuests[0]);
-    containerPoolParty.appendChild(createSingleGuestToggle(poolPartyGuests[0], idx, 'pool'));
-  } else {
-    guests.forEach((g, i) => {
-      if (g.pool_party_invited) {
-        containerPoolParty.appendChild(createGuestItem(g, i, 'pool'));
-      }
-    });
-  }
+  guests.forEach((g, i) => {
+    if (g.pool_party_invited) {
+      containerPoolParty.appendChild(createGuestItem(g, i, 'pool'));
+    }
+  });
 
   updateCounters();
 }
@@ -2248,11 +2231,11 @@ function updateCounters() {
   const poolPartyTotal = guests.filter(g => g.pool_party_invited).length;
 
   document.getElementById('counterMatrimonio').innerHTML = 
-    guests.length > 1 ? `<span>${matrimonioCount}</span> di ${guests.length} partecipanti` : '';
+    `<span>${matrimonioCount}</span> di ${guests.length} partecipanti`;
   
   if (poolPartyTotal > 0) {
     document.getElementById('counterPoolParty').innerHTML = 
-      poolPartyTotal > 1 ? `<span>${poolPartyCount}</span> di ${poolPartyTotal} partecipanti` : '';
+      `<span>${poolPartyCount}</span> di ${poolPartyTotal} partecipanti`;
   }
 }
 
