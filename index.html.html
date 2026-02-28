@@ -825,10 +825,19 @@
     height: 56px;
     border-radius: 50%;
     background: transparent;
-    border: 1.5px solid var(--sabbia);
+    border: none;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+  }
+
+  .tl-dot svg.tl-arc {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
 
   .tl-dot-time {
@@ -838,6 +847,8 @@
     letter-spacing: 0.02em;
     color: var(--crema);
     line-height: 1;
+    position: relative;
+    z-index: 1;
   }
 
   .rsvp-icon {
@@ -1367,7 +1378,10 @@
           <div class="tl-event">Cerimonia</div>
         </div>
         <div class="tl-center">
-          <div class="tl-dot"><span class="tl-dot-time">15:00</span></div>
+          <div class="tl-dot">
+            <svg class="tl-arc" viewBox="0 0 56 56"><path d="M28 3 A25 25 0 1 1 8 14" fill="none" stroke="#CFC4A8" stroke-width="1.2" stroke-linecap="round" opacity="0.9"/></svg>
+            <span class="tl-dot-time">15:00</span>
+          </div>
         </div>
         <div class="tl-side"></div>
       </div>
@@ -1377,7 +1391,10 @@
           <div class="tl-event">Aperitivo</div>
         </div>
         <div class="tl-center">
-          <div class="tl-dot"><span class="tl-dot-time">17:00</span></div>
+          <div class="tl-dot">
+            <svg class="tl-arc" viewBox="0 0 56 56"><path d="M48 14 A25 25 0 1 1 14 6" fill="none" stroke="#CFC4A8" stroke-width="1.2" stroke-linecap="round" opacity="0.9"/></svg>
+            <span class="tl-dot-time">17:00</span>
+          </div>
         </div>
         <div class="tl-side"></div>
       </div>
@@ -1387,7 +1404,10 @@
           <div class="tl-event">Cena</div>
         </div>
         <div class="tl-center">
-          <div class="tl-dot"><span class="tl-dot-time">19:30</span></div>
+          <div class="tl-dot">
+            <svg class="tl-arc" viewBox="0 0 56 56"><path d="M10 44 A25 25 0 1 1 6 20" fill="none" stroke="#CFC4A8" stroke-width="1.2" stroke-linecap="round" opacity="0.9"/></svg>
+            <span class="tl-dot-time">19:30</span>
+          </div>
         </div>
         <div class="tl-side"></div>
       </div>
@@ -1397,7 +1417,10 @@
           <div class="tl-event">Primo Ballo</div>
         </div>
         <div class="tl-center">
-          <div class="tl-dot"><span class="tl-dot-time">22:00</span></div>
+          <div class="tl-dot">
+            <svg class="tl-arc" viewBox="0 0 56 56"><path d="M44 46 A25 25 0 1 1 50 22" fill="none" stroke="#CFC4A8" stroke-width="1.2" stroke-linecap="round" opacity="0.9"/></svg>
+            <span class="tl-dot-time">22:00</span>
+          </div>
         </div>
         <div class="tl-side"></div>
       </div>
@@ -1407,7 +1430,10 @@
           <div class="tl-event">Festa & Musica</div>
         </div>
         <div class="tl-center">
-          <div class="tl-dot"><span class="tl-dot-time">22:30</span></div>
+          <div class="tl-dot">
+            <svg class="tl-arc" viewBox="0 0 56 56"><path d="M20 4 A25 25 0 1 1 4 28" fill="none" stroke="#CFC4A8" stroke-width="1.2" stroke-linecap="round" opacity="0.9"/></svg>
+            <span class="tl-dot-time">22:30</span>
+          </div>
         </div>
         <div class="tl-side"></div>
       </div>
