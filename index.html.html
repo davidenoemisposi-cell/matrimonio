@@ -493,6 +493,35 @@
     stroke: var(--verde-chiaro);
   }
 
+  /* ——— INVITO ——— */
+  .invite-section {
+    background: var(--crema-chiaro);
+    position: relative;
+  }
+
+  .invite-content {
+    padding: 4rem 2.5rem;
+    max-width: 420px;
+    margin: 0 auto;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(25px);
+    transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    z-index: 2;
+  }
+  .invite-content.visible { opacity: 1; transform: translateY(0); }
+
+  .invite-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 1.3rem;
+    line-height: 2;
+    color: var(--verde);
+    letter-spacing: 0.02em;
+  }
+
   /* ——— SECTIONS ——— */
   .page {
     position: relative;
@@ -1621,7 +1650,7 @@
     <div class="hero-date-line">12 Settembre 2026</div>
   </div>
 
-  <div class="scroll-hint" onclick="scrollToSection('countdown')">
+  <div class="scroll-hint" onclick="scrollToSection('invito')">
     <div class="scroll-arrow">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M7 10l5 5 5-5"/>
@@ -1629,6 +1658,15 @@
     </div>
   </div>
 </section>
+
+<!-- ——— INVITO ——— -->
+<div class="invite-section" id="invito">
+  <div class="invite-content" data-reveal>
+    <p class="invite-text">
+      Con immensa gioia vi invitiamo<br>a celebrare insieme a noi<br>il giorno in cui la nostra storia<br>diventerà per sempre.
+    </p>
+  </div>
+</div>
 
 <!-- ——— COUNTDOWN ——— -->
 <div class="countdown-section" id="countdown">
