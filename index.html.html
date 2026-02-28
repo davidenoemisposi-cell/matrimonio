@@ -233,7 +233,6 @@
   .hero-video-2 {
     opacity: 0;
     z-index: 1;
-    transition: opacity 0.8s ease;
   }
 
   .hero-video-2.active {
@@ -1264,7 +1263,7 @@
 <!-- ——— HERO ——— -->
 <section class="hero paper-texture">
   <!-- Video 1 Background - loop boomerang continuo -->
-  <video class="hero-video" id="heroVideo" muted playsinline preload="auto" disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback">
+  <video class="hero-video" id="heroVideo" autoplay muted playsinline disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback">
     <source src="hero-bg.mp4" type="video/mp4">
   </video>
   
@@ -1510,9 +1509,8 @@
 
 <script>
 // ——— HERO VIDEO DUAL SYSTEM ———
-// Video 2 (bg-2) parte per primo
-// Video 1 (hero-bg) loop boomerang continuo
-// Video 2 riparte ogni 60 secondi
+// Video 1: loop boomerang continuo
+// Video 2: parte ogni minuto, una sola volta
 (function() {
   const heroVideo = document.getElementById('heroVideo');
   const heroVideo2 = document.getElementById('heroVideo2');
@@ -1521,8 +1519,7 @@
   let reverseInterval = null;
   let isPlayingVideo2 = false;
   let lastVideo2PlayTime = 0;
-  let boomerangStarted = false;
-  const VIDEO2_INTERVAL = 60000;
+  const VIDEO2_INTERVAL = 60000; // 60 secondi = 1 minuto
 
   // Forza rimozione controlli
   heroVideo.controls = false;
@@ -1537,39 +1534,19 @@
     isPlayingVideo2 = true;
     lastVideo2PlayTime = Date.now();
     
+    // Mostra video 2 sopra video 1
     heroVideo2.classList.add('active');
     heroVideo2.currentTime = 0;
     heroVideo2.play();
   }
 
-  // Quando video 2 è vicino alla fine, avvia hero-bg sotto e sfuma
-  heroVideo2.addEventListener('timeupdate', function() {
-    if (heroVideo2.duration && heroVideo2.currentTime >= heroVideo2.duration - 0.9 && isPlayingVideo2) {
-      // Avvia hero-bg sotto prima che bg-2 finisca
-      if (!boomerangStarted) {
-        boomerangStarted = true;
-        heroVideo.currentTime = 0;
-        heroVideo.play();
-      }
-      // Sfuma bg-2
-      heroVideo2.classList.remove('active');
-    }
-  });
-
-  // Quando video 2 finisce, pulisci stato
+  // Quando video 2 finisce, torna a video 1
   heroVideo2.addEventListener('ended', function() {
     heroVideo2.classList.remove('active');
     isPlayingVideo2 = false;
-    
-    // Se il boomerang non è partito (fallback)
-    if (!boomerangStarted) {
-      boomerangStarted = true;
-      heroVideo.currentTime = 0;
-      heroVideo.play();
-    }
   });
 
-  // Controlla se è ora di riprodurre video 2
+  // Funzione per controllare se è ora di riprodurre video 2
   function checkVideo2Timing() {
     const now = Date.now();
     if (!isPlayingVideo2 && (now - lastVideo2PlayTime) >= VIDEO2_INTERVAL) {
@@ -1579,16 +1556,16 @@
 
   // Video 1: Quando arriva alla fine, inverti (effetto boomerang)
   heroVideo.addEventListener('ended', function() {
+    // Prima controlla se deve partire video 2
     checkVideo2Timing();
     
-    // Se video 2 sta partendo, aspetta la sua sfumatura prima del reverse
+    // Se video 2 sta andando, aspetta che finisca
     if (isPlayingVideo2) {
-      const waitForFade = setInterval(() => {
-        if (!isPlayingVideo2) {
-          clearInterval(waitForFade);
-          startBoomerangReverse();
-        }
-      }, 100);
+      // Riprendi video 1 quando video 2 finisce
+      heroVideo2.addEventListener('ended', function onVideo2End() {
+        heroVideo2.removeEventListener('ended', onVideo2End);
+        startBoomerangReverse();
+      }, { once: true });
     } else {
       startBoomerangReverse();
     }
@@ -1606,23 +1583,22 @@
     }, 33);
   }
 
-  // Avvio: parte video 2 per primo
-  function tryStart() {
+  // Forza autoplay video 1
+  function tryPlay() {
     heroVideo.muted = true;
     heroVideo2.muted = true;
-    heroVideo2.classList.add('active');
-    heroVideo2.currentTime = 0;
-    heroVideo2.play().then(() => {
-      isPlayingVideo2 = true;
-      lastVideo2PlayTime = Date.now();
-    }).catch(() => {
-      setTimeout(tryStart, 100);
+    heroVideo.play().catch(() => {
+      setTimeout(tryPlay, 100);
     });
   }
   
-  tryStart();
-  document.addEventListener('touchstart', tryStart, { once: true });
-  document.addEventListener('click', tryStart, { once: true });
+  // Avvia subito e anche su interazione utente
+  tryPlay();
+  document.addEventListener('touchstart', tryPlay, { once: true });
+  document.addEventListener('click', tryPlay, { once: true });
+
+  // Imposta il tempo iniziale per far partire video 2 dopo 1 minuto
+  lastVideo2PlayTime = Date.now();
 })();
 </script>
 
