@@ -40,7 +40,7 @@
   @font-face {
     font-family: "Playfair Display";
     src: url("PlayfairDisplaySemibold-lg9nd.ttf") format("truetype");
-    font-weight: 600;
+    font-weight: 500;
     font-style: normal;
     font-display: swap;
   }
@@ -61,7 +61,7 @@
     font-display: swap;
   }
 </style>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lucide-static@0.263.1/font/lucide.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
@@ -517,7 +517,7 @@
 
   .hero-venue-name {
     font-family: 'Cormorant Garamond', serif;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 1rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
@@ -678,7 +678,7 @@
 
   .invite-text {
     font-family: 'Cormorant Garamond', serif;
-    font-weight: 500;
+    font-weight: 600;
     font-style: italic;
     font-size: 1.4rem;
     line-height: 1.9;
@@ -747,7 +747,7 @@
 
   .venue-card h3 {
     font-family: 'Cormorant Garamond', serif;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 1.05rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
@@ -892,7 +892,7 @@
   .location-address {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 1.2rem;
     color: var(--verde-chiaro);
     margin-top: 0.3rem;
@@ -1265,7 +1265,7 @@
   .pernotto-address {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 1.15rem;
     color: var(--verde-chiaro);
     margin-top: 0.3rem;
@@ -1379,7 +1379,7 @@
 
   .night-date {
     font-family: 'Cormorant Garamond', serif;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 1.25rem;
     color: var(--verde);
     letter-spacing: 0.03em;
@@ -1388,7 +1388,7 @@
   .night-desc {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 1.1rem;
     color: var(--sabbia-scuro);
     margin-top: 0.15rem;
@@ -1418,7 +1418,7 @@
 
   .prewedding-text {
     font-family: 'Cormorant Garamond', serif;
-    font-weight: 500;
+    font-weight: 600;
     font-style: italic;
     font-size: 1.3rem;
     line-height: 1.8;
@@ -1479,7 +1479,7 @@
 
   .rsvp-column-title {
     font-family: 'Cormorant Garamond', serif;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 1.2rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -1554,7 +1554,7 @@
 
   .guest-name {
     font-family: 'Cormorant Garamond', serif;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 1.25rem;
     color: var(--verde);
     letter-spacing: 0.03em;
@@ -1651,7 +1651,7 @@
 
   .iban-intestatario {
     font-family: 'Cormorant Garamond', serif;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 1rem;
     color: var(--verde);
     letter-spacing: 0.05em;
@@ -1660,7 +1660,7 @@
 
   .iban-code {
     font-family: 'Cormorant Garamond', serif;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 1rem;
     letter-spacing: 0.05em;
     color: var(--verde);
@@ -1700,6 +1700,15 @@
 
   .iban-copy-btn svg {
     stroke: var(--verde-chiaro);
+  }
+
+  /* Scritte verdi su panna più spesse */
+  .location-content .section-text,
+  .pernotto-content .section-text,
+  .guest-content .section-text,
+  .iban-content .section-text,
+  .invite-text {
+    font-weight: 600;
   }
 
   /* ——— FOOTER ——— */
@@ -1985,7 +1994,7 @@
     <!-- Selezione notti -->
     <div class="nights-selection">
       <div class="nights-label">Seleziona le notti</div>
-      <p class="section-text" style="margin-bottom: 1rem; font-size: 1.15rem; color: var(--verde-scuro); opacity: 0.7;">
+      <p class="section-text" style="margin-bottom: 1rem; font-size: 1.15rem; color: var(--verde-scuro); opacity: 0.7; font-weight: 600;">
         Potete selezionare anche entrambe le notti,<br>saremo felici di avervi con noi più a lungo
       </p>
       <div class="night-items">
@@ -2094,7 +2103,7 @@
 <div style="background: var(--crema-chiaro);">
   <div class="confirm-wrapper">
     <button class="confirm-btn" id="confirmBtn" onclick="confirmRSVP()">Conferma tutto e invia</button>
-    <p style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 500; font-size: 1.1rem; color: var(--sabbia-scuro); margin-top: 1rem; line-height: 1.5; text-align: center;">
+    <p style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 600; font-size: 1.1rem; color: var(--sabbia-scuro); margin-top: 1rem; line-height: 1.5; text-align: center;">
       Le vostre scelte potranno essere modificate in qualsiasi momento ritornando su questo sito.
     </p>
   </div>
