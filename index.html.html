@@ -1761,7 +1761,7 @@
           <div class="rsvp-column-icon">
             <i data-lucide="waves" class="rsvp-icon"></i>
           </div>
-          <div class="rsvp-column-title">Pool Party</div>
+          <div class="rsvp-column-title">Pre-Wedding</div>
           <div class="rsvp-column-subtitle">11 Settembre 2026</div>
         </div>
         <div class="guest-list" id="guestListPoolParty"></div>
@@ -1776,36 +1776,18 @@
 <div class="message-page paper-texture">
   <div class="message-content" data-reveal>
     
-    <!-- Intolleranze -->
-    <div class="section-script">Intolleranze</div>
-    <div class="section-label">Allergie Alimentari</div>
+    <!-- Note -->
+    <div class="section-script">Note</div>
+    <div class="section-label">Intolleranze & Comunicazioni</div>
     <p class="section-text" style="margin-bottom: 1.5rem;">
-      Indicateci eventuali intolleranze o allergie<br>per permetterci di accogliervi al meglio
+      Segnalateci eventuali intolleranze, allergie<br>o qualsiasi cosa vogliate comunicarci
     </p>
     
     <div class="input-wrapper">
       <textarea 
         id="intolleranzeField" 
         class="elegant-textarea" 
-        placeholder="Es. Mario: celiaco, Anna: intollerante al lattosio..."
-        rows="3"
-      ></textarea>
-    </div>
-
-    <div style="margin-top: 3rem;"></div>
-
-    <!-- Messaggio -->
-    <div class="section-script">Un Pensiero</div>
-    <div class="section-label">Per gli Sposi</div>
-    <p class="section-text" style="margin-bottom: 1.5rem;">
-      Se desiderate, lasciateci un messaggio.<br>Sarà un ricordo prezioso per noi.
-    </p>
-    
-    <div class="input-wrapper">
-      <textarea 
-        id="messaggioField" 
-        class="elegant-textarea" 
-        placeholder="Il vostro messaggio per Giulia e Marco..."
+        placeholder="Es. intolleranze alimentari, allergie, note..."
         rows="4"
       ></textarea>
     </div>
@@ -2075,17 +2057,6 @@ async function loadData() {
     document.getElementById('intolleranzeField').value = family.intolleranze;
   }
 
-  const { data: existingMsgs } = await supabaseClient
-    .from("messages")
-    .select("messaggio")
-    .eq("family_id", family.id)
-    .order('created_at', { ascending: false })
-    .limit(1);
-
-  if (existingMsgs && existingMsgs.length > 0 && existingMsgs[0].messaggio) {
-    document.getElementById('messaggioField').value = existingMsgs[0].messaggio;
-  }
-
   const { data: gs, error: guestsError } = await supabaseClient
     .from("guests")
     .select("*")
@@ -2245,7 +2216,6 @@ async function confirmRSVP() {
   btn.textContent = 'Invio in corso...';
 
   const intolleranze = document.getElementById('intolleranzeField').value.trim();
-  const messaggio = document.getElementById('messaggioField').value.trim();
 
   try {
     for (const g of guests) {
@@ -2272,26 +2242,6 @@ async function confirmRSVP() {
           notte_matrimonio: nightSelection.matrimonio
         })
         .eq('id', family.id);
-    }
-
-    const { data: existingMsgs } = await supabaseClient
-      .from('messages')
-      .select('id')
-      .eq('family_id', family.id)
-      .limit(1);
-
-    if (existingMsgs && existingMsgs.length > 0) {
-      await supabaseClient
-        .from('messages')
-        .update({ messaggio: messaggio || null })
-        .eq('id', existingMsgs[0].id);
-    } else if (messaggio) {
-      await supabaseClient
-        .from('messages')
-        .insert({
-          family_id: family.id,
-          messaggio: messaggio
-        });
     }
 
     btn.classList.add('sent');
