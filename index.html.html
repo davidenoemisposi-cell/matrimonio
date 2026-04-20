@@ -126,10 +126,11 @@
   .hero-bg{
     position:absolute;inset:0;
     background:
-      radial-gradient(ellipse 80% 60% at 30% 40%, rgba(95,110,88,0.55), transparent 60%),
-      radial-gradient(ellipse 60% 70% at 75% 65%, rgba(62,74,56,0.7), transparent 70%),
-      linear-gradient(180deg, #2a322a 0%, #1a1f1a 100%);
-    z-index:0;
+      radial-gradient(ellipse 80% 60% at 30% 40%, rgba(95,110,88,0.35), transparent 60%),
+      radial-gradient(ellipse 60% 70% at 75% 65%, rgba(62,74,56,0.45), transparent 70%),
+      linear-gradient(180deg, rgba(42,50,42,0.55) 0%, rgba(26,31,26,0.65) 100%);
+    z-index:2;
+    pointer-events:none;
   }
   .hero-bg::before{
     content:'';position:absolute;inset:0;
@@ -841,7 +842,73 @@
   }
   .toast.show{transform:translateX(-50%) translateY(0)}
 
-  /* ——— TWEAKS PANEL ——— */
+  /* ——— VIDEO INTRO (envelope) ——— */
+  body.no-scroll{overflow:hidden;position:fixed;width:100%;height:100%}
+  .video-intro{
+    position:fixed;top:0;left:0;width:100%;height:100dvh;
+    background:#1a1a1a;
+    z-index:99999;
+    display:flex;align-items:center;justify-content:center;
+    transition:opacity 1.2s ease-out;
+  }
+  .video-intro.fade-out{opacity:0;pointer-events:none}
+  .video-intro.hidden{display:none}
+  .intro-video{width:100%;height:100%;object-fit:cover}
+  .seal-hotspot{
+    position:absolute;bottom:32%;left:50%;transform:translateX(-50%);
+    width:110px;height:110px;border-radius:50%;
+    cursor:pointer;z-index:10;
+  }
+  .tap-hint{
+    position:absolute;bottom:18%;left:50%;transform:translateX(-50%);
+    font-family:var(--serif);font-style:italic;font-size:1.1rem;
+    color:rgba(255,255,255,0.85);letter-spacing:0.1em;
+    opacity:0;visibility:hidden;white-space:nowrap;
+  }
+  .tap-hint.visible{
+    visibility:visible;
+    animation:fadeInHint 1s ease forwards, pulseHint 2.5s ease-in-out 1s infinite;
+  }
+  .tap-hint.hidden{opacity:0 !important;transition:opacity .3s ease}
+  @keyframes fadeInHint{to{opacity:1}}
+  @keyframes pulseHint{
+    0%,100%{opacity:.85;transform:translateX(-50%) scale(1)}
+    50%{opacity:1;transform:translateX(-50%) scale(1.05)}
+  }
+
+  /* ——— HERO VIDEO DUAL SYSTEM ——— */
+  .hero-video{
+    position:absolute;top:0;left:0;width:100%;height:100%;
+    object-fit:cover;
+    z-index:0;
+    pointer-events:none;
+  }
+  .hero-video-2{opacity:0;z-index:1;transition:opacity .6s ease}
+  .hero-video-2.active{opacity:1}
+  /* Nasconde controlli video su tutti i browser */
+  .hero-video::-webkit-media-controls,
+  .hero-video-2::-webkit-media-controls,
+  .hero-video::-webkit-media-controls-enclosure,
+  .hero-video-2::-webkit-media-controls-enclosure,
+  .hero-video::-webkit-media-controls-panel,
+  .hero-video-2::-webkit-media-controls-panel,
+  .hero-video::-webkit-media-controls-play-button,
+  .hero-video-2::-webkit-media-controls-play-button,
+  .hero-video::-webkit-media-controls-start-playback-button,
+  .hero-video-2::-webkit-media-controls-start-playback-button{display:none !important}
+
+  /* Tutto il contenuto dell'hero deve stare sopra i video e il tint */
+  .hero-top, .hero-main, .hero-bottom, .hero-grain{z-index:3 !important}
+  .hero-grain{z-index:4 !important}
+
+  /* ——— PHOTO BREAK ——— */
+  .photo-break{width:100%;overflow:hidden;line-height:0;background:var(--bone)}
+  .photo-break img{
+    width:100%;height:auto;display:block;object-fit:cover;
+    max-height:clamp(280px, 45vh, 520px);
+  }
+
+
   .tweaks{
     position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;
     background:var(--bone);border:1px solid var(--ink-15);border-radius:var(--radius-sm);
@@ -869,7 +936,18 @@
   .tweak-sw.on{border-color:var(--ink);transform:scale(1.12)}
 </style>
 </head>
-<body>
+<body class="no-scroll">
+
+<!-- ——— VIDEO INTRO (envelope con sigillo) ——— -->
+<div class="video-intro" id="videoIntro">
+  <video id="introVideo" class="intro-video" playsinline preload="metadata" muted>
+    <source src="intro-video.mp4" type="video/mp4">
+  </video>
+  <!-- Zona cliccabile sul sigillo (invisibile) -->
+  <div class="seal-hotspot" id="sealHotspot"></div>
+  <!-- Hint per cliccare -->
+  <div class="tap-hint" id="tapHint">Tocca il sigillo</div>
+</div>
 
 <div class="cursor" id="cur"></div>
 <div class="cursor ring" id="curRing"></div>
@@ -892,6 +970,15 @@
 
 <!-- ——— HERO ——— -->
 <section class="hero" data-screen-label="01 Hero">
+  <!-- Video 1: loop boomerang continuo -->
+  <video class="hero-video" id="heroVideo" muted playsinline disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback">
+    <source src="hero-bg.mp4" type="video/mp4">
+  </video>
+  <!-- Video 2: parte per primo, poi ogni 60s -->
+  <video class="hero-video hero-video-2" id="heroVideo2" muted playsinline disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback">
+    <source src="bg-2.mp4" type="video/mp4">
+  </video>
+
   <div class="hero-bg"></div>
   <div class="hero-grain"></div>
 
@@ -1035,6 +1122,11 @@
   </div>
 </section>
 
+<!-- ——— PHOTO BREAK (table) ——— -->
+<div class="photo-break">
+  <img src="table.png" alt="">
+</div>
+
 <!-- ——— PROGRAMMA ——— -->
 <section class="section bg-deep programma" id="programma" data-screen-label="05 Programma">
   <div class="container">
@@ -1174,6 +1266,11 @@
     </div>
   </div>
 </section>
+
+<!-- ——— PHOTO BREAK (party) — visibile solo con pre-wedding ——— -->
+<div class="photo-break" id="photoParty" style="display:none">
+  <img src="party.png" alt="">
+</div>
 
 <!-- ——— RSVP ——— -->
 <section class="section bg-cream" id="conferma" data-screen-label="08 RSVP">
@@ -1645,10 +1742,14 @@ function renderGuests(){
   if (poolInvitati.length > 0){
     colPool.style.display   = '';
     preWedSec.style.display = '';
+    const photoParty = document.getElementById('photoParty');
+    if (photoParty) photoParty.style.display = '';
     preWedSec.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
   } else {
     colPool.style.display   = 'none';
     preWedSec.style.display = 'none';
+    const photoParty = document.getElementById('photoParty');
+    if (photoParty) photoParty.style.display = 'none';
   }
 
   const single = guests.length === 1;
@@ -1872,6 +1973,122 @@ window.addEventListener('message', e => {
   }
 });
 window.parent.postMessage({type:'__edit_mode_available'}, '*');
+
+/* ===== HERO VIDEO DUAL SYSTEM =====
+   bg-2 parte per primo sopra, poi hero-bg fa boomerang in loop.
+   Ogni 60s bg-2 riparte sopra per qualche secondo. */
+(function(){
+  const v1 = document.getElementById('heroVideo');   // hero-bg (loop boomerang)
+  const v2 = document.getElementById('heroVideo2');  // bg-2 (overlay periodico)
+  if (!v1 || !v2) return;
+
+  let reverseInterval = null;
+  let isPlayingV2 = false;
+  let lastV2At = 0;
+  const V2_EVERY = 60000; // 60s
+
+  v1.controls = false; v1.removeAttribute('controls');
+  v2.controls = false; v2.removeAttribute('controls');
+
+  function playV2(){
+    if (isPlayingV2) return;
+    isPlayingV2 = true;
+    lastV2At = Date.now();
+    v2.classList.add('active');
+    v2.currentTime = 0;
+    v2.play().catch(()=>{});
+  }
+
+  v2.addEventListener('ended', () => {
+    v2.classList.remove('active');
+    isPlayingV2 = false;
+    v1.currentTime = 0;
+    v1.play().catch(()=>{});
+  });
+
+  function checkV2Timing(){
+    if (!isPlayingV2 && (Date.now() - lastV2At) >= V2_EVERY) playV2();
+  }
+
+  v1.addEventListener('ended', () => {
+    checkV2Timing();
+    if (isPlayingV2) return; // v2 ended handler riavvierà v1
+    startBoomerangReverse();
+  });
+
+  function startBoomerangReverse(){
+    reverseInterval = setInterval(() => {
+      if (v1.currentTime <= 0.05){
+        clearInterval(reverseInterval);
+        v1.currentTime = 0;
+        v1.play().catch(()=>{});
+      } else {
+        v1.currentTime -= 0.033;
+      }
+    }, 33);
+  }
+
+  function tryPlay(){
+    v1.muted = true; v2.muted = true;
+    v1.play().then(() => { playV2(); }).catch(() => { setTimeout(tryPlay, 100); });
+  }
+  tryPlay();
+  document.addEventListener('touchstart', tryPlay, { once:true });
+  document.addEventListener('click', tryPlay, { once:true });
+})();
+
+/* ===== VIDEO INTRO (envelope) =====
+   Primo frame caricato + hint "Tocca il sigillo".
+   Click sul sigillo: audio on + riparte da 0.
+   A 3s o a fine video: fade-out e reveal del sito.
+   Doppio tap sull'overlay: skip. */
+(function(){
+  const videoIntro  = document.getElementById('videoIntro');
+  const introVideo  = document.getElementById('introVideo');
+  const sealHotspot = document.getElementById('sealHotspot');
+  const tapHint     = document.getElementById('tapHint');
+  if (!videoIntro || !introVideo) return;
+
+  let started = false;
+
+  function dismiss(){
+    videoIntro.classList.add('fade-out');
+    document.body.classList.remove('no-scroll');
+    setTimeout(() => { videoIntro.classList.add('hidden'); try{ introVideo.pause(); }catch(e){} }, 1200);
+  }
+
+  introVideo.addEventListener('loadedmetadata', () => {
+    try { introVideo.currentTime = 0.001; } catch(e){}
+  });
+  introVideo.addEventListener('seeked', () => {
+    if (tapHint) tapHint.classList.add('visible');
+  });
+
+  if (sealHotspot){
+    sealHotspot.addEventListener('click', () => {
+      if (started) return;
+      started = true;
+      if (tapHint) tapHint.classList.add('hidden');
+      sealHotspot.style.display = 'none';
+      introVideo.currentTime = 0;
+      introVideo.muted = false;
+      introVideo.play().catch(()=>{ introVideo.muted = true; introVideo.play().catch(()=>{}); });
+    });
+  }
+
+  introVideo.addEventListener('ended', dismiss);
+  introVideo.addEventListener('timeupdate', () => {
+    if (introVideo.currentTime >= 3 && !videoIntro.classList.contains('fade-out')) dismiss();
+  });
+  videoIntro.addEventListener('dblclick', dismiss);
+
+  // Fallback: se il video non carica entro 4s, sblocca comunque il sito
+  setTimeout(() => {
+    if (!videoIntro.classList.contains('hidden') && !videoIntro.classList.contains('fade-out') && introVideo.readyState < 2){
+      dismiss();
+    }
+  }, 4000);
+})();
 
 /* ===== BOOT ===== */
 loadData();
