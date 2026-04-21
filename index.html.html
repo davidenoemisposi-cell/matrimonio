@@ -998,26 +998,15 @@
     50%{opacity:1;transform:translateX(-50%) scale(1.05)}
   }
 
-  /* ——— HERO VIDEO DUAL SYSTEM ——— */
-  .hero-video{
+  /* ——— HERO IMAGE ——— */
+  .hero-image{
     position:absolute;top:0;left:0;width:100%;height:100%;
     object-fit:cover;
+    object-position:center;
     z-index:0;
     pointer-events:none;
+    user-select:none;
   }
-  .hero-video-2{opacity:0;z-index:1;transition:opacity .6s ease}
-  .hero-video-2.active{opacity:1}
-  /* Nasconde controlli video su tutti i browser */
-  .hero-video::-webkit-media-controls,
-  .hero-video-2::-webkit-media-controls,
-  .hero-video::-webkit-media-controls-enclosure,
-  .hero-video-2::-webkit-media-controls-enclosure,
-  .hero-video::-webkit-media-controls-panel,
-  .hero-video-2::-webkit-media-controls-panel,
-  .hero-video::-webkit-media-controls-play-button,
-  .hero-video-2::-webkit-media-controls-play-button,
-  .hero-video::-webkit-media-controls-start-playback-button,
-  .hero-video-2::-webkit-media-controls-start-playback-button{display:none !important}
 
   /* Tutto il contenuto dell'hero gestisce z-index inline nelle proprie regole */
 
@@ -1064,14 +1053,8 @@
 
 <!-- ——— HERO ——— -->
 <section class="hero">
-  <!-- Video 1: loop boomerang continuo -->
-  <video class="hero-video" id="heroVideo" muted playsinline disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback">
-    <source src="hero-bg.mp4" type="video/mp4">
-  </video>
-  <!-- Video 2: parte per primo, poi ogni 60s -->
-  <video class="hero-video hero-video-2" id="heroVideo2" muted playsinline disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback">
-    <source src="bg-2.mp4" type="video/mp4">
-  </video>
+  <!-- Immagine hero statica -->
+  <img class="hero-image" src="hero-bg.jpg" alt="" aria-hidden="true">
 
   <div class="hero-bg"></div>
   <div class="hero-grain"></div>
@@ -1969,69 +1952,6 @@ function toast(msg){
     document.head.appendChild(l);
   }
   document.documentElement.style.setProperty('--serif', '"Fraunces", serif');
-})();
-
-/* ===== HERO VIDEO DUAL SYSTEM =====
-   bg-2 parte per primo sopra, poi hero-bg fa boomerang in loop.
-   Ogni 60s bg-2 riparte sopra per qualche secondo. */
-(function(){
-  const v1 = document.getElementById('heroVideo');   // hero-bg (loop boomerang)
-  const v2 = document.getElementById('heroVideo2');  // bg-2 (overlay periodico)
-  if (!v1 || !v2) return;
-
-  let reverseInterval = null;
-  let isPlayingV2 = false;
-  let lastV2At = 0;
-  const V2_EVERY = 60000; // 60s
-
-  v1.controls = false; v1.removeAttribute('controls');
-  v2.controls = false; v2.removeAttribute('controls');
-
-  function playV2(){
-    if (isPlayingV2) return;
-    isPlayingV2 = true;
-    lastV2At = Date.now();
-    v2.classList.add('active');
-    v2.currentTime = 0;
-    v2.play().catch(()=>{});
-  }
-
-  v2.addEventListener('ended', () => {
-    v2.classList.remove('active');
-    isPlayingV2 = false;
-    v1.currentTime = 0;
-    v1.play().catch(()=>{});
-  });
-
-  function checkV2Timing(){
-    if (!isPlayingV2 && (Date.now() - lastV2At) >= V2_EVERY) playV2();
-  }
-
-  v1.addEventListener('ended', () => {
-    checkV2Timing();
-    if (isPlayingV2) return; // v2 ended handler riavvierà v1
-    startBoomerangReverse();
-  });
-
-  function startBoomerangReverse(){
-    reverseInterval = setInterval(() => {
-      if (v1.currentTime <= 0.05){
-        clearInterval(reverseInterval);
-        v1.currentTime = 0;
-        v1.play().catch(()=>{});
-      } else {
-        v1.currentTime -= 0.033;
-      }
-    }, 33);
-  }
-
-  function tryPlay(){
-    v1.muted = true; v2.muted = true;
-    v1.play().then(() => { playV2(); }).catch(() => { setTimeout(tryPlay, 100); });
-  }
-  tryPlay();
-  document.addEventListener('touchstart', tryPlay, { once:true });
-  document.addEventListener('click', tryPlay, { once:true });
 })();
 
 /* ===== VIDEO INTRO (envelope) =====
