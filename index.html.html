@@ -752,7 +752,7 @@
   /* ——— SUBMIT ——— */
   .submit-wrap{
     text-align:center;padding:4rem var(--gutter);
-    background-color:var(--bone);
+    background-color:var(--bone-warm);
     background-image:
       url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.008 3.2' numOctaves='2' seed='7' result='fibers'/%3E%3CfeColorMatrix in='fibers' values='0 0 0 0 0.34 0 0 0 0 0.28 0 0 0 0 0.17 0 0 0 0.28 0' result='a'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.014 0.014' numOctaves='3' seed='9' result='stains'/%3E%3CfeColorMatrix in='stains' values='0 0 0 0 0.16 0 0 0 0 0.1 0 0 0 0 0 0 0 0 0.1 0' result='b'/%3E%3CfeMerge%3E%3CfeMergeNode in='a'/%3E%3CfeMergeNode in='b'/%3E%3C/feMerge%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
     background-repeat:repeat;
@@ -817,25 +817,39 @@
       url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.016 0.016' numOctaves='3' seed='3' result='stains'/%3E%3CfeColorMatrix in='stains' values='0 0 0 0 1 0 0 0 0 0.94 0 0 0 0 0.78 0 0 0 0.12 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
     background-repeat:repeat;
     background-size:600px 600px;
-    padding:clamp(5rem, 10vw, 8rem) var(--gutter) 3rem;
+    padding:3rem var(--gutter) 2rem;
     text-align:center;
+  }
+  .footer-band{
+    margin:0 auto;
+    max-width:680px;
+    background-color:var(--bone);
+    background-image:
+      url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.008 3.2' numOctaves='2' seed='7' result='fibers'/%3E%3CfeColorMatrix in='fibers' values='0 0 0 0 0.34 0 0 0 0 0.28 0 0 0 0 0.17 0 0 0 0.28 0' result='a'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.014 0.014' numOctaves='3' seed='9' result='stains'/%3E%3CfeColorMatrix in='stains' values='0 0 0 0 0.16 0 0 0 0 0.1 0 0 0 0 0 0 0 0 0.1 0' result='b'/%3E%3CfeMerge%3E%3CfeMergeNode in='a'/%3E%3CfeMergeNode in='b'/%3E%3C/feMerge%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+    background-repeat:repeat;
+    background-size:600px 600px;
+    padding:clamp(2.5rem, 6vw, 4rem) clamp(1.5rem, 5vw, 3rem);
+    border-radius:var(--radius);
+    box-shadow:0 14px 40px rgba(0,0,0,.22), 0 2px 6px rgba(0,0,0,.15);
+    color:var(--ink);
   }
   .footer-mono{
     font-family:var(--serif);
     font-weight:300;
     font-size:clamp(2.5rem, 7vw, 5rem);
     line-height:.95;letter-spacing:-0.01em;
+    color:var(--ink);
   }
-  .footer-mono em{font-style:italic;color:var(--sand)}
+  .footer-mono em{font-style:italic;color:var(--sage)}
   .footer-date{
     font-family:var(--mono);font-size:11px;letter-spacing:.4em;text-transform:uppercase;
-    color:var(--sand);margin-top:2rem;
+    color:var(--sand-deep);margin-top:1.4rem;
   }
   .footer-foot{
-    margin-top:4rem;padding-top:2rem;border-top:1px solid rgba(247,242,230,.1);
+    margin-top:2.2rem;padding-top:1.4rem;border-top:1px solid var(--ink-15);
     display:flex;justify-content:space-between;align-items:center;
     font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
-    color:rgba(247,242,230,.4);flex-wrap:wrap;gap:1rem;
+    color:var(--sand-deep);flex-wrap:wrap;gap:1rem;
   }
   @media (max-width:600px){.footer-foot{justify-content:center}}
 
@@ -1303,7 +1317,7 @@
 
 <!-- ——— FOOTER ——— -->
 <footer class="footer">
-  <div data-reveal>
+  <div class="footer-band" data-reveal>
     <div class="footer-mono">Giulia <em>&amp;</em> Marco</div>
     <div class="footer-date">26 · 08 · 2027 · Fasano</div>
     <div class="footer-foot">
