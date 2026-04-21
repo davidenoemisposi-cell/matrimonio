@@ -15,16 +15,16 @@
     --sage-soft:#AFBFA0;
     --sage-rich:#7E9266;      /* salvia saturo, luminoso — break visivo senza andare nel cupo */
     --sage-rich-text:#2D3821; /* verde-nero olivastro per testo su sage-rich */
-    --cream:#F0E5D3;
-    --bone:#F7F2E6;
-    --bone-warm:#EFE7D4;
+    --cream:#E8DCC0;
+    --bone:#EDE4D0;
+    --bone-warm:#E4D8BE;
     --sand:#C4B897;
     --sand-deep:#948867;
-    --ink:#1F2420;
-    --ink-60:rgba(31,36,32,0.6);
-    --ink-40:rgba(31,36,32,0.4);
-    --ink-15:rgba(31,36,32,0.15);
-    --cream-60:rgba(240,229,211,0.6);
+    --ink:#3D4A31;
+    --ink-60:rgba(61,74,49,0.65);
+    --ink-40:rgba(61,74,49,0.45);
+    --ink-15:rgba(61,74,49,0.18);
+    --cream-60:rgba(232,220,192,0.6);
 
     --serif:"Cormorant Garamond", serif;
     --sans:"Inter", system-ui, sans-serif;
@@ -43,7 +43,7 @@
   html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
   body{
     font-family:var(--sans);
-    background:var(--bone);
+    background-color:var(--bone);
     color:var(--ink);
     font-weight:400;
     font-size:15px;
@@ -57,6 +57,27 @@
   a{color:inherit;text-decoration:none}
   button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 
+  /* ——— FEDRIGONI TINTORETTO PAPER ———
+     Due texture SVG inline applicate come background-image:
+     - paper-light: fibre orizzontali ocra + macchie tonali (per sezioni avorio)
+     - paper-stains: SOLO macchie tonali (per sezioni scure/verdi — niente fibre)
+     Le strie sono fibre lunghe orizzontali (baseFrequency X bassissima, Y alta).
+     Le macchie sono rumore a bassa frequenza (chiazze organiche).
+  */
+  .section.bg-cream, .section.bg-warm,
+  body{
+    background-image:
+      url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.008 3.2' numOctaves='2' seed='7' result='fibers'/%3E%3CfeColorMatrix in='fibers' values='0 0 0 0 0.34 0 0 0 0 0.28 0 0 0 0 0.17 0 0 0 0.28 0' result='a'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.014 0.014' numOctaves='3' seed='9' result='stains'/%3E%3CfeColorMatrix in='stains' values='0 0 0 0 0.16 0 0 0 0 0.1 0 0 0 0 0 0 0 0 0.1 0' result='b'/%3E%3CfeMerge%3E%3CfeMergeNode in='a'/%3E%3CfeMergeNode in='b'/%3E%3C/feMerge%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+    background-repeat:repeat;
+    background-size:600px 600px;
+  }
+  .section.bg-deep, .section.bg-ink, .section.bg-sage-rich{
+    background-image:
+      url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.016 0.016' numOctaves='3' seed='3' result='stains'/%3E%3CfeColorMatrix in='stains' values='0 0 0 0 1 0 0 0 0 0.94 0 0 0 0 0.78 0 0 0 0.12 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+    background-repeat:repeat;
+    background-size:600px 600px;
+  }
+  body{background-color:var(--bone)}
   /* ——— CUSTOM CURSOR (desktop only) ——— */
   .cursor{
     position:fixed;
@@ -217,12 +238,12 @@
     padding:clamp(5rem, 12vw, 10rem) var(--gutter);
     position:relative;
   }
-  .section.bg-cream{background:var(--bone)}
-  .section.bg-warm{background:var(--bone-warm)}
-  .section.bg-sage{background:var(--sage);color:var(--bone)}
-  .section.bg-deep{background:var(--sage-deep);color:var(--bone)}
-  .section.bg-ink{background:var(--ink);color:var(--bone)}
-  .section.bg-sage-rich{background:var(--sage-rich);color:var(--bone)}
+  .section.bg-cream{background-color:var(--bone)}
+  .section.bg-warm{background-color:var(--bone-warm)}
+  .section.bg-sage{background-color:var(--sage);color:var(--bone)}
+  .section.bg-deep{background-color:var(--sage-deep);color:var(--bone)}
+  .section.bg-ink{background-color:var(--ink);color:var(--bone)}
+  .section.bg-sage-rich{background-color:var(--sage-rich);color:var(--bone)}
 
   /* ——— SHIMMER / GLINT ON ENTER VIEWPORT ———
      Effetto di lucentezza obliqua che passa attraverso gli elementi
@@ -731,7 +752,11 @@
   /* ——— SUBMIT ——— */
   .submit-wrap{
     text-align:center;padding:4rem var(--gutter);
-    background:var(--bone);
+    background-color:var(--bone);
+    background-image:
+      url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.008 3.2' numOctaves='2' seed='7' result='fibers'/%3E%3CfeColorMatrix in='fibers' values='0 0 0 0 0.34 0 0 0 0 0.28 0 0 0 0 0.17 0 0 0 0.28 0' result='a'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.014 0.014' numOctaves='3' seed='9' result='stains'/%3E%3CfeColorMatrix in='stains' values='0 0 0 0 0.16 0 0 0 0 0.1 0 0 0 0 0 0 0 0 0.1 0' result='b'/%3E%3CfeMerge%3E%3CfeMergeNode in='a'/%3E%3CfeMergeNode in='b'/%3E%3C/feMerge%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+    background-repeat:repeat;
+    background-size:600px 600px;
   }
   .submit-btn{
     display:inline-flex;align-items:center;gap:1rem;
@@ -786,7 +811,11 @@
 
   /* ——— FOOTER ——— */
   .footer{
-    background:var(--sage-deep);color:var(--bone);
+    background-color:var(--sage-deep);color:var(--bone);
+    background-image:
+      url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.016 0.016' numOctaves='3' seed='3' result='stains'/%3E%3CfeColorMatrix in='stains' values='0 0 0 0 1 0 0 0 0 0.94 0 0 0 0 0.78 0 0 0 0.12 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+    background-repeat:repeat;
+    background-size:600px 600px;
     padding:clamp(5rem, 10vw, 8rem) var(--gutter) 3rem;
     text-align:center;
   }
