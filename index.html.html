@@ -221,6 +221,54 @@
   .section.bg-deep{background:var(--sage-deep);color:var(--bone)}
   .section.bg-ink{background:var(--ink);color:var(--bone)}
 
+  /* ——— SHIMMER / GLINT ON ENTER VIEWPORT ———
+     Effetto di lucentezza obliqua che passa attraverso gli elementi
+     quando entrano nella viewport — ottimizzato per mobile (no hover). */
+  @keyframes glintSweep{
+    0%   { transform:translateX(-150%) skewX(-20deg); opacity:0; }
+    20%  { opacity:1; }
+    60%  { opacity:.9; }
+    100% { transform:translateX(250%) skewX(-20deg); opacity:0; }
+  }
+  .shine-target{position:relative;overflow:hidden}
+  .shine-target::after{
+    content:'';
+    position:absolute;
+    top:-10%;left:0;
+    width:35%;
+    height:120%;
+    background:linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255,255,255,0.14) 40%,
+      rgba(255,255,255,0.35) 50%,
+      rgba(255,255,255,0.14) 60%,
+      transparent 100%
+    );
+    transform:translateX(-150%) skewX(-20deg);
+    opacity:0;
+    pointer-events:none;
+    z-index:10;
+  }
+  .shine-target.shine::after{
+    animation:glintSweep 1.4s var(--ease-out) forwards;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .shine-target.shine::after{animation:none}
+  }
+  /* Su elementi scuri (sage/ink bg) il bianco risalta; su chiari serve più saturo */
+  .bg-cream .shine-target::after,
+  .bg-warm  .shine-target::after{
+    background:linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255,255,255,0.25) 40%,
+      rgba(255,255,255,0.65) 50%,
+      rgba(255,255,255,0.25) 60%,
+      transparent 100%
+    );
+  }
+
   .container{
     max-width:1280px;
     margin:0 auto;
@@ -1283,6 +1331,50 @@ const io = new IntersectionObserver(entries => {
 }, {threshold:0.12});
 document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
 
+/* ===== SHIMMER / GLINT ON ENTER VIEWPORT =====
+   Poiché il sito è mobile-first e :hover non esiste su touch,
+   triggiamo un effetto di lucentezza quando l'elemento entra nella viewport.
+   L'animazione può ripartire se l'elemento esce e rientra. */
+const SHIMMER_TARGETS_SELECTOR = [
+  '.btn',
+  '.submit-btn',
+  '.guest',
+  '.night',
+  '.iban-box',
+  '.map-card',
+  '.rsvp-col',
+  '.ico-btn',
+  '.cd-cell'
+].join(', ');
+
+const shimmerIO = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting){
+      // rimuove la classe prima (se già presente) per poter re-triggerare l'animazione
+      e.target.classList.remove('shine');
+      // force reflow
+      void e.target.offsetWidth;
+      // piccolo delay scaglionato per effetto "cascata" se più elementi visibili insieme
+      const delay = Math.random() * 250;
+      setTimeout(() => e.target.classList.add('shine'), delay);
+    } else {
+      // quando esce, pulisce la classe così al prossimo rientro riparte
+      e.target.classList.remove('shine');
+    }
+  });
+}, {threshold:0.35});
+
+function registerShimmerTargets(root){
+  (root || document).querySelectorAll(SHIMMER_TARGETS_SELECTOR).forEach(el => {
+    if (el.classList.contains('shine-target')) return;
+    el.classList.add('shine-target');
+    shimmerIO.observe(el);
+  });
+}
+registerShimmerTargets();
+// riesposto a livello globale così possiamo richiamarlo dopo render dinamici (guest, mappe ecc.)
+window.__registerShimmerTargets = registerShimmerTargets;
+
 /* ===== COUNTDOWN ===== */
 const WD = new Date('2027-08-26T15:00:00');
 const TOTAL_DAYS = 365; // rough reference for the progress ring
@@ -1452,6 +1544,8 @@ async function loadData(){
 
     // Re-observe per animazione reveal (pernotto era display:none)
     pernottoSec.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+    // Registra shimmer targets sui bottoni/card del pernotto appena resi visibili
+    if (window.__registerShimmerTargets) window.__registerShimmerTargets(pernottoSec);
 
     loadNightSelections();
   }
@@ -1573,6 +1667,11 @@ function renderGuests(){
     const photoParty = document.getElementById('photoParty');
     if (photoParty) photoParty.style.display = '';
     preWedSec.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+    // Shimmer sui bottoni/card appena svelati
+    if (window.__registerShimmerTargets){
+      window.__registerShimmerTargets(preWedSec);
+      window.__registerShimmerTargets(colPool);
+    }
   } else {
     colPool.style.display   = 'none';
     preWedSec.style.display = 'none';
@@ -1593,6 +1692,12 @@ function renderGuests(){
   }
 
   updateCounters();
+
+  // Registra gli shimmer targets sui guest appena creati dinamicamente
+  if (window.__registerShimmerTargets){
+    window.__registerShimmerTargets(contMatr);
+    window.__registerShimmerTargets(contPool);
+  }
 }
 
 function updateCounters(){
