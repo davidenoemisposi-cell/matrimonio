@@ -13,6 +13,8 @@
     --sage:#8B9D7B;
     --sage-deep:#6C7D5C;
     --sage-soft:#AFBFA0;
+    --sage-rich:#7E9266;      /* salvia saturo, luminoso — break visivo senza andare nel cupo */
+    --sage-rich-text:#2D3821; /* verde-nero olivastro per testo su sage-rich */
     --cream:#F0E5D3;
     --bone:#F7F2E6;
     --bone-warm:#EFE7D4;
@@ -220,6 +222,7 @@
   .section.bg-sage{background:var(--sage);color:var(--bone)}
   .section.bg-deep{background:var(--sage-deep);color:var(--bone)}
   .section.bg-ink{background:var(--ink);color:var(--bone)}
+  .section.bg-sage-rich{background:var(--sage-rich);color:var(--bone)}
 
   /* ——— SHIMMER / GLINT ON ENTER VIEWPORT ———
      Effetto di lucentezza obliqua che passa attraverso gli elementi
@@ -284,7 +287,7 @@
     display:inline-flex;align-items:center;gap:.8rem;
     margin-bottom:1.5rem;
   }
-  .bg-sage .eyebrow, .bg-deep .eyebrow, .bg-ink .eyebrow{color:var(--sand)}
+  .bg-sage .eyebrow, .bg-deep .eyebrow, .bg-ink .eyebrow, .bg-sage-rich .eyebrow{color:var(--sand)}
   .eyebrow::before{
     content:'';width:24px;height:1px;background:currentColor;
   }
@@ -300,7 +303,7 @@
     font-size:clamp(2.5rem, 7vw, 5.5rem);
   }
   .display em{font-style:italic;color:var(--sage-soft)}
-  .bg-sage .display em, .bg-deep .display em{color:var(--sand)}
+  .bg-sage .display em, .bg-deep .display em, .bg-sage-rich .display em{color:var(--sand)}
 
   .lead{
     font-family:var(--serif);
@@ -310,9 +313,9 @@
     color:var(--ink-60);
     letter-spacing:0.01em;
   }
-  .bg-sage .lead, .bg-deep .lead, .bg-ink .lead{color:rgba(247,242,230,.7)}
+  .bg-sage .lead, .bg-deep .lead, .bg-ink .lead, .bg-sage-rich .lead{color:rgba(247,242,230,.82)}
   .lead em{font-style:italic;color:var(--sage)}
-  .bg-sage .lead em, .bg-deep .lead em{color:var(--cream)}
+  .bg-sage .lead em, .bg-deep .lead em, .bg-sage-rich .lead em{color:var(--cream)}
 
   /* Reveal animation */
   [data-reveal]{
@@ -423,8 +426,8 @@
   .btn.filled::before{background:var(--sage-deep)}
   .btn:hover{color:var(--bone)}
   .btn.filled:hover{color:var(--bone)}
-  .bg-sage .btn:hover, .bg-deep .btn:hover{color:var(--sage-deep)}
-  .bg-sage .btn::before, .bg-deep .btn::before{background:var(--bone)}
+  .bg-sage .btn:hover, .bg-deep .btn:hover, .bg-sage-rich .btn:hover{color:var(--sage-rich-text)}
+  .bg-sage .btn::before, .bg-deep .btn::before, .bg-sage-rich .btn::before{background:var(--bone)}
   .btn svg{width:14px;height:14px;stroke:currentColor;stroke-width:1.5;fill:none}
 
   .btn-row{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2.5rem}
@@ -506,7 +509,7 @@
     position:absolute;
     left:50%;top:0;bottom:0;
     width:1px;
-    background:rgba(247,242,230,.15);
+    background:rgba(247,242,230,.22);
     transform:translateX(-50%);
   }
   .schedule-line-fill{
@@ -537,7 +540,7 @@
     font-size:10px;
     letter-spacing:.22em;
     text-transform:uppercase;
-    color:rgba(247,242,230,.5);
+    color:rgba(247,242,230,.6);
     margin-top:.5rem;
   }
   .sch-item-time{
@@ -552,7 +555,6 @@
     position:relative;z-index:2;
     border:1px solid rgba(247,242,230,.15);
   }
-  .bg-sage .sch-item-time{background:var(--sage)}
   .sch-item.right .sch-item-content{text-align:right;order:1}
   .sch-item.right .sch-item-spacer{order:3}
   .sch-item.left .sch-item-spacer{order:1}
@@ -561,7 +563,7 @@
   @media (max-width:700px){
     .schedule-line-fill{display:none}
     .sch-item{grid-template-columns:auto 1fr;gap:1.5rem;padding:1.2rem 0}
-    .sch-item-time{position:relative;background:var(--sage-deep);justify-self:start}
+    .sch-item-time{position:relative;justify-self:start}
     .sch-item.right .sch-item-content,
     .sch-item.left .sch-item-content{text-align:left;order:2}
     .sch-item-spacer{display:none}
@@ -784,7 +786,7 @@
 
   /* ——— FOOTER ——— */
   .footer{
-    background:var(--ink);color:var(--bone);
+    background:var(--sage-rich);color:var(--bone);
     padding:clamp(5rem, 10vw, 8rem) var(--gutter) 3rem;
     text-align:center;
   }
@@ -800,10 +802,10 @@
     color:var(--sand);margin-top:2rem;
   }
   .footer-foot{
-    margin-top:4rem;padding-top:2rem;border-top:1px solid rgba(247,242,230,.1);
+    margin-top:4rem;padding-top:2rem;border-top:1px solid rgba(247,242,230,.22);
     display:flex;justify-content:space-between;align-items:center;
     font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
-    color:rgba(247,242,230,.4);flex-wrap:wrap;gap:1rem;
+    color:rgba(247,242,230,.6);flex-wrap:wrap;gap:1rem;
   }
   @media (max-width:600px){.footer-foot{justify-content:center}}
 
@@ -811,7 +813,7 @@
   .toast{
     position:fixed;bottom:2rem;left:50%;
     transform:translateX(-50%) translateY(140%);
-    background:var(--ink);color:var(--bone);
+    background:var(--sage-rich-text);color:var(--bone);
     padding:1rem 1.6rem;border-radius:2px;
     font-family:var(--mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;
     z-index:200;
@@ -968,7 +970,7 @@
 </section>
 
 <!-- ——— DATA / COUNTDOWN ——— -->
-<section class="section bg-deep" id="countdown">
+<section class="section bg-warm" id="countdown">
   <div class="container">
     <div class="date-section">
       <div data-reveal style="text-align:center;max-width:720px;margin:0 auto">
@@ -1042,7 +1044,7 @@
 </div>
 
 <!-- ——— PROGRAMMA ——— -->
-<section class="section bg-deep programma" id="programma">
+<section class="section bg-sage-rich programma" id="programma">
   <div class="container">
     <div class="programma-header" data-reveal>
       <div class="eyebrow center">26 Agosto 2027</div>
@@ -1168,7 +1170,7 @@
 </section>
 
 <!-- ——— PRE-WEDDING (visibile solo se almeno un guest con pool_party_invited=true) ——— -->
-<section class="section bg-ink" id="prewedding" style="display:none">
+<section class="section bg-sage-rich" id="prewedding" style="display:none">
   <div class="container-narrow prewedding" data-reveal>
     <div class="eyebrow center">25 Agosto</div>
     <h2 class="display"><em>Pre-wedding</em> party.</h2>
