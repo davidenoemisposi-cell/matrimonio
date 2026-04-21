@@ -292,6 +292,17 @@
       transparent 100%
     );
   }
+  /* Sage pills/buttons (salvia saturo su fondo scuro) — shimmer più caldo e vivo */
+  .iban-copy.shine-target::after{
+    background:linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(247,242,230,0.3) 40%,
+      rgba(247,242,230,0.7) 50%,
+      rgba(247,242,230,0.3) 60%,
+      transparent 100%
+    );
+  }
 
   .container{
     max-width:1280px;
@@ -808,7 +819,13 @@
     color:var(--sage);margin-top:1.2rem;padding:1rem;background:var(--bone-warm);border-radius:var(--radius-sm);
     word-break:break-all;line-height:1.7;
   }
-  .iban-copy{margin-top:1.5rem}
+  .iban-copy{
+    margin-top:1.5rem;
+    color:var(--sage);
+    border-color:var(--sage);
+  }
+  .iban-copy:hover{color:var(--bone)}
+  .iban-copy::before{background:var(--sage) !important}
 
   /* ——— FOOTER ——— */
   .footer{
