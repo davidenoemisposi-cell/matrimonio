@@ -114,8 +114,10 @@
 
   /* ——— HERO ——— */
   .hero{
-    min-height:100svh;
     min-height:100vh;
+    min-height:100svh;
+    min-height:100dvh;
+    height:100dvh;
     position:relative;
     background:var(--ink);
     color:var(--bone);
@@ -180,13 +182,13 @@
   .hero-scroll{
     position:absolute;
     left:50%;
-    bottom:2rem;
+    bottom:calc(2rem + env(safe-area-inset-bottom, 0px));
     transform:translateX(-50%);
     display:flex;flex-direction:column;align-items:center;gap:.6rem;
     cursor:pointer;
     z-index:5;
     opacity:0;
-    animation:fadeUp 1s var(--ease-out) 1.8s forwards;
+    animation:fadeUp 1s var(--ease-out) .6s forwards;
     pointer-events:auto;
   }
   .hero-scroll-label{
