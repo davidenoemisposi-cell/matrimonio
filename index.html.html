@@ -120,8 +120,6 @@
     background:var(--ink);
     color:var(--bone);
     overflow:hidden;
-    display:grid;
-    grid-template-rows:1fr auto;
   }
   .hero-bg{
     position:absolute;inset:0;
@@ -131,32 +129,21 @@
     pointer-events:none;
   }
   .hero-grain{
-    position:absolute;inset:0;opacity:.05;mix-blend-mode:overlay;pointer-events:none;
+    position:absolute;inset:0;opacity:.05;mix-blend-mode:overlay;pointer-events:none;z-index:3;
     background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.8'/%3E%3C/svg%3E");
   }
 
-  .hero-top{
-    position:relative;z-index:2;
-    display:flex;justify-content:space-between;align-items:center;
-    padding:5.5rem var(--gutter) 0;
-    font-family:var(--mono);
-    font-size:11px;
-    letter-spacing:0.18em;
-    text-transform:uppercase;
-    opacity:.7;
-  }
-  .hero-top-left, .hero-top-right{display:flex;gap:1.5rem;align-items:center}
-  .hero-top .line{width:40px;height:1px;background:currentColor;opacity:.5}
-
   .hero-main{
-    position:relative;z-index:2;
+    position:absolute;
+    inset:0;
     display:flex;
     flex-direction:column;
     justify-content:center;
     align-items:center;
     text-align:center;
     padding:2rem var(--gutter);
-    gap:1.5rem;
+    z-index:4;
+    pointer-events:none;
   }
   .hero-title{
     font-family:var(--serif);
@@ -190,55 +177,36 @@
   @keyframes riseIn{to{transform:translateY(0)}}
   @keyframes fadeScale{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
 
-  .hero-tag{
-    font-family:var(--mono);
-    font-size:11px;
-    letter-spacing:0.32em;
-    text-transform:uppercase;
-    color:var(--bone);
-    opacity:0;
-    animation:fadeUp 1s var(--ease-out) .9s forwards;
-  }
-  .hero-tag span{opacity:.5;margin:0 .6rem}
-
-  .hero-bottom{
-    position:relative;z-index:2;
-    padding:1rem var(--gutter) 1.8rem;
-    display:flex;
-    justify-content:center;
-    align-items:end;
-    opacity:0;
-    animation:fadeUp 1s var(--ease-out) 1.2s forwards;
-  }
-
-  .hero-meta{
-    font-family:var(--mono);
-    font-size:10px;
-    letter-spacing:0.22em;
-    text-transform:uppercase;
-    line-height:1.8;
-    opacity:.65;
-  }
-  .hero-meta strong{display:block;font-weight:400;color:var(--sand);margin-bottom:.2rem;font-size:9px;letter-spacing:.3em}
-  .hero-meta.right{text-align:right}
-  @media (max-width:700px){.hero-meta.right{text-align:center}}
-
   .hero-scroll{
-    display:flex;flex-direction:column;align-items:center;gap:.8rem;
+    position:absolute;
+    left:50%;
+    bottom:2rem;
+    transform:translateX(-50%);
+    display:flex;flex-direction:column;align-items:center;gap:.6rem;
     cursor:pointer;
+    z-index:5;
+    opacity:0;
+    animation:fadeUp 1s var(--ease-out) 1.8s forwards;
+    pointer-events:auto;
   }
   .hero-scroll-label{
-    font-family:var(--mono);font-size:10px;letter-spacing:.3em;text-transform:uppercase;opacity:.5;
+    font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--bone);opacity:.75;
+    text-shadow:0 1px 6px rgba(0,0,0,0.4);
   }
-  .hero-scroll-line{
-    width:1px;height:40px;background:var(--bone);position:relative;overflow:hidden;opacity:.3;
+  .hero-scroll-arrow{
+    width:22px;height:22px;
+    color:var(--bone);
+    filter:drop-shadow(0 1px 4px rgba(0,0,0,0.4));
+    animation:bounceArrow 2s ease-in-out infinite;
   }
-  .hero-scroll-line::after{
-    content:'';position:absolute;top:-20px;left:0;width:1px;height:20px;background:var(--sand);
-    animation:scrollDrop 2.2s ease-in-out infinite;
+  .hero-scroll-arrow svg{width:100%;height:100%;stroke:currentColor;stroke-width:1.5;fill:none}
+  @keyframes bounceArrow{
+    0%,20%,50%,80%,100%{transform:translateY(0);opacity:.75}
+    40%{transform:translateY(6px);opacity:1}
+    60%{transform:translateY(3px);opacity:.9}
   }
-  @keyframes scrollDrop{0%{top:-20px}100%{top:40px}}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes fadeUp{from{opacity:0;transform:translate(-50%, 20px)}to{opacity:1;transform:translate(-50%, 0)}}
 
   /* ——— SECTIONS COMMON ——— */
   .section{
@@ -339,23 +307,6 @@
   .date-section{
     display:block;
   }
-
-  .date-viz{
-    position:relative;
-    aspect-ratio:1;
-    max-width:520px;
-    width:100%;
-    margin:0 auto;
-  }
-  .date-viz svg{width:100%;height:100%}
-  .date-viz-center{
-    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-    text-align:center;
-    font-family:var(--serif);
-    color:var(--bone);
-  }
-  .date-viz-day{font-size:clamp(3.5rem, 8vw, 6rem);font-weight:300;line-height:1}
-  .date-viz-month{font-family:var(--mono);font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--sand);margin-top:.5rem}
 
   .countdown-grid{
     display:grid;
@@ -463,7 +414,8 @@
     border:1px solid var(--ink-15);
   }
   @media (min-width:900px){.map-card{aspect-ratio:auto;min-height:520px}}
-  .map-card #osm-map{position:absolute;inset:0}
+  .map-card #osm-map,
+  .map-card #hotel-map{position:absolute;inset:0}
   .map-card-overlay{
     position:absolute;left:1.5rem;right:1.5rem;bottom:1.5rem;
     background:var(--bone);
@@ -872,9 +824,7 @@
   .hero-video::-webkit-media-controls-start-playback-button,
   .hero-video-2::-webkit-media-controls-start-playback-button{display:none !important}
 
-  /* Tutto il contenuto dell'hero deve stare sopra i video e il tint */
-  .hero-top, .hero-main, .hero-bottom, .hero-grain{z-index:3 !important}
-  .hero-grain{z-index:4 !important}
+  /* Tutto il contenuto dell'hero gestisce z-index inline nelle proprie regole */
 
   /* ——— PHOTO BREAK ——— */
   .photo-break{width:100%;overflow:hidden;line-height:0;background:var(--bone)}
@@ -883,32 +833,6 @@
     max-height:clamp(280px, 45vh, 520px);
   }
 
-
-  .tweaks{
-    position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;
-    background:var(--bone);border:1px solid var(--ink-15);border-radius:var(--radius-sm);
-    padding:1.2rem;min-width:260px;max-width:300px;
-    box-shadow:0 10px 40px rgba(0,0,0,.12);
-    font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
-    display:none;
-  }
-  .tweaks.on{display:block}
-  .tweaks-title{color:var(--sand-deep);margin-bottom:.8rem;font-weight:500}
-  .tweak-row{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;gap:.8rem}
-  .tweak-row + .tweak-row{border-top:1px solid var(--ink-15)}
-  .tweak-row label{flex-shrink:0;color:var(--ink-60)}
-  .tweak-options{display:flex;gap:.3rem;flex-wrap:wrap}
-  .tweak-opt{
-    padding:.4rem .7rem;background:var(--bone-warm);border:1px solid transparent;border-radius:2px;
-    font-family:var(--mono);font-size:9px;letter-spacing:.15em;cursor:pointer;color:var(--ink-60);
-    transition:all .25s;
-  }
-  .tweak-opt.on{background:var(--sage);color:var(--bone);border-color:var(--sage)}
-  .tweak-swatches{display:flex;gap:.35rem}
-  .tweak-sw{
-    width:22px;height:22px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:all .25s;
-  }
-  .tweak-sw.on{border-color:var(--ink);transform:scale(1.12)}
 </style>
 </head>
 <body class="no-scroll">
@@ -944,7 +868,7 @@
 </nav>
 
 <!-- ——— HERO ——— -->
-<section class="hero" data-screen-label="01 Hero">
+<section class="hero">
   <!-- Video 1: loop boomerang continuo -->
   <video class="hero-video" id="heroVideo" muted playsinline disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback">
     <source src="hero-bg.mp4" type="video/mp4">
@@ -965,16 +889,16 @@
     </h1>
   </div>
 
-  <div class="hero-bottom">
-    <div class="hero-scroll" onclick="document.getElementById('invito').scrollIntoView({behavior:'smooth'})">
-      <span class="hero-scroll-label">Scorri</span>
-      <span class="hero-scroll-line"></span>
-    </div>
+  <div class="hero-scroll" onclick="document.getElementById('invito').scrollIntoView({behavior:'smooth'})">
+    <span class="hero-scroll-label">Scorri</span>
+    <span class="hero-scroll-arrow">
+      <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+    </span>
   </div>
 </section>
 
 <!-- ——— INVITO ——— -->
-<section class="section bg-cream invito" id="invito" data-screen-label="02 Invito">
+<section class="section bg-cream invito" id="invito">
   <div class="container-narrow" data-reveal>
     <div class="mark">∞</div>
     <p class="invito-text">
@@ -985,7 +909,7 @@
 </section>
 
 <!-- ——— DATA / COUNTDOWN ——— -->
-<section class="section bg-deep" id="countdown" data-screen-label="03 Countdown">
+<section class="section bg-deep" id="countdown">
   <div class="container">
     <div class="date-section">
       <div data-reveal style="text-align:center;max-width:720px;margin:0 auto">
@@ -1012,7 +936,7 @@
 </section>
 
 <!-- ——— LUOGO ——— -->
-<section class="section bg-warm" id="luogo" data-screen-label="04 Luogo">
+<section class="section bg-warm" id="luogo">
   <div class="container">
     <div class="luogo-grid">
       <div class="luogo-info" data-reveal>
@@ -1059,7 +983,7 @@
 </div>
 
 <!-- ——— PROGRAMMA ——— -->
-<section class="section bg-deep programma" id="programma" data-screen-label="05 Programma">
+<section class="section bg-deep programma" id="programma">
   <div class="container">
     <div class="programma-header" data-reveal>
       <div class="eyebrow center">26 Agosto 2027</div>
@@ -1118,7 +1042,7 @@
 </section>
 
 <!-- ——— PERNOTTO (visibile solo se family.pernotto === true) ——— -->
-<section class="section bg-cream" id="pernotto" data-screen-label="06 Pernotto" style="display:none">
+<section class="section bg-cream" id="pernotto" style="display:none">
   <div class="container">
     <div class="pernotto-grid">
       <div data-reveal>
@@ -1185,7 +1109,7 @@
 </section>
 
 <!-- ——— PRE-WEDDING (visibile solo se almeno un guest con pool_party_invited=true) ——— -->
-<section class="section bg-ink" id="prewedding" data-screen-label="07 Pre-wedding" style="display:none">
+<section class="section bg-ink" id="prewedding" style="display:none">
   <div class="container-narrow prewedding" data-reveal>
     <div class="eyebrow center">25 Agosto</div>
     <h2 class="display"><em>Pre-wedding</em> party.</h2>
@@ -1204,7 +1128,7 @@
 </div>
 
 <!-- ——— RSVP ——— -->
-<section class="section bg-cream" id="conferma" data-screen-label="08 RSVP">
+<section class="section bg-cream" id="conferma">
   <div class="container">
     <div class="rsvp-head" data-reveal>
       <div class="eyebrow center">Conferma la presenza</div>
@@ -1241,7 +1165,7 @@
 </section>
 
 <!-- ——— NOTE ——— -->
-<section class="section bg-warm" id="note" data-screen-label="09 Note">
+<section class="section bg-warm" id="note">
   <div class="container note-wrap" data-reveal>
     <div class="eyebrow center">Note &amp; intolleranze</div>
     <h2 class="display" style="text-align:center">Qualcosa da <em>dirci</em>?</h2>
@@ -1266,7 +1190,7 @@
 </div>
 
 <!-- ——— IBAN ——— -->
-<section class="section bg-cream iban" id="iban" data-screen-label="10 IBAN">
+<section class="section bg-cream iban" id="iban">
   <div class="container-narrow" data-reveal>
     <div class="eyebrow center">Un gesto d'affetto</div>
     <h2 class="display">La vostra <em>presenza</em> è il regalo.</h2>
@@ -1287,7 +1211,7 @@
 </section>
 
 <!-- ——— FOOTER ——— -->
-<footer class="footer" data-screen-label="11 Footer">
+<footer class="footer">
   <div data-reveal>
     <div class="footer-mono">Giulia <em>&amp;</em> Marco</div>
     <div class="footer-date">26 · 08 · 2027 · Fasano</div>
@@ -1299,43 +1223,6 @@
 </footer>
 
 <div class="toast" id="toast"></div>
-
-<!-- ——— TWEAKS PANEL ——— -->
-<div class="tweaks" id="tweaks">
-  <div class="tweaks-title">Tweaks</div>
-  <div class="tweak-row">
-    <label>Palette</label>
-    <div class="tweak-swatches" id="twPalette">
-      <button class="tweak-sw on" data-pal="sage" style="background:#8B9D7B" aria-label="Sage"></button>
-      <button class="tweak-sw" data-pal="terra" style="background:#9E6B4A" aria-label="Terracotta"></button>
-      <button class="tweak-sw" data-pal="ink" style="background:#2B3028" aria-label="Ink"></button>
-      <button class="tweak-sw" data-pal="rose" style="background:#A67982" aria-label="Rose"></button>
-    </div>
-  </div>
-  <div class="tweak-row">
-    <label>Serif</label>
-    <div class="tweak-options" id="twFont">
-      <button class="tweak-opt on" data-font="Cormorant Garamond">Cormorant</button>
-      <button class="tweak-opt" data-font="DM Serif Display">DM Serif</button>
-      <button class="tweak-opt" data-font="Fraunces">Fraunces</button>
-    </div>
-  </div>
-  <div class="tweak-row">
-    <label>Densità</label>
-    <div class="tweak-options" id="twDensity">
-      <button class="tweak-opt" data-den="compact">Compact</button>
-      <button class="tweak-opt on" data-den="normal">Normal</button>
-      <button class="tweak-opt" data-den="airy">Airy</button>
-    </div>
-  </div>
-  <div class="tweak-row">
-    <label>Lingua</label>
-    <div class="tweak-options" id="twLang">
-      <button class="tweak-opt on" data-lang="it">IT</button>
-      <button class="tweak-opt" data-lang="en">EN</button>
-    </div>
-  </div>
-</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
@@ -1536,12 +1423,18 @@ async function loadData(){
     document.getElementById('hotelOverlayName').textContent = family.nome_hotel    || '';
     document.getElementById('hotelOverlayCity').textContent = family.indirizzo_hotel || '';
 
-    // Mappa hotel dinamica
+    // Mappa hotel dinamica — Leaflet richiede il container con dimensioni visibili,
+    // quindi attendiamo un frame dopo aver tolto display:none, poi buildMap + invalidateSize.
     if (family.coordinate_hotel){
       try {
         const coords = family.coordinate_hotel.split(',').map(c => parseFloat(c.trim()));
         if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1]) && document.getElementById('hotel-map')){
-          buildMap('hotel-map', coords, family.nome_hotel || '', family.indirizzo_hotel || '');
+          requestAnimationFrame(() => {
+            const hotelMap = buildMap('hotel-map', coords, family.nome_hotel || '', family.indirizzo_hotel || '');
+            // Fix Leaflet quando il container è stato appena reso visibile
+            setTimeout(() => { try { hotelMap.invalidateSize(); } catch(e){} }, 120);
+            setTimeout(() => { try { hotelMap.invalidateSize(); } catch(e){} }, 500);
+          });
         }
       } catch(e){ console.warn('Coordinate hotel non valide:', e); }
     }
@@ -1816,87 +1709,15 @@ function toast(msg){
   });
 })();
 
-/* ===== TWEAKS ===== */
-const TWEAKS = /*EDITMODE-BEGIN*/{
-  "palette": "sage",
-  "font": "Fraunces",
-  "density": "compact",
-  "lang": "it"
-}/*EDITMODE-END*/;
-
-const PALETTES = {
-  sage:   {sage:'#8B9D7B', sageDeep:'#6C7D5C', sageSoft:'#AFBFA0', sand:'#C4B897', sandDeep:'#948867'},
-  terra:  {sage:'#9E6B4A', sageDeep:'#6B4730', sageSoft:'#BE8D6F', sand:'#D4B79A', sandDeep:'#9A7A5E'},
-  ink:    {sage:'#2B3028', sageDeep:'#15180F', sageSoft:'#4A5142', sand:'#B8AD94', sandDeep:'#736B56'},
-  rose:   {sage:'#A67982', sageDeep:'#6E4A52', sageSoft:'#C096A0', sand:'#D8BDB5', sandDeep:'#97736B'},
-};
-const DENSITIES = {compact:'.8rem', normal:'1.25rem', airy:'1.75rem'};
-
-const COPY = {
-  it: {},
-  en: {
-    nav_invito:'Invitation', nav_luogo:'Venue', nav_programma:'Schedule', nav_pernotto:'Stay', nav_rsvp:'RSVP',
-    invito_text:'With immense joy we invite you to celebrate with us the day our story <em>becomes forever</em>.',
-    countdown_title:'Only <em>—</em> days until we say <em>yes</em>.',
-    countdown_lead:"A number that counts down slowly, like the wait for something that truly matters.",
-  }
-};
-
-function applyTweaks(){
-  const p = PALETTES[TWEAKS.palette] || PALETTES.sage;
-  const r = document.documentElement.style;
-  r.setProperty('--sage', p.sage);
-  r.setProperty('--sage-deep', p.sageDeep);
-  r.setProperty('--sage-soft', p.sageSoft);
-  r.setProperty('--sand', p.sand);
-  r.setProperty('--sand-deep', p.sandDeep);
-  r.setProperty('--serif', `"${TWEAKS.font}", serif`);
-  r.setProperty('--gutter', `clamp(${TWEAKS.density==='compact'?'1rem':TWEAKS.density==='airy'?'1.8rem':'1.25rem'}, 4vw, ${TWEAKS.density==='compact'?'2rem':TWEAKS.density==='airy'?'4rem':'3rem'})`);
-
-  // update tweak UI state
-  document.querySelectorAll('[data-pal]').forEach(b => b.classList.toggle('on', b.dataset.pal===TWEAKS.palette));
-  document.querySelectorAll('[data-font]').forEach(b => b.classList.toggle('on', b.dataset.font===TWEAKS.font));
-  document.querySelectorAll('[data-den]').forEach(b => b.classList.toggle('on', b.dataset.den===TWEAKS.density));
-  document.querySelectorAll('[data-lang]').forEach(b => b.classList.toggle('on', b.dataset.lang===TWEAKS.lang));
-
-  // ensure alt fonts loaded
-  if (TWEAKS.font === 'DM Serif Display' && !document.getElementById('f-dm')){
-    const l = document.createElement('link'); l.id='f-dm'; l.rel='stylesheet';
-    l.href='https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap';
-    document.head.appendChild(l);
-  }
-  if (TWEAKS.font === 'Fraunces' && !document.getElementById('f-fr')){
+/* ===== FONT FRAUNCES (caricato dinamicamente, stessa logica di prima) ===== */
+(function(){
+  if (!document.getElementById('f-fr')){
     const l = document.createElement('link'); l.id='f-fr'; l.rel='stylesheet';
     l.href='https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,400&display=swap';
     document.head.appendChild(l);
   }
-}
-applyTweaks();
-
-function setTweak(k, v){
-  TWEAKS[k] = v;
-  applyTweaks();
-  if (window.__editMode) window.parent.postMessage({type:'__edit_mode_set_keys', edits:{[k]:v}}, '*');
-}
-
-// wire tweak buttons
-document.querySelectorAll('[data-pal]').forEach(b => b.onclick = () => setTweak('palette', b.dataset.pal));
-document.querySelectorAll('[data-font]').forEach(b => b.onclick = () => setTweak('font', b.dataset.font));
-document.querySelectorAll('[data-den]').forEach(b => b.onclick = () => setTweak('density', b.dataset.den));
-document.querySelectorAll('[data-lang]').forEach(b => b.onclick = () => setTweak('lang', b.dataset.lang));
-
-/* ===== EDIT MODE ===== */
-window.addEventListener('message', e => {
-  if (!e.data || !e.data.type) return;
-  if (e.data.type === '__activate_edit_mode'){
-    window.__editMode = true;
-    document.getElementById('tweaks').classList.add('on');
-  } else if (e.data.type === '__deactivate_edit_mode'){
-    window.__editMode = false;
-    document.getElementById('tweaks').classList.remove('on');
-  }
-});
-window.parent.postMessage({type:'__edit_mode_available'}, '*');
+  document.documentElement.style.setProperty('--serif', '"Fraunces", serif');
+})();
 
 /* ===== HERO VIDEO DUAL SYSTEM =====
    bg-2 parte per primo sopra, poi hero-bg fa boomerang in loop.
