@@ -238,6 +238,69 @@
     padding:clamp(5rem, 12vw, 10rem) var(--gutter);
     position:relative;
   }
+
+  /* ——— LETTERPRESS / BASSORILIEVO ———
+     Doppio text-shadow su tipografia sopra carta avorio.
+     Luce riflessa in basso-destra + ombra di incavo in alto-sinistra.
+     Applicato SOLO su fondi chiari (bg-cream, bg-warm) — mai su sezioni verdi/scure. */
+  .bg-cream .display,
+  .bg-warm  .display,
+  .invito-text,
+  .footer-band .footer-mono{
+    text-shadow:
+      0 1px 0 rgba(255,253,245,0.55),
+      0 -1px 0 rgba(47,58,39,0.12),
+      1px 0 0 rgba(255,253,245,0.35),
+      -1px 0 0 rgba(47,58,39,0.08);
+  }
+  .bg-cream .eyebrow,
+  .bg-warm  .eyebrow,
+  .footer-band .footer-date{
+    text-shadow:
+      0 1px 0 rgba(255,253,245,0.4),
+      0 -1px 0 rgba(47,58,39,0.08);
+  }
+  .invito .mark{
+    text-shadow:
+      0 1px 0 rgba(255,253,245,0.75),
+      0 -1px 0 rgba(47,58,39,0.22),
+      1px 1px 0 rgba(255,253,245,0.5),
+      -1px -1px 0 rgba(47,58,39,0.18),
+      0 2px 0 rgba(255,253,245,0.3),
+      0 -2px 0 rgba(47,58,39,0.1);
+  }
+
+
+  /* ——— LETTERPRESS / BASSORILIEVO ———
+     Doppio text-shadow su titoli serif sopra carta avorio.
+     Un'ombra chiara in basso-destra (luce riflessa) + un'ombra scura in alto-sinistra (incavo).
+     Si applica solo quando il tipo è incastonato su fondo chiaro — non su sezioni scure. */
+  .bg-cream .display,
+  .bg-warm  .display,
+  .invito-text,
+  .invito .mark,
+  .footer-band .footer-mono{
+    text-shadow:
+      0 1px 0 rgba(255,253,245,0.55),
+      0 -1px 0 rgba(47,58,39,0.12),
+      1px 0 0 rgba(255,253,245,0.35),
+      -1px 0 0 rgba(47,58,39,0.08);
+  }
+  .bg-cream .eyebrow,
+  .bg-warm  .eyebrow{
+    text-shadow:
+      0 1px 0 rgba(255,253,245,0.5),
+      0 -1px 0 rgba(47,58,39,0.08);
+  }
+  /* Il mark ∞ merita un bassorilievo un po' più marcato */
+  .invito .mark{
+    text-shadow:
+      0 1px 0 rgba(255,253,245,0.7),
+      0 -1px 0 rgba(47,58,39,0.22),
+      1px 1px 0 rgba(255,253,245,0.4),
+      -1px -1px 0 rgba(47,58,39,0.15);
+  }
+
   .section.bg-cream{background-color:var(--bone)}
   .section.bg-warm{background-color:var(--bone-warm)}
   .section.bg-sage{background-color:var(--sage);color:var(--bone)}
@@ -720,6 +783,9 @@
   .guest.on .guest-avatar{background:var(--sage);color:var(--bone);border-color:var(--sage)}
   .guest-name{
     flex:1;font-family:var(--serif);font-size:1.2rem;color:var(--ink);
+    text-shadow:
+      0 1px 0 rgba(255,253,245,0.45),
+      0 -1px 0 rgba(47,58,39,0.08);
   }
   .guest-relation{
     font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--sand-deep);margin-top:.1rem;
