@@ -252,6 +252,11 @@
     text-shadow:0 0 0 transparent;
     transition:color 2.5s ease-in-out, text-shadow 2.5s ease-in-out;
   }
+  /* Dopo che la riseIn è completa, libera il box: il glow non sarà più
+     tagliato in un rettangolo dai bordi della parola. */
+  body.names-revealed .hero-title .name{
+    overflow:visible;
+  }
   body.is-night .hero-title .name{
     color:#fff;
     text-shadow:
@@ -1524,6 +1529,13 @@
     document.body.classList.toggle('is-night');
   });
 })();
+
+/* ===== RILASCIA OVERFLOW DEI NOMI A FINE RISE-IN =====
+   La .name ha overflow:hidden per il "curtain reveal" delle lettere
+   che salgono dal basso (animation:riseIn 1.2s). Una volta finito,
+   liberiamo il box così il text-shadow di notte non viene tagliato
+   in un rettangolo. */
+setTimeout(() => document.body.classList.add('names-revealed'), 1500);
 
 /* ===== CUSTOM CURSOR ===== */
 (function(){
