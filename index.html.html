@@ -998,7 +998,10 @@
     50%{opacity:1;transform:translateX(-50%) scale(1.05)}
   }
 
-  /* ——— HERO IMAGE ——— */
+  /* ——— HERO IMAGE ———
+     Due immagini sovrapposte: hero-bg1 (giorno) sotto, hero-bg2 (sera) sopra.
+     hero-bg2 parte invisibile e fa crossfade quando la busta si chiude
+     (body perde la classe .no-scroll). Delay 2s, durata 1.5s, si ferma sul serale. */
   .hero-image{
     position:absolute;top:0;left:0;width:100%;height:100%;
     object-fit:cover;
@@ -1006,6 +1009,16 @@
     z-index:0;
     pointer-events:none;
     user-select:none;
+  }
+  .hero-image-2{
+    opacity:0;
+    transition:opacity 1.5s ease-in-out 2s;
+  }
+  body:not(.no-scroll) .hero-image-2{
+    opacity:1;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .hero-image-2{transition:none;opacity:1}
   }
 
   /* Tutto il contenuto dell'hero gestisce z-index inline nelle proprie regole */
@@ -1053,8 +1066,9 @@
 
 <!-- ——— HERO ——— -->
 <section class="hero">
-  <!-- Immagine hero statica -->
-  <img class="hero-image" src="hero-bg.jpg" alt="" aria-hidden="true">
+  <!-- Due immagini hero sovrapposte: giorno → sera -->
+  <img class="hero-image hero-image-1" src="hero-bg1.png" alt="" aria-hidden="true">
+  <img class="hero-image hero-image-2" src="hero-bg2.png" alt="" aria-hidden="true">
 
   <div class="hero-bg"></div>
   <div class="hero-grain"></div>
