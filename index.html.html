@@ -102,6 +102,51 @@
   .cursor.ring.hover{width:64px;height:64px;border-color:var(--sage-deep)}
   @media (hover:none), (max-width:900px){.cursor{display:none}}
 
+  /* ——— DAY/NIGHT TOGGLE ——— */
+  .day-night-toggle{
+    position:fixed;
+    top:calc(1.1rem + env(safe-area-inset-top, 0px));
+    right:1.1rem;
+    z-index:200;
+    width:62px;
+    height:32px;
+    border-radius:32px;
+    background:var(--sage);
+    border:1px solid rgba(247,242,230,0.35);
+    cursor:pointer;
+    padding:0;
+    box-shadow:0 4px 14px rgba(0,0,0,0.18);
+    transition:background .6s var(--ease-out), transform .25s var(--ease-out);
+    -webkit-tap-highlight-color:transparent;
+  }
+  .day-night-toggle:active{transform:scale(.95)}
+  body.is-night .day-night-toggle{
+    background:var(--sage-deep);
+  }
+  .toggle-thumb{
+    position:absolute;
+    top:3px;left:3px;
+    width:24px;height:24px;
+    border-radius:50%;
+    background:var(--bone);
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .55s var(--ease-out);
+    box-shadow:0 2px 6px rgba(0,0,0,0.25);
+  }
+  body.is-night .toggle-thumb{transform:translateX(30px)}
+  .toggle-icon{
+    width:13px;height:13px;
+    stroke:var(--sage-deep);
+    fill:none;stroke-width:1.8;
+    stroke-linecap:round;stroke-linejoin:round;
+    position:absolute;
+    transition:opacity .35s var(--ease-out), transform .45s var(--ease-out);
+  }
+  .icon-sun{opacity:1;transform:scale(1) rotate(0deg)}
+  .icon-moon{opacity:0;transform:scale(.5) rotate(-60deg)}
+  body.is-night .icon-sun{opacity:0;transform:scale(.5) rotate(60deg)}
+  body.is-night .icon-moon{opacity:1;transform:scale(1) rotate(0deg)}
+
   /* ——— NAV ——— */
   .nav{
     position:fixed;
@@ -1012,13 +1057,13 @@
   }
   .hero-image-2{
     opacity:0;
-    transition:opacity 1.5s ease-in-out 2s;
+    transition:opacity 2.5s ease-in-out;
   }
-  body:not(.no-scroll) .hero-image-2{
+  body.is-night .hero-image-2{
     opacity:1;
   }
   @media (prefers-reduced-motion: reduce){
-    .hero-image-2{transition:none;opacity:1}
+    .hero-image-2{transition:none}
   }
 
   /* Tutto il contenuto dell'hero gestisce z-index inline nelle proprie regole */
@@ -1047,6 +1092,26 @@
 
 <div class="cursor" id="cur"></div>
 <div class="cursor ring" id="curRing"></div>
+
+<!-- ——— DAY/NIGHT TOGGLE ——— -->
+<button class="day-night-toggle" id="dayNightToggle" aria-label="Cambia visualizzazione giorno/notte">
+  <span class="toggle-thumb">
+    <svg class="toggle-icon icon-sun" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="4"/>
+      <line x1="12" y1="2" x2="12" y2="4"/>
+      <line x1="12" y1="20" x2="12" y2="22"/>
+      <line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/>
+      <line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/>
+      <line x1="2" y1="12" x2="4" y2="12"/>
+      <line x1="20" y1="12" x2="22" y2="12"/>
+      <line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/>
+      <line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/>
+    </svg>
+    <svg class="toggle-icon icon-moon" viewBox="0 0 24 24">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </svg>
+  </span>
+</button>
 
 <!-- ——— NAV ——— -->
 <nav class="nav" id="nav">
@@ -1415,6 +1480,16 @@
 <script src="supabase.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
+/* ===== DAY/NIGHT TOGGLE ===== */
+(function(){
+  const btn = document.getElementById('dayNightToggle');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    window.__manualToggle = true;  // disattiva l'auto-trigger se non è già scattato
+    document.body.classList.toggle('is-night');
+  });
+})();
+
 /* ===== CUSTOM CURSOR ===== */
 (function(){
   const cur = document.getElementById('cur');
@@ -1981,6 +2056,10 @@ function toast(msg){
     videoIntro.classList.add('fade-out');
     document.body.classList.remove('no-scroll');
     setTimeout(() => { videoIntro.classList.add('hidden'); try{ introVideo.pause(); }catch(e){} }, 1200);
+    // Auto-trigger notte dopo 3s (skippato se l'utente ha già usato il toggle manualmente)
+    setTimeout(() => {
+      if (!window.__manualToggle) document.body.classList.add('is-night');
+    }, 3000);
   }
 
   introVideo.addEventListener('loadedmetadata', () => {
