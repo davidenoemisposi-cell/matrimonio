@@ -147,6 +147,18 @@
   body.is-night .icon-sun{opacity:0;transform:scale(.5) rotate(60deg)}
   body.is-night .icon-moon{opacity:1;transform:scale(1) rotate(0deg)}
 
+  /* Durante la transizione AUTOMATICA: il toggle si muove lento come la scena.
+     Sui tap manuali resta responsivo (default più rapido). */
+  body.is-transitioning-auto .day-night-toggle{
+    transition:background 2.5s ease-in-out;
+  }
+  body.is-transitioning-auto .toggle-thumb{
+    transition:transform 2.5s ease-in-out;
+  }
+  body.is-transitioning-auto .toggle-icon{
+    transition:opacity 1.8s ease-in-out, transform 2s ease-in-out;
+  }
+
   /* ——— NAV ——— */
   .nav{
     position:fixed;
@@ -2066,7 +2078,12 @@ function toast(msg){
     setTimeout(() => { videoIntro.classList.add('hidden'); try{ introVideo.pause(); }catch(e){} }, 1200);
     // Auto-trigger notte dopo 3s (skippato se l'utente ha già usato il toggle manualmente)
     setTimeout(() => {
-      if (!window.__manualToggle) document.body.classList.add('is-night');
+      if (window.__manualToggle) return;
+      // Marker: durante l'auto-cambio il toggle viaggia lento come la scena.
+      // Il flag viene rimosso a transizione conclusa così i tap manuali restano responsivi.
+      document.body.classList.add('is-transitioning-auto');
+      document.body.classList.add('is-night');
+      setTimeout(() => document.body.classList.remove('is-transitioning-auto'), 2700);
     }, 3000);
   }
 
